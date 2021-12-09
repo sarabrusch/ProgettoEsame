@@ -10,6 +10,9 @@ import java.net.URLConnection;
 import org.springframework.stereotype.Service;
 import org.json.simple.*;
 
+/**  @author Marco Di Vita
+ *   @author Sara Bruschi */
+
 @Service
 public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 

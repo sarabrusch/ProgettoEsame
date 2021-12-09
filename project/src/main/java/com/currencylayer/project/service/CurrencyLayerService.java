@@ -5,6 +5,7 @@ import org.json.simple.parser.ParseException;
 /** Interfaccia pubblica che chiede di implementare i metodi necessari
  * a leggere l'API assegnata alle rotte necessarie.
  * ************************************************  */
+/** @author Marco Di Vita */
 
 public interface CurrencyLayerService {
 	
