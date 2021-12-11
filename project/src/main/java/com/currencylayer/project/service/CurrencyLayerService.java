@@ -17,5 +17,6 @@ public interface CurrencyLayerService {
 	public JSONObject toJSON(Object obj);
 	public String getCurrency(String acronym);
 	public Double getCouple(String acronym);
+	public String getStatistic(String acronym);
 	
 }

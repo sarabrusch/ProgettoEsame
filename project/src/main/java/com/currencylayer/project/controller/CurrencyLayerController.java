@@ -48,5 +48,12 @@ public class CurrencyLayerController {
 		model.put("acronym", acronym);
 		return new ResponseEntity<>(currencyLayerService.getCouple(acronym),HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/a/{acronym}")
+	public ResponseEntity<Object> getStatistic(Map<String,Object> model,@PathVariable String acronym) throws ParseException {
+		model.put("acronym", acronym);
+		return new ResponseEntity<>(currencyLayerService.getStatistic(acronym),HttpStatus.OK);
+	}
+	
 	//TODO rotta /bet
 }

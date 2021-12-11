@@ -21,6 +21,10 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	private String url = "http://api.currencylayer.com/";
 	private String key = "74a39b5b1ae2f4bac3f38eaa28bec030";
 	private String source = "USD";
+	public Double value = new Double (0);
+	public String currency = "";
+	public String acronym = "";
+
 
 	@Override
 	public JSONObject getLiveOrList(String word) {
@@ -154,13 +158,25 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	}
 
 	public Double getCouple(String acronym) {
-		Double currency = new Double(0);
+		Double value = new Double(0);
 		String couple = source+acronym;
 		JSONObject json = getLiveOrList("live");
 	    JSONObject currencies = (JSONObject) json.get("quotes");
-	    currency = (Double) currencies.get(couple);
-		return  currency;
+	    currency = (String) currencies.get(couple);
+	    return value;
 	}
+	
+	//TODO
+	public String getStatistic(String acronym) {
+		String prova = "";
+		prova = getCurrency(acronym);
+		Double prova2 = new Double(0);
+		prova2 = getCouple(acronym);
+		String frase = prova+" "+prova2+acronym;
+		return frase;
+		
+	}
+	
 }
 
 
