@@ -138,6 +138,19 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		JSONObject obj = null;
 		return obj;
 	}
+	
+	public String getCurrency(String acronym) {
+		String currency = "";
+		try {
+		JSONObject json = getLiveOrList("list");
+	    JSONObject currencies = (JSONObject) json.get("currencies");
+	    currency = (String) currencies.get(acronym);
+		}
+		catch(Exception e) {
+			return "Errore...";
+		}
+		return currency;
+	}
 
 }
 

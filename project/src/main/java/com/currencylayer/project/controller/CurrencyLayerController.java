@@ -21,6 +21,7 @@ public class CurrencyLayerController {
 	@Autowired
 	private CurrencyLayerServiceImpl currencyLayerService;
 	
+	//TODO {source}
 	@RequestMapping(value = "/live")
 	public ResponseEntity<Object> getLiveQuotation() throws ParseException {
 		return new ResponseEntity<>(currencyLayerService.getLiveOrList("live"),HttpStatus.OK);
@@ -37,5 +38,10 @@ public class CurrencyLayerController {
 		return new ResponseEntity<>(currencyLayerService.getHistoricalQuotation("historical",date),HttpStatus.OK);
 	}
 	
-	
+	@RequestMapping(value = "/list/{acronym}")
+	public ResponseEntity<Object> getCurrency(Map<String,Object> model,@PathVariable String acronym) throws ParseException {
+		model.put("acronym", acronym);
+		return new ResponseEntity<>(currencyLayerService.getCurrency(acronym),HttpStatus.OK);
+	}
+	//TODO rotta /bet
 }
