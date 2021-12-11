@@ -89,7 +89,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		}
 		return liveExchangeRate;
 	}*/
-	
+
 	@Override
 	public JSONObject getHistoricalQuotation(String word,String date) {
 
@@ -98,9 +98,9 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		try {
 			//TODO
 			FileWriter file ;
-		    file = new FileWriter("Data.txt");
-		    BufferedWriter writer;
-		    writer = new BufferedWriter (file);
+			file = new FileWriter("Data.txt");
+			BufferedWriter writer;
+			writer = new BufferedWriter (file);
 			URLConnection openConnection = new URL(url+word+"?access_key="+key+"&date="+date).openConnection();
 			InputStream input = openConnection.getInputStream();
 			String data = "";
@@ -118,6 +118,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 				//Close the scanner
 				input.close();
 				writer.flush();
+				//writer.close();
 			}
 			liveExchangeRate = (JSONObject) JSONValue.parseWithException(data);
 		}
