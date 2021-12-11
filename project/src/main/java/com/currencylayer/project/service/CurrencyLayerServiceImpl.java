@@ -144,7 +144,9 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		return obj;
 	}
 	
-	public String getCurrency(String acronym) {
+	public JSONObject getCurrency(String acronym) {
+		JSONObject obj = new JSONObject();
+		JSONObject curr = new JSONObject();
 		String currency = "";
 		try {
 		JSONObject json = getLiveOrList("list");
@@ -152,22 +154,32 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	    currency = (String) currencies.get(acronym);
 		}
 		catch(Exception e) {
-			return "Errore...";
+			System.out.println("Errore...");
 		}
-		return currency;
+		curr.put("currency", obj);
+		obj.put(acronym, currency);
+		return curr;
 	}
 
-	public Double getCouple(String acronym) {
+	public JSONObject getCouple(String acronym) {
+		JSONObject obj = new JSONObject();
+		JSONObject curr = new JSONObject();
+		JSONObject objj = new JSONObject();
 		Double value = new Double(0);
 		String couple = source+acronym;
 		JSONObject json = getLiveOrList("live");
 	    JSONObject currencies = (JSONObject) json.get("quotes");
 	    currency = (String) currencies.get(couple);
-	    return value;
+	    curr.put("currencies", obj);
+	    obj.put("quote", objj);
+	    objj.put("base currency", this.source);
+	    objj.put("quote currency", acronym);
+	    obj.put("rate", currency);
+	    return curr;
 	}
 	
 	//TODO
-	public String getStatistic(String acronym) {
+	/*public String getStatistic(String acronym) {
 		String prova = "";
 		prova = getCurrency(acronym);
 		Double prova2 = new Double(0);
@@ -175,7 +187,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		String frase = prova+" "+prova2+acronym;
 		return frase;
 		
-	}
+	}*/
 	
 }
 
