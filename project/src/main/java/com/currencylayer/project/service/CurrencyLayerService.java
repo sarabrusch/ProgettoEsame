@@ -1,4 +1,6 @@
 package com.currencylayer.project.service;
+import java.io.IOException;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
@@ -9,7 +11,7 @@ import org.json.simple.parser.ParseException;
 
 public interface CurrencyLayerService {
 	
-	public JSONObject getLiveOrList(String word);
+	public JSONObject getLiveOrList(String word) throws IOException;
 	//public abstract void getCurrencyList();
 	public JSONObject getHistoricalQuotation(String word, String data);
 	public JSONObject toJSON(Object obj);

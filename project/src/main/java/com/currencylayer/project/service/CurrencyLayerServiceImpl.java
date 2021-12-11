@@ -1,6 +1,8 @@
 package com.currencylayer.project.service;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -94,6 +96,11 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		JSONObject liveExchangeRate = null;
 
 		try {
+			//TODO
+			FileWriter file ;
+		    file = new FileWriter("Data.txt");
+		    BufferedWriter writer;
+		    writer = new BufferedWriter (file);
 			URLConnection openConnection = new URL(url+word+"?access_key="+key+"&date="+date).openConnection();
 			InputStream input = openConnection.getInputStream();
 			String data = "";
@@ -104,11 +111,13 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 				//Write all the JSON data into a string using a scanner
 				while ((inline = buf.readLine()) != null) {
 					data += inline;
+					writer.write(data);
 				}
 			}
 			finally {
 				//Close the scanner
 				input.close();
+				writer.flush();
 			}
 			liveExchangeRate = (JSONObject) JSONValue.parseWithException(data);
 		}
