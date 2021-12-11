@@ -15,8 +15,8 @@ public interface CurrencyLayerService {
 	//public abstract void getCurrencyList();
 	public JSONObject getHistoricalQuotation(String word, String data);
 	public JSONObject toJSON(Object obj);
-	public String getCurrency(String acronym);
+	public JSONObject getCurrency(String acronym);
 	public JSONObject getCouple(String acronym);
-	public JSONObject getStatistic(String acronym);
+	//public JSONObject getStatistic(String acronym);
 	
 }
