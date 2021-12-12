@@ -29,13 +29,25 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	private HashMap<String,String> currencies = new HashMap<String,String>();
 	private HashMap<String,Double> rates = new HashMap<String,Double>();
 
-    public HashMap<String, String> getCurrencies() {
+	
+	public HashMap<String, Double> createHashMapLive (String acronym) {
+		//live
+		JSONObject live = getLive();
+		JSONObject data;
+		data =  (JSONObject) live.get("quotes");
+		rates.put(source+acronym, (Double) data.get(source+acronym));
+		return rates;
+	}
+	
+	public HashMap<String, String> createHashMapList (String acronym) {
+		//live
+		JSONObject list = getList();
+		JSONObject data;
+		data =  (JSONObject) list.get("currencies");
+		currencies.put(acronym, (String) data.get(acronym));
 		return currencies;
 	}
 	
-	public HashMap<String, Double> getRates() {
-		return rates;
-	}
 	
 	public String getAcroym() {
 		return acronym;
@@ -60,6 +72,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 				//Close the scanner
 				input.close();
 			}
+			
 			liveExchangeRate = (JSONObject) JSONValue.parseWithException(data);
 		}
 		catch(IOException e) {
@@ -192,7 +205,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		catch(Exception e) {
 			System.out.println("Errore...");
 		}
-		rates.put(couple, value);
+		//rates.put(couple, value);
 		curr.put("currencies", obj);
 		obj.put("quote", objj);
 		objj.put("base currency", this.source);

@@ -1,5 +1,6 @@
 package com.currencylayer.project.service;
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -17,6 +18,7 @@ public interface CurrencyLayerService {
 	public JSONObject toJSON(Object obj);
 	public JSONObject getCurrency(String acronym);
 	public JSONObject getCouple(String acronym);
-	//public JSONObject getStatistic(String acronym);
+	public HashMap<String,String> createHashMapList(String acronym);
+	public HashMap<String, Double> createHashMapLive (String acronym);
 	
 }
