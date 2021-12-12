@@ -21,15 +21,14 @@ public class CurrencyLayerController {
 	@Autowired
 	private CurrencyLayerServiceImpl currencyLayerService;
 	
-	//TODO {source}
 	@RequestMapping(value = "/live")
 	public ResponseEntity<Object> getLiveQuotation() throws ParseException {
-		return new ResponseEntity<>(currencyLayerService.getLiveOrList("live"),HttpStatus.OK);
+		return new ResponseEntity<>(currencyLayerService.getLive(),HttpStatus.OK);
 	} 
 	
 	@RequestMapping(value = "/list")
 	public ResponseEntity<Object> getCurrencyList() throws ParseException {
-		return new ResponseEntity<>(currencyLayerService.getLiveOrList("list"),HttpStatus.OK);
+		return new ResponseEntity<>(currencyLayerService.getList(),HttpStatus.OK);
 	} 
 	
 	@RequestMapping(value = "/historical/{date}")
@@ -49,11 +48,6 @@ public class CurrencyLayerController {
 		return new ResponseEntity<>(currencyLayerService.getCouple(acronym),HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/a/{acronym}")
-	public ResponseEntity<Object> getStatistic(Map<String,Object> model,@PathVariable String acronym) throws ParseException {
-		model.put("acronym", acronym);
-		return new ResponseEntity<>(currencyLayerService.getStatistic(acronym),HttpStatus.OK);
-	}
 	
 	//TODO rotta /bet
 }

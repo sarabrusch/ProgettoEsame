@@ -11,8 +11,8 @@ import org.json.simple.parser.ParseException;
 
 public interface CurrencyLayerService {
 	
-	public JSONObject getLiveOrList(String word) throws IOException;
-	//public abstract void getCurrencyList();
+	public JSONObject getLive() throws IOException;
+	public JSONObject getList() throws IOException;
 	public JSONObject getHistoricalQuotation(String word, String data);
 	public JSONObject toJSON(Object obj);
 	public JSONObject getCurrency(String acronym);
