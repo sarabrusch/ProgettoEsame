@@ -90,24 +90,47 @@ public class Statistics {
 		return (JSONObject) fileRead.get("quotes");
 	}
 	
-	public JSONObject exchangeRates() {
-		JSONObject obj = new JSONObject();
+	
+	public JSONObject getExchangeRates(String acronym) {
 		
-		Double e = (Double) readFile("2021-12-12").get("USDEUR");
+		JSONObject obj = new JSONObject();
+		Double somma = new Double(0);
+		int contatore = 0;
+		String couple = source+acronym;
+		Double sommaV = new Double(0);
+		
+		for(int i=1; i<=12;i++) {
+			somma += (Double) readFile(getMonth(i)).get(couple);
+			contatore++;
+		}
+		/*Double e = (Double) readFile("2021-12-12").get(source+acronym);
 		Double b = (Double) readFile("2021-12-12").get("USDBTC");
 		Double bi = (Double) readFile("2021-12-12").get("USDBIF");
 		Double e2 = (Double) readFile("2021-12-11").get("USDEUR");
 		Double b2 = (Double) readFile("2021-12-11").get("USDBTC");
 		Double bi2 = (Double) readFile("2021-12-11").get("USDBIF");
-		
-		Double ave = (e+e2)/2;
-		Double avb = (b+b2)/2;
-		Double avbi = (bi+bi2)/2;
-		
-		obj.put("average USDEUR", ave);
-		obj.put("average USDBTC", avb);
-		obj.put("average USDBIF", avbi);
+		*/
+		Double average = somma/contatore;
+		sommaV += Math.pow(somma-average, 2);
+		Double variance = sommaV/contatore;
+		//Double avb = (b+b2)/2;
+		//Double avbi = (bi+bi2)/2;
+		obj.put("the variance of: "+source+" and "+acronym+" is ", variance);
+		obj.put("the average of: "+source+" and "+acronym+" is ", average);
+		//obj.put("average USDBIF", avbi);
 		return obj;
+	}
+	
+	private String getMonth(int index) {
+		String date ="";
+		if(index<10) {
+			date = "2021-0"+index+"-01";
+		}
+		else {
+			date = "2021-"+index+"-01";
+		}
+		return date;
+		
 	}
 }
 

@@ -18,14 +18,15 @@ public class CurrencyLayerController2 {
 	@Autowired
 	Statistics statistics;
 	
-	@RequestMapping(value = "/average/{acronym}")
+	@RequestMapping(value = "/prova/{acronym}")
 	public ResponseEntity<Object> getAverage(Map<String,Object> model,@PathVariable String acronym) throws ParseException {
 		model.put("acronym", acronym);
 		return new ResponseEntity<>(statistics.getAverage(acronym),HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/ave")
-	public ResponseEntity<Object> exchangeRates() throws ParseException {
-		return new ResponseEntity<>(statistics.exchangeRates(),HttpStatus.OK);
+	@RequestMapping(value = "/average/{acronym}")
+	public ResponseEntity<Object> getExchangeRates(Map<String,Object> model,@PathVariable String acronym) throws ParseException {
+		model.put("acronym", acronym);
+		return new ResponseEntity<>(statistics.getExchangeRates(acronym),HttpStatus.OK);
 	} 
 }

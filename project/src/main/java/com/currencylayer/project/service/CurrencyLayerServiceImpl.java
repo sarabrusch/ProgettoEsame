@@ -149,9 +149,8 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		try {
 			//TODO
 			//FileWriter file ;
-			//file = new FileWriter("2021-12-08");
-			//BufferedWriter writer;
-			//writer = new BufferedWriter(file);
+			//file = new FileWriter("2021-12-01");
+			//BufferedWriter writer = new BufferedWriter(file);
 			URLConnection openConnection = new URL(url+"historical"+"?access_key="+key+"&date="+date).openConnection();
 			InputStream input = openConnection.getInputStream();
 			String data = "";
