@@ -142,7 +142,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	 * precisa data che deve essere specificata.
 	 * @param date di cui si vuole conoscere l'exchange rate  */
     @Override
-	public JSONObject getHistoricalQuotation(String word,String date) {
+	public JSONObject getHistoricalQuotation(String date) {
 
 		JSONObject liveExchangeRate = null;
 
@@ -152,7 +152,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 			//file = new FileWriter("2021-12-08");
 			//BufferedWriter writer;
 			//writer = new BufferedWriter(file);
-			URLConnection openConnection = new URL(url+word+"?access_key="+key+"&date="+date).openConnection();
+			URLConnection openConnection = new URL(url+"historical"+"?access_key="+key+"&date="+date).openConnection();
 			InputStream input = openConnection.getInputStream();
 			String data = "";
 			String inline = "";

@@ -44,11 +44,12 @@ public class CurrencyLayerController {
 		model.put("acronym", acronym);
 		return new ResponseEntity<>(currencyLayerService.getCouple(acronym),HttpStatus.OK);
 	}
-	@RequestMapping(value = "/historical/{acronym}/{date}")
+	/*@RequestMapping(value = "/historical/{acronym}/{date}")
 	public ResponseEntity<Object> getHistoricalCouple(Map<String,Object> model,@PathVariable String date,String acronym) throws ParseException {
 		model.put("acronym", acronym);
 		model.put("date", date);
 		return new ResponseEntity<>(currencyLayerService.getHistoricalCouple(acronym,date),HttpStatus.OK);
 	}
+	*/
 	//TODO rotta /bet
 }

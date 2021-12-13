@@ -20,7 +20,7 @@ public interface CurrencyLayerService {
 	public Double getCouple(String acronym);
 	public HashMap<String,String> createHashMapList(String acronym);
 	public HashMap<String, Double> createHashMapLive (String acronym);
-	public HashMap<String, Double> createHashMapHistorical (String acronym,String date);
-	public Double getHistoricalCouple(String acronym,String date);
+	//public HashMap<String, Double> createHashMapHistorical (String acronym,String date);
+	//public Double getHistoricalCouple(String acronym,String date);
 	
 }
