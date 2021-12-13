@@ -29,13 +29,22 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	private JSONObject listCurrencies = new JSONObject();
 	private HashMap<String,String> currencies = new HashMap<String,String>();
 	private HashMap<String,Double> rates = new HashMap<String,Double>();
+	private HashMap<String,Double> historical = new HashMap<String,Double>();
 
+
+	public HashMap<String, Double> createHashMapHistorical (String acronym,String date) {
+		//list
+		JSONObject historical = getHistoricalQuotation(date);
+		JSONObject data;
+		data =  (JSONObject) historical.get("quotes");
+		currencies.put(acronym, (String) data.get(acronym));
+		return historical;
+	}
 	
 	public HashMap<String, Double> createHashMapLive (String acronym) {
 		//live
 		JSONObject live = getLive();
-		JSONObject data;
-		data =  (JSONObject) live.get("quotes");
+		JSONObject data = (JSONObject) live.get("quotes");
 		rates.put(source+acronym, (Double) data.get(source+acronym));
 		return rates;
 	}
@@ -73,7 +82,6 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 				//Close the scanner
 				input.close();
 			}
-			
 			liveExchangeRate = (JSONObject) JSONValue.parseWithException(data);
 		}
 		catch(IOException e) {
@@ -121,17 +129,15 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 
 
 	@Override
-	public JSONObject getHistoricalQuotation(String word,String date) {
-
+	public JSONObject getHistoricalQuotation(String date) {
 		JSONObject liveExchangeRate = null;
-
 		try {
 			//TODO
 			FileWriter file ;
 			file = new FileWriter("Data.txt");
 			BufferedWriter writer;
 			writer = new BufferedWriter (file);
-			URLConnection openConnection = new URL(url+word+"?access_key="+key+"&date="+date).openConnection();
+			URLConnection openConnection = new URL(url+"historical"+"?access_key="+key+"&date="+date).openConnection();
 			InputStream input = openConnection.getInputStream();
 			String data = "";
 			String inline = "";
@@ -188,7 +194,8 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		obj.put(acronym, currency);
 		return curr;
 	}
-
+	
+	
 	@SuppressWarnings("unchecked")
 	public Double getCouple(String acronym) {
 		this.acronym = acronym;
@@ -206,16 +213,36 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 			System.out.println("Errore...");
 		}
 		//TODO capire perché non stampa
-		//createHashMapList(source);
-		//String nameBase = currencies.get(source);
-		//createHashMapList(acronym);
-		//String nameQuote = currencies.get(acronym);
-		//curr.put("currencies", obj);
-		//obj.put(source, nameBase);
-		//obj.put(acronym, nameQuote);
-		//obj.put("rate", value);
+				//createHashMapList(source);
+				//String nameBase = currencies.get(source);
+				//createHashMapList(acronym);
+				//String nameQuote = currencies.get(acronym);
+				//curr.put("currencies", obj);
+				//obj.put(source, nameBase);
+				//obj.put(acronym, nameQuote);
+				//obj.put("rate", value);
 		return value;
 	}
+		
+	@SuppressWarnings("unchecked")
+		public Double getHistoricalCouple(String acronym,String date) {
+			this.acronym = acronym;
+			String currency = "";
+			JSONObject curr = new JSONObject();
+			JSONObject obj = new JSONObject();
+			Double value = new Double(0);
+			String couple = source+acronym;
+			try {
+				JSONObject json = getHistoricalQuotation(date);
+				JSONObject currencies = (JSONObject) json.get("quotes");
+				value = (Double) currencies.get(couple);
+			}
+			catch(Exception e) {
+				System.out.println("Errore...");
+			}
+		return value;
+	}
+		
 }
 
 

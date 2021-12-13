@@ -14,11 +14,13 @@ public interface CurrencyLayerService {
 	
 	public JSONObject getLive() throws IOException;
 	public JSONObject getList() throws IOException;
-	public JSONObject getHistoricalQuotation(String word, String data);
+	public JSONObject getHistoricalQuotation(String data);
 	public JSONObject toJSON(Object obj);
 	public JSONObject getCurrency(String acronym);
 	public Double getCouple(String acronym);
 	public HashMap<String,String> createHashMapList(String acronym);
 	public HashMap<String, Double> createHashMapLive (String acronym);
+	public HashMap<String, Double> createHashMapHistorical (String acronym,String date);
+	public Double getHistoricalCouple(String acronym,String date);
 	
 }

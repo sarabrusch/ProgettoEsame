@@ -21,18 +21,21 @@ public class Statistics {
 	private Double average;
 	private Double variance;
 	private HashMap<String,Double> historicals = new HashMap<String,Double>();
+	private String date ="2021-12-";
  	
 	public Double getAverage(String acronym) {
-		JSONObject live = currencyService.getHistoricalQuotation(acronym,"2021-12-12");
-		JSONObject data;
-		data =  (JSONObject) live.get("quotes");
-		historicals.put(source+acronym, (Double) data.get(source+acronym));
-		
+		Double live = currencyService.getCouple(acronym);
+		//Double valueYesterday = currencyService.getHistoricalCouple(acronym,date);
+		//JSONObject data;
+		//data =  (JSONObject) live.get("quotes");
 		//JSONObject yesterday = currencyService.getHistoricalQuotation(acronym, "2021-12-12");
 		//data =  (JSONObject) data.get("quotes");
-		Double valueYesterday = historicals.get(source+acronym);
-		Double valueToday = currencyService.createHashMapLive(acronym).get(source+acronym);
-		return (valueToday+valueYesterday)/2;
+		//Double valueYesterday = (Double) data.get(source+acronym);
+		//name = currencyService.createHashMapList(acronym).get(acronym);
+		//Double valueToday = currencyService.createHashMapLive(acronym).get(source+acronym);
+		//value = currencyService.createHashMapLive(acronym).get(source+acronym);
+		//average = (live+valueYesterday);
+		return average;
 		//name = currencyService.names;
 		//name = currencyService.createHashMapList(acronym).get(acronym);
 		//value = currencyService.createHashMapLive(acronym).get(source+acronym);
