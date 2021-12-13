@@ -60,42 +60,12 @@ public class Statistics {
 		return name;
 	}
 	
-	public JSONObject readFile() {
+	public JSONObject readFile(String date) {
 		JSONObject fileRead = new JSONObject();
 		String data = "";
 		String inline = "";
 		try {
-			BufferedReader read = new BufferedReader(new FileReader("2021-12-12"));
-			try {
-				while ((inline = read.readLine()) != null) {
-					data += inline;
-				}
-			}
-			finally {
-				read.close();
-			}
-			fileRead = (JSONObject) JSONValue.parseWithException(data);
-		} 
-		catch (FileNotFoundException e) {
-			System.out.println("Errore");
-			e.printStackTrace();
-		}
-		catch (IOException e) {
-			System.out.println("Errore");
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return (JSONObject) fileRead.get("quotes");
-	}
-	
-	public JSONObject readFile2() {
-		JSONObject fileRead = new JSONObject();
-		String data = "";
-		String inline = "";
-		try {
-			BufferedReader read = new BufferedReader(new FileReader("2021-12-12"));
+			BufferedReader read = new BufferedReader(new FileReader(date));
 			try {
 				while ((inline = read.readLine()) != null) {
 					data += inline;
@@ -123,12 +93,12 @@ public class Statistics {
 	public JSONObject exchangeRates() {
 		JSONObject obj = new JSONObject();
 		
-		Double e = (Double) readFile().get("USDEUR");
-		Double b = (Double) readFile().get("USDBTC");
-		Double bi = (Double) readFile().get("USDBIF");
-		Double e2 = (Double) readFile2().get("USDEUR");
-		Double b2 = (Double) readFile2().get("USDBTC");
-		Double bi2 = (Double) readFile2().get("USDBIF");
+		Double e = (Double) readFile("2021-12-12").get("USDEUR");
+		Double b = (Double) readFile("2021-12-12").get("USDBTC");
+		Double bi = (Double) readFile("2021-12-12").get("USDBIF");
+		Double e2 = (Double) readFile("2021-12-11").get("USDEUR");
+		Double b2 = (Double) readFile("2021-12-11").get("USDBTC");
+		Double bi2 = (Double) readFile("2021-12-11").get("USDBIF");
 		
 		Double ave = (e+e2)/2;
 		Double avb = (b+b2)/2;
