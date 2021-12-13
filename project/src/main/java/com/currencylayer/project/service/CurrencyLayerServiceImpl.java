@@ -15,8 +15,12 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.json.simple.*;
 
-/**  @author Marco Di Vita
- *   @author Sara Bruschi */
+/** Classe implementazione di CurrencyLayerService che va ad implementare i metodi
+ * responsabili delle chiamate all'API e della lettura dei JSONObject restituiti
+ * da quest'ultima per la rielaborazione dei dati.
+ * 
+ * @author Marco Di Vita
+ * @author Sara Bruschi */
 
 @Service
 public class CurrencyLayerServiceImpl implements CurrencyLayerService {
@@ -29,26 +33,28 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	private JSONObject listCurrencies = new JSONObject();
 	private HashMap<String,String> currencies = new HashMap<String,String>();
 	private HashMap<String,Double> rates = new HashMap<String,Double>();
-	private HashMap<String,Double> historical = new HashMap<String,Double>();
 
-
-	public HashMap<String, Double> createHashMapHistorical (String acronym,String date) {
-		//list
-		JSONObject historical = getHistoricalQuotation(date);
-		JSONObject data;
-		data =  (JSONObject) historical.get("quotes");
-		currencies.put(acronym, (String) data.get(acronym));
-		return historical;
-	}
-	
+	/** Riempie l'hashmap "rates" con la coppia di acronimi di cui si vuole conoscere
+	 * l'exchange rate e relativo exchange rate letto da chiamata all'API.
+	 * @param acronym indica l'acronimo della currency della quale si vuole
+	 * conoscere l'exchange rate relativo al @value source sempre uguale a "USD".
+	 * 
+	 * */
 	public HashMap<String, Double> createHashMapLive (String acronym) {
 		//live
 		JSONObject live = getLive();
-		JSONObject data = (JSONObject) live.get("quotes");
+		JSONObject data;
+		data =  (JSONObject) live.get("quotes");
 		rates.put(source+acronym, (Double) data.get(source+acronym));
 		return rates;
 	}
 	
+	/** Riempie l'hashmap "currencies" con la coppia acronimo e nome letti da chiamata 
+	 * all'API.
+	 * @param acronym indica l'acronimo della currency della quale si vuole
+	 * prendere il nome.
+	 * 
+	 * */
 	public HashMap<String, String> createHashMapList (String acronym) {
 		//list
 		JSONObject list = getList();
@@ -58,13 +64,14 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		return currencies;
 	}
 	
-	
 	public String getAcroym() {
 		return acronym;
 	}
 	
-    @Override
-	public JSONObject getLive() {
+	/**Metodo per la chiamata all'API che restituisce la lista di exchange rates
+	 * relativa a coppie di valute, di cui la source è sempre "USD".  */
+	@Override
+    public JSONObject getLive() {
 		try {
 			URLConnection openConnection = new URL(url+"live"+"?access_key="+key).openConnection();
 			InputStream input = openConnection.getInputStream();
@@ -82,6 +89,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 				//Close the scanner
 				input.close();
 			}
+
 			liveExchangeRate = (JSONObject) JSONValue.parseWithException(data);
 		}
 		catch(IOException e) {
@@ -95,7 +103,9 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		return (JSONObject) liveExchangeRate;
 	}
 	
-	@Override
+	/**Metodo per la chiamata all'API che restituisce la lista di valute
+	 * con relativo acronimo e nome.  */
+    @Override
 	public JSONObject getList() {
 		try {
 			URLConnection openConnection = new URL(url+"list"+"?access_key="+key).openConnection();
@@ -127,17 +137,22 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		return (JSONObject) listCurrencies;
 	}
 
+    /**Metodo per la chiamata all'API che restituisce la lista di exchange rates
+	 * relativa a coppie di valute, di cui la source è sempre "USD", di una
+	 * precisa data che deve essere specificata.
+	 * @param date di cui si vuole conoscere l'exchange rate  */
+    @Override
+	public JSONObject getHistoricalQuotation(String word,String date) {
 
-	@Override
-	public JSONObject getHistoricalQuotation(String date) {
 		JSONObject liveExchangeRate = null;
+
 		try {
 			//TODO
-			FileWriter file ;
-			file = new FileWriter("Data.txt");
-			BufferedWriter writer;
-			writer = new BufferedWriter (file);
-			URLConnection openConnection = new URL(url+"historical"+"?access_key="+key+"&date="+date).openConnection();
+			//FileWriter file ;
+			//file = new FileWriter("2021-12-08");
+			//BufferedWriter writer;
+			//writer = new BufferedWriter(file);
+			URLConnection openConnection = new URL(url+word+"?access_key="+key+"&date="+date).openConnection();
 			InputStream input = openConnection.getInputStream();
 			String data = "";
 			String inline = "";
@@ -147,14 +162,14 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 				//Write all the JSON data into a string using a scanner
 				while ((inline = buf.readLine()) != null) {
 					data += inline;
-					writer.write(data);
+					//writer.write(data);
 				}
 			}
 			finally {
 				//Close the scanner
 				input.close();
-				writer.flush();
-				writer.close();
+				//writer.flush();
+				//writer.close();
 			}
 			liveExchangeRate = (JSONObject) JSONValue.parseWithException(data);
 		}
@@ -194,8 +209,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		obj.put(acronym, currency);
 		return curr;
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
 	public Double getCouple(String acronym) {
 		this.acronym = acronym;
@@ -213,36 +227,16 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 			System.out.println("Errore...");
 		}
 		//TODO capire perché non stampa
-				//createHashMapList(source);
-				//String nameBase = currencies.get(source);
-				//createHashMapList(acronym);
-				//String nameQuote = currencies.get(acronym);
-				//curr.put("currencies", obj);
-				//obj.put(source, nameBase);
-				//obj.put(acronym, nameQuote);
-				//obj.put("rate", value);
+		//createHashMapList(source);
+		//String nameBase = currencies.get(source);
+		//createHashMapList(acronym);
+		//String nameQuote = currencies.get(acronym);
+		//curr.put("currencies", obj);
+		//obj.put(source, nameBase);
+		//obj.put(acronym, nameQuote);
+		//obj.put("rate", value);
 		return value;
 	}
-		
-	@SuppressWarnings("unchecked")
-		public Double getHistoricalCouple(String acronym,String date) {
-			this.acronym = acronym;
-			String currency = "";
-			JSONObject curr = new JSONObject();
-			JSONObject obj = new JSONObject();
-			Double value = new Double(0);
-			String couple = source+acronym;
-			try {
-				JSONObject json = getHistoricalQuotation(date);
-				JSONObject currencies = (JSONObject) json.get("quotes");
-				value = (Double) currencies.get(couple);
-			}
-			catch(Exception e) {
-				System.out.println("Errore...");
-			}
-		return value;
-	}
-		
 }
 
 

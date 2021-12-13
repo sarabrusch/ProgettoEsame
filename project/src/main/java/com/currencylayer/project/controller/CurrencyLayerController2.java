@@ -23,4 +23,9 @@ public class CurrencyLayerController2 {
 		model.put("acronym", acronym);
 		return new ResponseEntity<>(statistics.getAverage(acronym),HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/ave")
+	public ResponseEntity<Object> exchangeRates() throws ParseException {
+		return new ResponseEntity<>(statistics.exchangeRates(),HttpStatus.OK);
+	} 
 }

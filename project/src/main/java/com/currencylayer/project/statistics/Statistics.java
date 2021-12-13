@@ -1,9 +1,17 @@
 package com.currencylayer.project.statistics;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
 import com.currencylayer.project.model.Currency;
@@ -16,7 +24,6 @@ public class Statistics {
 	private final String source = "USD";
 	private String name;
 	private Double value;
-	private String boh;
 	private Currency currency;
 	private Double average;
 	private Double variance;
@@ -52,4 +59,85 @@ public class Statistics {
 		//JSONObject obj = new JSONObject();
 		return name;
 	}
+	
+	public JSONObject readFile() {
+		JSONObject fileRead = new JSONObject();
+		String data = "";
+		String inline = "";
+		try {
+			BufferedReader read = new BufferedReader(new FileReader("2021-12-12"));
+			try {
+				while ((inline = read.readLine()) != null) {
+					data += inline;
+				}
+			}
+			finally {
+				read.close();
+			}
+			fileRead = (JSONObject) JSONValue.parseWithException(data);
+		} 
+		catch (FileNotFoundException e) {
+			System.out.println("Errore");
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			System.out.println("Errore");
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return (JSONObject) fileRead.get("quotes");
+	}
+	
+	public JSONObject readFile2() {
+		JSONObject fileRead = new JSONObject();
+		String data = "";
+		String inline = "";
+		try {
+			BufferedReader read = new BufferedReader(new FileReader("2021-12-12"));
+			try {
+				while ((inline = read.readLine()) != null) {
+					data += inline;
+				}
+			}
+			finally {
+				read.close();
+			}
+			fileRead = (JSONObject) JSONValue.parseWithException(data);
+		} 
+		catch (FileNotFoundException e) {
+			System.out.println("Errore");
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			System.out.println("Errore");
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return (JSONObject) fileRead.get("quotes");
+	}
+	
+	public JSONObject exchangeRates() {
+		JSONObject obj = new JSONObject();
+		
+		Double e = (Double) readFile().get("USDEUR");
+		Double b = (Double) readFile().get("USDBTC");
+		Double bi = (Double) readFile().get("USDBIF");
+		Double e2 = (Double) readFile2().get("USDEUR");
+		Double b2 = (Double) readFile2().get("USDBTC");
+		Double bi2 = (Double) readFile2().get("USDBIF");
+		
+		Double ave = (e+e2)/2;
+		Double avb = (b+b2)/2;
+		Double avbi = (bi+bi2)/2;
+		
+		obj.put("average USDEUR", ave);
+		obj.put("average USDBTC", avb);
+		obj.put("average USDBIF", avbi);
+		return obj;
+	}
 }
+
