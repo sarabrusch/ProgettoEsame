@@ -10,6 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.json.simple.*;
@@ -40,7 +41,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	}
 	
 	public HashMap<String, String> createHashMapList (String acronym) {
-		//live
+		//list
 		JSONObject list = getList();
 		JSONObject data;
 		data =  (JSONObject) list.get("currencies");
@@ -176,44 +177,45 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		String currency = "";
 		try {
 		JSONObject json = getList();
-	    JSONObject currenciess = (JSONObject) json.get("currencies");
-	    currency = (String) currenciess.get(acronym);
+	    JSONObject currencies = (JSONObject) json.get("currencies");
+	    currency = (String) currencies.get(acronym);
 		}
 		catch(Exception e) {
 			System.out.println("Errore...");
+			System.out.println(e);
 		}
-		currencies.put(acronym, currency);
 		curr.put("currency", obj);
 		obj.put(acronym, currency);
 		return curr;
 	}
 
 	@SuppressWarnings("unchecked")
-	public JSONObject getCouple(String acronym) {
+	public Double getCouple(String acronym) {
 		this.acronym = acronym;
 		String currency = "";
-		JSONObject obj = new JSONObject();
 		JSONObject curr = new JSONObject();
-		JSONObject objj = new JSONObject();
+		JSONObject obj = new JSONObject();
 		Double value = new Double(0);
 		String couple = source+acronym;
 		try {
 			JSONObject json = getLive();
 			JSONObject currencies = (JSONObject) json.get("quotes");
-			currency = (String) currencies.get(couple);
+			value = (Double) currencies.get(couple);
 		}
 		catch(Exception e) {
 			System.out.println("Errore...");
 		}
-		//rates.put(couple, value);
-		curr.put("currencies", obj);
-		obj.put("quote", objj);
-		objj.put("base currency", this.source);
-		objj.put("quote currency", acronym);
-		obj.put("rate", currency);
-		return curr;
+		//TODO capire perché non stampa
+		//createHashMapList(source);
+		//String nameBase = currencies.get(source);
+		//createHashMapList(acronym);
+		//String nameQuote = currencies.get(acronym);
+		//curr.put("currencies", obj);
+		//obj.put(source, nameBase);
+		//obj.put(acronym, nameQuote);
+		//obj.put("rate", value);
+		return value;
 	}
-	
 }
 
 

@@ -17,7 +17,7 @@ public interface CurrencyLayerService {
 	public JSONObject getHistoricalQuotation(String word, String data);
 	public JSONObject toJSON(Object obj);
 	public JSONObject getCurrency(String acronym);
-	public JSONObject getCouple(String acronym);
+	public Double getCouple(String acronym);
 	public HashMap<String,String> createHashMapList(String acronym);
 	public HashMap<String, Double> createHashMapLive (String acronym);
 	
