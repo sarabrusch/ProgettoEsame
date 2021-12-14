@@ -1,23 +1,20 @@
 package com.currencylayer.project.statistics;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Vector;
 
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
 import com.currencylayer.project.model.Currency;
 import com.currencylayer.project.service.CurrencyLayerServiceImpl;
 import com.currencylayer.project.utilis.FileAnalysis;
+
+/** Classe per il calcolo delle statistiche (media e varianza) relative 
+ * al tasso di cambio di coppie di variabili che possono essere chieste in
+ * ingresso dall'utent (filtro) o stampate tutte insieme TODO.
+ * @author Sara Bruschi
+ * @author Marco Di Vita
+ * */
 
 @Service
 public class Statistics {
@@ -33,23 +30,31 @@ public class Statistics {
 	private Double sumVariance = new Double(0);
 	Vector<Double> rates = new Vector<Double>();
 	
+	/** Metodo per il calcolo della media del tasso di cambio di una coppia
+	 * di valute, di cui una è sempre USD e l'altra è definita in ingresso
+	 * dall'utente.
+	 * @param String acronym della seconda valuta
+	 * */
 	public Double getAverage(String acronym) {
-		
 		JSONObject obj = new JSONObject();
-		Double somma = new Double(0);
+		Double sum = new Double(0);
 		Double value = new Double(0);
-		int contatore = 0;
+		int cont = 0;
 		String couple = source+acronym;
 		for(int i=1; i<=12;i++) {
 			value = (Double) file.readFile(getMonth(i)).get(couple);
 			rates.add(value);
-			somma += value;
-			contatore++;
+			sum += value;
+			cont++;
 		}
-		average = somma/contatore;
+		average = sum/cont;
 		return average;
 	}
 	
+	/** Metodo per il calcolo della varianza del tasso di cambio di una coppia
+	 * di valute, di cui una è sempre USD e l'altra è definita in ingresso
+	 * dall'utente nel calcolo della media.
+	 * */
 	public Double getVariance() {
 		for(int j=0;j<rates.size();j++) {
 			sumVariance += Math.pow(rates.get(j)-average, 2);
@@ -58,6 +63,12 @@ public class Statistics {
 		return variance;
 	}
 
+	/** Metodo per la stampa delle statistiche, ovvero media e varianza
+	 *  del tasso di cambio di una coppia di valute, di cui una è sempre USD 
+	 *  e l'altra è definita in ingresso dall'utente.
+	 * @param String acronym della seconda valuta
+	 * */
+	@SuppressWarnings("unchecked")
 	public JSONObject getStatistics(String acronym) {
 		JSONObject obj = new JSONObject();
 		obj.put("Average",getAverage(acronym));
@@ -65,6 +76,9 @@ public class Statistics {
 		return obj;
 	}
 	
+	/** Metodo per definire i mesi dell'anno che rappresentano i file di
+	 * riferimento per il calcolo delle statistiche.
+	 *TODO analisi con Calendar*/
 	private String getMonth(int index) {
 		String date ="";
 		if(index<10) {
@@ -75,5 +89,7 @@ public class Statistics {
 		}
 		return date;
 	}
+	
+	//TODO MAX E MIN NEL PERIODO CONTRASSEGNATO
 }
 

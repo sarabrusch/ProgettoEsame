@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.currencylayer.project.statistics.Statistics;
 
+/** Controller secondario che gestische le rotte e le chiamate all'API per
+ * la restituzione di dati relativi alle statistiche*/
+
 @RestController
 public class CurrencyLayerStatisticsController {
 	

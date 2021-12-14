@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Controller per la gestione delle richieste API con relativa risposta. 
+/** Controller per la gestione delle richieste API relative ad informazioni sulle
+ * varia valute e coppie di valute. 
  * @author Sara Bruschi
  * *******************  */
 

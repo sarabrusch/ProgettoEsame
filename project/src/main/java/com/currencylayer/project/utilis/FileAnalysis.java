@@ -9,8 +9,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
 
+/** Classe che contiene metodi utili allo sviluppo del programma, tra cui l'analisi
+ * di file necessaria all'implementazione delle statistiche e dei filtri.*/
 public class FileAnalysis {
-	
 	
 	public JSONObject readFile(String date) {
 		JSONObject fileRead = new JSONObject();
