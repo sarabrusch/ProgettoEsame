@@ -13,20 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.currencylayer.project.statistics.Statistics;
 
 @RestController
-public class CurrencyLayerController2 {
+public class CurrencyLayerStatisticsController {
 	
 	@Autowired
 	Statistics statistics;
 	
-	@RequestMapping(value = "/prova/{acronym}")
-	public ResponseEntity<Object> getAverage(Map<String,Object> model,@PathVariable String acronym) throws ParseException {
+	@RequestMapping(value = "/statistics/{acronym}")
+	public ResponseEntity<Object> getStatistics(Map<String,Object> model,@PathVariable String acronym) throws ParseException {
 		model.put("acronym", acronym);
-		return new ResponseEntity<>(statistics.getAverage(acronym),HttpStatus.OK);
+		return new ResponseEntity<>(statistics.getStatistics(acronym),HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/average/{acronym}")
-	public ResponseEntity<Object> getExchangeRates(Map<String,Object> model,@PathVariable String acronym) throws ParseException {
-		model.put("acronym", acronym);
-		return new ResponseEntity<>(statistics.getExchangeRates(acronym),HttpStatus.OK);
-	} 
 }

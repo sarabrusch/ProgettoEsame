@@ -28,9 +28,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	private String url = "http://api.currencylayer.com/";
 	private String key = "74a39b5b1ae2f4bac3f38eaa28bec030";
 	private String source = "USD";
-	private String acronym = "";
-	private JSONObject liveExchangeRate = new JSONObject();
-	private JSONObject listCurrencies = new JSONObject();
+	private String acronym = ""; //DA CONTROLLARE
 	private HashMap<String,String> currencies = new HashMap<String,String>();
 	private HashMap<String,Double> rates = new HashMap<String,Double>();
 
@@ -72,6 +70,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	 * relativa a coppie di valute, di cui la source è sempre "USD".  */
 	@Override
     public JSONObject getLive() {
+		JSONObject liveExchangeRate = new JSONObject();
 		try {
 			URLConnection openConnection = new URL(url+"live"+"?access_key="+key).openConnection();
 			InputStream input = openConnection.getInputStream();
@@ -89,7 +88,6 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 				//Close the scanner
 				input.close();
 			}
-
 			liveExchangeRate = (JSONObject) JSONValue.parseWithException(data);
 		}
 		catch(IOException e) {
@@ -107,6 +105,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	 * con relativo acronimo e nome.  */
     @Override
 	public JSONObject getList() {
+    	JSONObject listCurrencies = new JSONObject();
 		try {
 			URLConnection openConnection = new URL(url+"list"+"?access_key="+key).openConnection();
 			InputStream input = openConnection.getInputStream();
@@ -143,9 +142,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	 * @param date di cui si vuole conoscere l'exchange rate  */
     @Override
 	public JSONObject getHistoricalQuotation(String date) {
-
-		JSONObject liveExchangeRate = null;
-
+		JSONObject historicalExchangeRate = new JSONObject();
 		try {
 			//TODO
 			//FileWriter file ;
@@ -170,7 +167,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 				//writer.flush();
 				//writer.close();
 			}
-			liveExchangeRate = (JSONObject) JSONValue.parseWithException(data);
+			historicalExchangeRate = (JSONObject) JSONValue.parseWithException(data);
 		}
 		catch(IOException e) {
 			System.out.println("Errore...");
@@ -180,7 +177,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 			System.out.println("Errore...");
 			System.out.println(e);
 		}
-		return liveExchangeRate;
+		return historicalExchangeRate;
 	}
 
 	@Override

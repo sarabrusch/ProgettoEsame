@@ -1,6 +1,10 @@
 package com.currencylayer.project.model;
-
-import com.esame.prove.model.Currency;
+/**
+ *  Classe che modella la scommessa descrivendone le sue caratteristiche
+ *  principali.
+ *  @author Sara Bruschi 
+ *  @author Marco Di Vita
+ *  **********************   */
 
 public class Bet extends CurrencyCouple {
 	

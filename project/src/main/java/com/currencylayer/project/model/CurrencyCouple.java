@@ -1,6 +1,6 @@
 package com.currencylayer.project.model;
 
-import com.esame.prove.model.Currency;
+
 
 public class CurrencyCouple {
 	
