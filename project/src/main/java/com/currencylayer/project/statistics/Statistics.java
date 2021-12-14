@@ -73,6 +73,7 @@ public class Statistics {
 		JSONObject obj = new JSONObject();
 		obj.put("Average",getAverage(acronym));
 		obj.put("Variance",getVariance());
+		//obj.put("Period of time", "all first of 2021");
 		return obj;
 	}
 	

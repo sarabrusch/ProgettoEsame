@@ -8,11 +8,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.stereotype.Service;
+
+import com.currencylayer.project.model.Currency;
+
 import org.json.simple.*;
 
 /** Classe implementazione di CurrencyLayerService che va ad implementare i metodi
@@ -28,7 +29,10 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	private String url = "http://api.currencylayer.com/";
 	private String key = "74a39b5b1ae2f4bac3f38eaa28bec030";
 	private String source = "USD";
-	private String acronym = ""; //DA CONTROLLARE
+	//private String acronym = ""; //DA CONTROLLARE
+	private Currency currency = new Currency();
+	private String acronym = currency.getAcronym();
+	private String name = currency.getName();
 	private HashMap<String,String> currencies = new HashMap<String,String>();
 	private HashMap<String,Double> rates = new HashMap<String,Double>();
 
@@ -40,6 +44,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	 * */
 	public HashMap<String, Double> createHashMapLive (String acronym) {
 		//live
+		this.acronym = acronym;
 		JSONObject live = getLive();
 		JSONObject data;
 		data =  (JSONObject) live.get("quotes");
@@ -55,6 +60,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	 * */
 	public HashMap<String, String> createHashMapList (String acronym) {
 		//list
+		this.acronym = acronym;
 		JSONObject list = getList();
 		JSONObject data;
 		data =  (JSONObject) list.get("currencies");
@@ -62,9 +68,19 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		return currencies;
 	}
 	
-	public String getAcroym() {
+	public String getAcronym() {
 		return acronym;
 	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	/*public String getCurrency() {
+		name = (String) getCurrency(getAcronym());
+		currency = new Currency(acronym,name);
+		return currency.toString();
+    } */
 	
 	/**Metodo per la chiamata all'API che restituisce la lista di exchange rates
 	 * relativa a coppie di valute, di cui la source è sempre "USD".  */
@@ -201,13 +217,14 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 			System.out.println("Errore...");
 			System.out.println(e);
 		}
+		this.name = currency;
 		curr.put("currency", obj);
 		obj.put(acronym, currency);
 		return curr;
 	}
 
 	@SuppressWarnings("unchecked")
-	public Double getCouple(String acronym) {
+	public JSONObject getCouple(String acronym) {
 		this.acronym = acronym;
 		String currency = "";
 		JSONObject curr = new JSONObject();
@@ -223,6 +240,12 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 			System.out.println("Errore...");
 		}
 		//TODO capire perché non stampa
+		curr.put("infos", obj);
+		JSONObject list = (JSONObject) getList();
+		JSONObject listC = (JSONObject) list.get("currencies");
+		obj.put(source, listC.get(source));
+		obj.put(acronym,listC.get(acronym));
+		obj.put("rate", value);
 		//createHashMapList(source);
 		//String nameBase = currencies.get(source);
 		//createHashMapList(acronym);
@@ -231,7 +254,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		//obj.put(source, nameBase);
 		//obj.put(acronym, nameQuote);
 		//obj.put("rate", value);
-		return value;
+		return curr;
 	}
 }
 

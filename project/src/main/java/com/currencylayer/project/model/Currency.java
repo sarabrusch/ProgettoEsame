@@ -1,4 +1,7 @@
 package com.currencylayer.project.model;
+
+import java.util.Currency;
+
 /**
  *  Classe che modella la valuta descrivendone le sue caratteristiche
  *  principali, quali il nome e l'acronimo che la condraddistingue.
@@ -10,17 +13,15 @@ public class Currency {
 
 	private String name;
 	private String acronym;
-	private double exchangeRate;
 
 	//costruttore
 	public Currency() {
 
 	}
 
-	public Currency(String name, String acronym, double exchangeRate) {
+	public Currency(String name, String acronym) {
 		this.name = name;
 		this.acronym = acronym;
-		this.exchangeRate = exchangeRate;
 	}
 
 	public String getName() {
@@ -37,14 +38,6 @@ public class Currency {
 
 	public void setAcronym() {
 		this.acronym = acronym;
-	}
-
-	public double getExchangeRate() {
-		return exchangeRate;
-	}
-
-	public void setExchangeRate(double exchangeRate) {
-		this.exchangeRate = exchangeRate;
 	}
 
 	@Override

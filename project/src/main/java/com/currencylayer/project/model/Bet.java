@@ -26,7 +26,7 @@ public class Bet extends CurrencyCouple {
 		return "Betting on: "+getBase()+" against: "+getQuote();
 	}
 	
-	public void doBet(Currency base, Currency quote) {
+	/*public void doBet(CurrencyCouple couple) {
 		if(base.getExchangeRate() > quote.getExchangeRate()) {
 			System.out.println("Winning Bet");
 			isWinning = true;
@@ -35,5 +35,5 @@ public class Bet extends CurrencyCouple {
 			System.out.println("Loosing Bet");
 			isWinning = false;
 		}
-     }
+     }*/
 }
