@@ -14,8 +14,8 @@ public class Bet extends CurrencyCouple {
 		super();
 	}
 	
-	public Bet(Currency base, Currency quote) {
-		super(base, quote);
+	public Bet(Currency base, Currency quote, double exchangeRate) {
+		super(base, quote,exchangeRate);
 	}
 	
 	public boolean getIsWinning() {
@@ -30,14 +30,4 @@ public class Bet extends CurrencyCouple {
 		return "Betting on: "+getBase()+" against: "+getQuote();
 	}
 	
-	/*public void doBet(CurrencyCouple couple) {
-		if(base.getExchangeRate() > quote.getExchangeRate()) {
-			System.out.println("Winning Bet");
-			isWinning = true;
-		}
-		else {
-			System.out.println("Loosing Bet");
-			isWinning = false;
-		}
-     }*/
 }

@@ -15,7 +15,7 @@ public interface CurrencyLayerService {
 	public JSONObject getLive() throws IOException;
 	public JSONObject getList() throws IOException;
 	public JSONObject getHistoricalQuotation(String data);
-	public JSONObject toJSON(Object obj);
+	//public JSONObject toJSON(Object obj);
 	public JSONObject getCurrency(String acronym);
 	public Double getCouple(String acronym);
 	public HashMap<String,String> createHashMapList(String acronym);

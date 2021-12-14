@@ -12,7 +12,7 @@ public class CurrencyCouple {
 		
 	}
 	
-	public CurrencyCouple(Currency base, Currency quote) {
+	public CurrencyCouple(Currency base, Currency quote, double exchangeRate) {
 		this.base = base;
 		this.quote = quote;
 		this.exchangeRate = exchangeRate;

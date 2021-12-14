@@ -1,8 +1,6 @@
 package com.currencylayer.project.service;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,6 +11,7 @@ import java.util.*;
 import org.springframework.stereotype.Service;
 
 import com.currencylayer.project.model.Currency;
+import com.currencylayer.project.model.CurrencyCouple;
 
 import org.json.simple.*;
 
@@ -29,10 +28,9 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	private String url = "http://api.currencylayer.com/";
 	private String key = "74a39b5b1ae2f4bac3f38eaa28bec030";
 	private String source = "USD";
-	//private String acronym = ""; //DA CONTROLLARE
-	private Currency currency = new Currency();
-	private String acronym = currency.getAcronym();
-	private String name = currency.getName();
+	private Currency currencyObject;
+	private CurrencyCouple currencyCouple;
+	private ArrayList<Currency> currencyList = new ArrayList<Currency>();
 	private HashMap<String,String> currencies = new HashMap<String,String>();
 	private HashMap<String,Double> rates = new HashMap<String,Double>();
 
@@ -44,7 +42,6 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	 * */
 	public HashMap<String, Double> createHashMapLive (String acronym) {
 		//live
-		this.acronym = acronym;
 		JSONObject live = getLive();
 		JSONObject data;
 		data =  (JSONObject) live.get("quotes");
@@ -60,20 +57,11 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	 * */
 	public HashMap<String, String> createHashMapList (String acronym) {
 		//list
-		this.acronym = acronym;
 		JSONObject list = getList();
 		JSONObject data;
 		data =  (JSONObject) list.get("currencies");
 		currencies.put(acronym, (String) data.get(acronym));
 		return currencies;
-	}
-	
-	public String getAcronym() {
-		return acronym;
-	}
-	
-	public String getName() {
-		return name;
 	}
 	
 	/*public String getCurrency() {
@@ -196,37 +184,34 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		return historicalExchangeRate;
 	}
 
-	@Override
+	/*@Override
 	public JSONObject toJSON(Object object) {
 		JSONObject obj = null;
 		return obj;
-	}
+	}*/
 	
 	@SuppressWarnings("unchecked")
 	public JSONObject getCurrency(String acronym) {
-		this.acronym = acronym;
 		JSONObject obj = new JSONObject();
 		JSONObject curr = new JSONObject();
-		String currency = "";
+		String name = "";
 		try {
 		JSONObject json = getList();
 	    JSONObject currencies = (JSONObject) json.get("currencies");
-	    currency = (String) currencies.get(acronym);
+	    name = (String) currencies.get(acronym);
 		}
 		catch(Exception e) {
 			System.out.println("Errore...");
 			System.out.println(e);
 		}
-		this.name = currency;
+		currencyObject = new Currency(name,acronym);
 		curr.put("currency", obj);
-		obj.put(acronym, currency);
+		obj.put(acronym, name);
 		return curr;
 	}
 
 	@SuppressWarnings("unchecked")
 	public Double getCouple(String acronym) {
-		this.acronym = acronym;
-		String currency = "";
 		JSONObject curr = new JSONObject();
 		JSONObject obj = new JSONObject();
 		Double value = new Double(0);
@@ -239,6 +224,8 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		catch(Exception e) {
 			System.out.println("Errore...");
 		}
+		//TODO compilare e collegare con model
+		currencyCouple = new CurrencyCouple();
 		//TODO capire perché non stampa
 		//curr.put("infos", obj);
 		//JSONObject list = (JSONObject) getList();
