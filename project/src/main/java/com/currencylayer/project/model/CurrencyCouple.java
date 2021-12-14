@@ -8,6 +8,10 @@ public class CurrencyCouple {
 	private Currency quote = new Currency();
 	private double exchangeRate;
 	
+	public CurrencyCouple() {
+		
+	}
+	
 	public CurrencyCouple(Currency base, Currency quote) {
 		this.base = base;
 		this.quote = quote;

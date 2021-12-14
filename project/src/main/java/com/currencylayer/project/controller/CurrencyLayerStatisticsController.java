@@ -33,4 +33,6 @@ public class CurrencyLayerStatisticsController {
 	public ResponseEntity<Object> getStatistics(@RequestParam(name="acronym",defaultValue = "EUR") String acronym) {
 		return new ResponseEntity<>(statistics.getStatistics(acronym),HttpStatus.OK);
 	}
+	
+	
 }

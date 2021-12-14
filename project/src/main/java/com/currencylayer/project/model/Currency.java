@@ -1,7 +1,5 @@
 package com.currencylayer.project.model;
 
-import java.util.Currency;
-
 /**
  *  Classe che modella la valuta descrivendone le sue caratteristiche
  *  principali, quali il nome e l'acronimo che la condraddistingue.

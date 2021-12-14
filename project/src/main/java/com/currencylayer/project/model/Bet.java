@@ -7,8 +7,12 @@ package com.currencylayer.project.model;
  *  **********************   */
 
 public class Bet extends CurrencyCouple {
-	
+
 	private boolean isWinning;
+	
+	public Bet() {
+		super();
+	}
 	
 	public Bet(Currency base, Currency quote) {
 		super(base, quote);

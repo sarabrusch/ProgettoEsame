@@ -224,7 +224,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public JSONObject getCouple(String acronym) {
+	public Double getCouple(String acronym) {
 		this.acronym = acronym;
 		String currency = "";
 		JSONObject curr = new JSONObject();
@@ -240,21 +240,13 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 			System.out.println("Errore...");
 		}
 		//TODO capire perché non stampa
-		curr.put("infos", obj);
-		JSONObject list = (JSONObject) getList();
-		JSONObject listC = (JSONObject) list.get("currencies");
-		obj.put(source, listC.get(source));
-		obj.put(acronym,listC.get(acronym));
-		obj.put("rate", value);
-		//createHashMapList(source);
-		//String nameBase = currencies.get(source);
-		//createHashMapList(acronym);
-		//String nameQuote = currencies.get(acronym);
-		//curr.put("currencies", obj);
-		//obj.put(source, nameBase);
-		//obj.put(acronym, nameQuote);
+		//curr.put("infos", obj);
+		//JSONObject list = (JSONObject) getList();
+		//JSONObject listC = (JSONObject) list.get("currencies");
+		//obj.put(source, listC.get(source));
+		//obj.put(acronym,listC.get(acronym));
 		//obj.put("rate", value);
-		return curr;
+		return value;
 	}
 }
 
