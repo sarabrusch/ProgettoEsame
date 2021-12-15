@@ -1,9 +1,11 @@
 # Currency Layer App
 
 ## Indice
-* [Introduzione](#Introduzione)
-* [Rotte](#Rotte)
+* [Introduzione](#introduzione)
+* [Rotte](#rotte)
 * [Struttura programma](#struttura-programma)
+* [Avvertenze](#avvertenze)
+* [Autori](#autori)
 
 ## Introduzione
 
@@ -47,3 +49,12 @@ Passiamo ora alle rotte che sono state aggiunte dopo un'analisi adeguata dei dat
 |```GET``` |```/historicalFilter```|```date,acronym```|*String,String*|*Sì,Sì*| inserire | Restituisce le informazioni relative alla valuta in ingresso nella data specificata|
 
 ## Struttura programma
+
+## Avvertenze
+Ci è necessario sottolineare il fatto che questo programma è stato realzzato per un progetto universitario e dunque non sarà più soggetto ad aggiornamenti o miglioramenti da parte dei proprietari.
+Un'ulteriore particolare di cui è bene tenere conto è che noi sviluppatori di questa applicazione ci siamo basati sulla versione gratuita dell'API linkata in [introduzione](#introduzione), avendo così accesso ad azioni limitate che ci hanno portato a dover scegliere di lavorare su file invece che direttamente da chiamata ad API, soprattutto per il calcolo di statistiche e per l'implementazione dei filtri.
+Qualora qualcuno fosse interessato a svilupparne una versione più complessa acquistando l'API in questione sarebbe comunque in grado di utilizzare il nostro codice apportando semplicemente qualche modifica.
+
+## Autori
+* [Sara Bruschi](https://github.com/sarabrusch)
+* [Marco Di Vita](https://github.com/marcopapero)
