@@ -1,5 +1,10 @@
 # Currency Layer App
 
+## Indice
+* [Introduzione](#Introduzione)
+* [Rotte](#Rotte)
+* [Struttura programma](#struttura-programma)
+
 ## Introduzione
 
 ***Currency Layer App*** consiste in un programma sviluppato in Java con l'uso del framework Spring Boot basato sul funzionamento dell'API presente al seguente link: "https://currencylayer.com/".
@@ -26,4 +31,19 @@ Passiamo ora alle rotte che sono state aggiunte dopo un'analisi adeguata dei dat
 
 * Con la rotta ```/statistics/{acronym}``` si otterrà la lista di statistiche relative alla coppia USD+acronym richiesta dall'utente. In particolare tali statistiche comprendono il calcolo di media e varianza del tasso di cambio e restituisce anche il valore massimo e il valore minimo raggiunti nel periodo preso da noi in esame per il calcolo delle statistiche.
 * Con la rotta ```/bet``` è possibile piazzare una scommessa su un massimo di tre coppie di valute (dove ricordiamo che source=USD **sempre**). La richiesta in questo caso sarà ad esempio, se volessimo scommettere sulle coppie USDGBP, USDEUR, USDBTC: http://localhost:8080/bet?acronym1=GBP&acronym2=EUR&acronym3=MXN.
-* 
+* Con la rotta ```/betResult``` è possibile ottenere il risultato delle scommesse precedentemente piazzate.
+* Con la rotta ```/currencyFilter/{acronym}``` avviene un filtraggio per valuta attraverso il suo acronimo.
+* Con la rotta ```/historicalFilter``` avviene un filtraggio per valuta attraverso la scelta dell'acronimo e della data di cui si vogliono avere le informazioni.
+
+| **Tipo** | **Rotta** | **Parametri** | **Tipo parametri** | **Richiesti** | **Indirizzo**             | **Desctizione** |
+|----------|-----------|---------------|--------------------|---------------|---------------------------|-----------------|
+|```GET``` |```/live```| ```null```    |                    |               |http://localhost:8080/live | Restituisce la lista degli attuali tassi di cambio |
+|```GET``` |```/list```| ```null```    |                    |               |http://localhost:8080/live | Restituisce la lista di tutte le valute presenti nel servizio |
+|```GET``` |```/historical/{date}```|```date```|*String*|*Sì*|http://localhost:8080/historical/YYYY-MM-DD| Restituisce i tassi di cambio relativi alla data specificata|
+|```GET``` |```/statistics/{acronym}```|```acronym```|*String*|*Sì*|http://localhost:8080/statistics/acronym| Restituisce le statistiche relative alla valuta specificata|
+|```GET``` |```/bet```|```acronym1,acronym2,acronym3```|*String, String, String*|*Sì,No,No*|http://localhost:8080/bet?acronym1=GBP&acronym2=EUR&acronym3=MXN|Permette di piazzare una scommessa sulle valute specificate|
+|```GET``` |```/betResult```|```null```| | | http://localhost:8080/betResult | Restituisce il risultato delle scommesse precedentemente piazzate|
+|```GET``` |```/currencyFilter/{acronym}```|```acronym```|*String*|*Sì*|http://localhost:8080/currencyFilter/acronym| Filtra la valuta chiesta in ingresso stampando le informazioni ad essa relative|
+|```GET``` |```/historicalFilter```|```date,acronym```|*String,String*|*Sì,Sì*| inserire | Restituisce le informazioni relative alla valuta in ingresso nella data specificata|
+
+## Struttura programma
