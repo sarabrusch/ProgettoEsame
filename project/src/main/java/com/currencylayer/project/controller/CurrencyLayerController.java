@@ -56,8 +56,8 @@ public class CurrencyLayerController {
 	} 
 
 	@GetMapping(value="/bet")
-	public ResponseEntity<Object> doBet(@RequestParam(name="acronym1") String acronym1,@RequestParam(name="acronym2",required=false) String acronym2) throws ParseException {
-		return new ResponseEntity<>(betService.doBet(acronym1,acronym2),HttpStatus.OK);
+	public ResponseEntity<Object> doBet(@RequestParam(name="acronym1") String acronym1, @RequestParam(name="acronym2",required=false) String acronym2, @RequestParam(name="acronym3",required=false) String acronym3) throws ParseException {
+		return new ResponseEntity<>(betService.doBet(acronym1,acronym2,acronym3),HttpStatus.OK);
 	} 
 
 	@GetMapping("/betResult")

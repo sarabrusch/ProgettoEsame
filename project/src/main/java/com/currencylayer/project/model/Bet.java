@@ -11,46 +11,41 @@ public class Bet extends CurrencyCouple {
 
 	private boolean isWinning;
 	
-	/*
+	/**
 	 * Costruttore bet
 	 */
-
-	public Bet() {
+    public Bet() {
 		super();
 	}
 	
-	/*
+	/**
 	 * Costruttore bet
 	 * @param source,acronym,exchangeRate
 	 */
-
-	public Bet(String source, String acronym, double exchangeRate) {
+    public Bet(String source, String acronym, double exchangeRate) {
 		super(source, acronym, exchangeRate);
 	}
 	
-	/*
+	/**
 	 * getter parametro che descrive la situazione della scommessa
 	 * @return isWinning
 	 */
-
-	public boolean getIsWinning() {
+    public boolean getIsWinning() {
 		return isWinning;
 	}
 
-	/*
+	/**
 	 * setter parametro che descrive la situazione della scommessa
 	 * @param isWinning
 	 */
-	
 	public void setIsWinning(boolean isWinning) {
 		this.isWinning = isWinning;
 	}
 
-	/*
+	/**
 	 * Metodo toString
 	 * @return "Betting on: "+getSource()+" and: "+getAcronym()
 	 */
-	
 	public String toString() {
 		return "Betting on: "+getSource()+" and: "+getAcronym();
 	}

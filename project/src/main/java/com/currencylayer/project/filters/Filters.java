@@ -58,7 +58,9 @@ public class Filters implements FiltersService {
 		filter.put("historical",obj);
 		obj.put("date", date);
 		obj.put(source+acronym1, quote1);
-		obj.put(source+acronym2, quote2);
+		if(acronym2 != null) {
+			obj.put(source+acronym2, quote2);
+		}
 		return filter;
 	}
 
