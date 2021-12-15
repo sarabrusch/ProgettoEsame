@@ -38,13 +38,13 @@ public class BetServiceImpl {
 	public String doBet (String acronym1, String acronym2,String acronym3) throws CurrencyNotFoundException{
 		String basedBet;
 		bet1 = source+acronym1;
-		JSONObject prova = (JSONObject) currencyService.getData("live").get("quotes");
-		if(prova.get(bet1) == null ) {
+		JSONObject json = (JSONObject) currencyService.getData("live").get("quotes");
+		if(json.get(bet1) == null ) {
 			throw new CurrencyNotFoundException("This currency: "+acronym1+" doesn't exist");
 		}
 		bet2 = source+acronym2;
 		if(acronym2 != null) {
-		if(prova.get(bet2) == null ) {
+		if(json.get(bet2) == null ) {
 			throw new CurrencyNotFoundException("This currency: "+acronym2+" doesn't exist");
 		}
 		else {
@@ -53,7 +53,7 @@ public class BetServiceImpl {
 		}
 		bet3 = source+acronym3;
 		if(acronym3 != null) {
-		if(prova.get(bet3) == null ) {
+		if(json.get(bet3) == null ) {
 			throw new CurrencyNotFoundException("This currency: "+acronym3+" doesn't exist");
 		}
 		else {
