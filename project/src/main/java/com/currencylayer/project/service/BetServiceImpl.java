@@ -3,6 +3,7 @@ package com.currencylayer.project.service;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
+import com.currencylayer.project.exceptions.CurrencyNotFoundException;
 import com.currencylayer.project.model.Bet;
 import com.currencylayer.project.model.CurrencyCouple;
 import com.currencylayer.project.utilis.FileAnalysis;
@@ -16,17 +17,17 @@ import com.currencylayer.project.utilis.FileAnalysis;
 @Service
 public class BetServiceImpl {
 	
-	Bet bet;
-	FileAnalysis file = new FileAnalysis();
-	CurrencyLayerServiceImpl currencyService = new CurrencyLayerServiceImpl();
+	private Bet bet;
+	private FileAnalysis file = new FileAnalysis();
+	private CurrencyLayerServiceImpl currencyService = new CurrencyLayerServiceImpl();
 	private final String source = "USD";
 	private String bet1, bet2, bet3;
 	private Double value1Today, value2Today, value3Today;
 	private String dateToday = "2021-12-11";
 	private String dateTomorrow = "2021-12-11";
 	private JSONObject obj;
-	boolean control2 = false;
-	boolean control3 = false;
+	private boolean control2 = false;
+	private boolean control3 = false;
 
 	/**
 	 * Metodo per piazzare la scommessa, restituisce la scommessa
@@ -34,24 +35,42 @@ public class BetServiceImpl {
 	 * @param acronym1,acronym2
 	 * @return basedBet
 	 */
-	public String doBet (String acronym1, String acronym2,String acronym3){
+	public String doBet (String acronym1, String acronym2,String acronym3) throws CurrencyNotFoundException{
 		String basedBet;
 		bet1 = source+acronym1;
+		JSONObject prova = (JSONObject) currencyService.getData("live").get("quotes");
+		if(prova.get(bet1) == null ) {
+			throw new CurrencyNotFoundException("This currency: "+acronym1+" doesn't exist");
+		}
 		bet2 = source+acronym2;
+		if(acronym2 != null) {
+		if(prova.get(bet2) == null ) {
+			throw new CurrencyNotFoundException("This currency: "+acronym2+" doesn't exist");
+		}
+		else {
+			control2 = true;
+		}
+		}
 		bet3 = source+acronym3;
+		if(acronym3 != null) {
+		if(prova.get(bet3) == null ) {
+			throw new CurrencyNotFoundException("This currency: "+acronym3+" doesn't exist");
+		}
+		else {
+			control3 = true;
+		}
+	    }
 		obj = file.readFile(dateToday,"quotes");
 		value1Today= (Double) obj.get(bet1);
 		bet = new Bet(source,acronym1,value1Today); 
 		value2Today = (Double) obj.get(bet2);
 		value3Today = (Double) obj.get(bet3);
 		basedBet = "Bet based on: "+bet1+" with current ExchangeRate: "+value1Today;
-		if(acronym2 != null) {
-		    basedBet += "\nBet based on: "+bet2+" with current ExchangeRate: "+value2Today;
-		    control2 = true;
+		if(control2) {
+		basedBet += "\nBet based on: "+bet2+" with current ExchangeRate: "+value2Today;
 		}
-		if(acronym3 != null) {
-			basedBet += "\nBet based on: "+bet3+" with current ExchangeRate: "+value3Today;
-			control3 = true;
+		if(control3) {
+		basedBet += "\nBet based on: "+bet3+" with current ExchangeRate: "+value3Today;
 		}
 		return basedBet;
 	}

@@ -2,6 +2,7 @@ package com.currencylayer.project.controller;
 
 import java.util.*;
 
+import com.currencylayer.project.exceptions.CurrencyNotFoundException;
 import com.currencylayer.project.filters.Filters;
 import com.currencylayer.project.service.*;
 import com.currencylayer.project.statistics.Statistics;
@@ -56,7 +57,7 @@ public class CurrencyLayerController {
 	} 
 
 	@GetMapping(value="/bet")
-	public ResponseEntity<Object> doBet(@RequestParam(name="acronym1") String acronym1, @RequestParam(name="acronym2",required=false) String acronym2, @RequestParam(name="acronym3",required=false) String acronym3) throws ParseException {
+	public ResponseEntity<Object> doBet(@RequestParam(name="acronym1") String acronym1, @RequestParam(name="acronym2",required=false) String acronym2, @RequestParam(name="acronym3",required=false) String acronym3) throws ParseException, CurrencyNotFoundException {
 		return new ResponseEntity<>(betService.doBet(acronym1,acronym2,acronym3),HttpStatus.OK);
 	} 
 
