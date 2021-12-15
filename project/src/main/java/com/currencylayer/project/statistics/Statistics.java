@@ -19,12 +19,8 @@ import com.currencylayer.project.utilis.FileAnalysis;
 @Service
 public class Statistics {
 
-	private CurrencyLayerServiceImpl currencyService = new CurrencyLayerServiceImpl();
 	private FileAnalysis file = new FileAnalysis();
 	private final String source = "USD";
-	private String name;
-	private Double value;
-	private Currency currency;
 	private Double average;
 	private Double variance;
 	private Double sumVariance = new Double(0);
@@ -34,6 +30,8 @@ public class Statistics {
 	 * di valute, di cui una è sempre USD e l'altra è definita in ingresso
 	 * dall'utente.
 	 * @param String acronym della seconda valuta
+	 * @return la media della coppia di valute calcolata nel periodo 
+	 * di riferimento.
 	 * */
 	public Double getAverage(String acronym) {
 		JSONObject obj = new JSONObject();
@@ -54,6 +52,8 @@ public class Statistics {
 	/** Metodo per il calcolo della varianza del tasso di cambio di una coppia
 	 * di valute, di cui una è sempre USD e l'altra è definita in ingresso
 	 * dall'utente nel calcolo della media.
+	 * @return la varianza della coppia di valute calcolata nel periodo 
+	 * di riferimento.
 	 * */
 	public Double getVariance() {
 		for(int j=0;j<rates.size();j++) {
@@ -63,7 +63,35 @@ public class Statistics {
 		return variance;
 	}
 
-	/** Metodo per la stampa delle statistiche, ovvero media e varianza
+	/** Metodo per la restituzione del massimo valore del tasso di cambio di 
+	 * una coppia di valute, di cui una è sempre USD e l'altra è definita in ingresso
+	 * dall'utente nel periodo predefinito.
+	 * @return il valore massimo nel periodo da 01-01-2021 a 01-12-2021.
+	 * */
+	public Double getMax() {
+	      Double max = rates.get(0);
+		  for(int i = 0; i<rates.size();i++) {
+			  if(max<=rates.get(i))
+				  max=rates.get(i);
+		  }
+		  return max;
+	}
+    
+	/** Metodo per la restituzione del minimo valore del tasso di cambio di 
+	 * una coppia di valute, di cui una è sempre USD e l'altra è definita in ingresso
+	 * dall'utente nel periodo predefinito.
+	 * @return il valore minimo nel periodo da 01-01-2021 a 01-12-2021.
+	 * */
+    public Double getMin() {
+    	Double min = rates.get(0);
+		  for(int i = 0; i<rates.size();i++) {
+			  if(min>=rates.get(i))
+				  min=rates.get(i);
+		  }
+		  return min;
+	}
+	
+    /** Metodo per la stampa delle statistiche, ovvero media e varianza
 	 *  del tasso di cambio di una coppia di valute, di cui una è sempre USD 
 	 *  e l'altra è definita in ingresso dall'utente.
 	 * @param String acronym della seconda valuta
@@ -73,14 +101,15 @@ public class Statistics {
 		JSONObject obj = new JSONObject();
 		obj.put("Average",getAverage(acronym));
 		obj.put("Variance",getVariance());
-		//obj.put("Period of time", "all first of 2021");
+		obj.put("Max",getMax());
+		obj.put("Min",getMin());
 		return obj;
 	}
 	
 	/** Metodo per definire i mesi dell'anno che rappresentano i file di
 	 * riferimento per il calcolo delle statistiche.
-	 *TODO analisi con Calendar*/
-	private String getMonth(int index) {
+	 * */
+	public String getMonth(int index) {
 		String date ="";
 		if(index<10) {
 			date = "2021-0"+index+"-01";
@@ -90,7 +119,5 @@ public class Statistics {
 		}
 		return date;
 	}
-	
-	//TODO MAX E MIN NEL PERIODO CONTRASSEGNATO
 }
 
