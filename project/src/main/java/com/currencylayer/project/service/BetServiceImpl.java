@@ -10,7 +10,7 @@ import com.currencylayer.project.utilis.FileAnalysis;
 @Service
 public class BetServiceImpl {
 	
-	Bet bet = new Bet();
+	Bet bet;
 	FileAnalysis file = new FileAnalysis();
 	CurrencyLayerServiceImpl currencyService = new CurrencyLayerServiceImpl();
 	private final String source = "USD";
@@ -28,8 +28,9 @@ public class BetServiceImpl {
 		String basedBet;
 		bet1 = source+acronym1;
 		bet2 = source+acronym2;
-		qualsiasi = file.readFile(dateToday);
+		qualsiasi = file.readFile(dateToday,"quotes");
 		value1Today= (Double) qualsiasi.get(bet1);
+		bet = new Bet(source,acronym1,value1Today); //TODO chiedere collegamento al model
 		value2Today = (Double) qualsiasi.get(bet2);
 		basedBet = "Scommessa piazzata su: "+bet1+" con attuale ExchangeRate: "+value1Today;
 		if(acronym2 != null) {
@@ -44,7 +45,7 @@ public class BetServiceImpl {
 		 String risultato;
 		 boolean risultato1 = false;
 		 boolean risultato2 = false;
-		 qualsiasi = file.readFile("2021-01-01");
+		 qualsiasi = file.readFile(dateTomorrow,"quotes");
 		 value1Tom= (Double) qualsiasi.get(bet1);
 		 value2Tom = (Double) qualsiasi.get(bet2);
 		 if(value1Tom>value1Today) {

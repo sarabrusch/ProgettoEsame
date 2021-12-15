@@ -4,34 +4,34 @@ package com.currencylayer.project.model;
 
 public class CurrencyCouple {
 	
-	private Currency base = new Currency();
-	private Currency quote = new Currency();
+	private String source;
+	private String acronym;
 	private double exchangeRate;
 	
 	public CurrencyCouple() {
 		
 	}
 	
-	public CurrencyCouple(Currency base, Currency quote, double exchangeRate) {
-		this.base = base;
-		this.quote = quote;
+	public CurrencyCouple(String source, String acronym, double exchangeRate) {
+		this.source = source;
+		this.acronym = acronym;
 		this.exchangeRate = exchangeRate;
 	}
 
-	public Currency getBase() {
-		return base;
+	public String getSource() {
+		return source;
 	}
 
-	public void setBase(Currency base) {
-		this.base = base;
+	public void setSource(String source) {
+		this.source = source;
 	}
 
-	public Currency getQuote() {
-		return quote;
+	public String getAcronym() {
+		return acronym;
 	}
 
-	public void setQuote(Currency quote) {
-		this.quote = quote;
+	public void setAcronym(String acronym) {
+		this.acronym = acronym;
 	}
 
 	public double getExchangeRate() {
@@ -42,13 +42,9 @@ public class CurrencyCouple {
 		this.exchangeRate = exchangeRate;
 	}
 	
-	public String getCouple() {
-		return base.getAcronym()+quote.getAcronym();
-	}
-	
 	@Override
 	public String toString() {
-		return "Base currency: "+base+".\nQuote currency: "+quote;
+		return "Base currency: "+source+".\nQuote currency: "+acronym;
 	}
 
 }

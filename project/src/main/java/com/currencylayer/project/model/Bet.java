@@ -14,8 +14,8 @@ public class Bet extends CurrencyCouple {
 		super();
 	}
 	
-	public Bet(Currency base, Currency quote, double exchangeRate) {
-		super(base, quote,exchangeRate);
+	public Bet(String source, String acronym, double exchangeRate) {
+		super(source, acronym, exchangeRate);
 	}
 	
 	public boolean getIsWinning() {
@@ -27,7 +27,7 @@ public class Bet extends CurrencyCouple {
 	}
 	
 	public String toString() {
-		return "Betting on: "+getBase()+" against: "+getQuote();
+		return "Betting on: "+getSource()+" and: "+getAcronym();
 	}
 	
 }

@@ -13,12 +13,12 @@ import org.json.simple.parser.ParseException;
  * di file necessaria all'implementazione delle statistiche e dei filtri.*/
 public class FileAnalysis {
 	
-	public JSONObject readFile(String date) {
+	public JSONObject readFile(String fileName, String word) {
 		JSONObject fileRead = new JSONObject();
 		String data = "";
 		String inline = "";
 		try {
-			BufferedReader read = new BufferedReader(new FileReader(date));
+			BufferedReader read = new BufferedReader(new FileReader(fileName));
 			try {
 				while ((inline = read.readLine()) != null) {
 					data += inline;
@@ -40,7 +40,7 @@ public class FileAnalysis {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return (JSONObject) fileRead.get("quotes");
+		return (JSONObject) fileRead.get(word);
 	}
 
 }

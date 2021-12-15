@@ -42,7 +42,7 @@ public class Statistics {
 		int cont = 0;
 		String couple = source+acronym;
 		for(int i=1; i<=12;i++) {
-			value = (Double) file.readFile(getMonth(i)).get(couple);
+			value = (Double) file.readFile(getMonth(i),"quotes").get(couple);
 			rates.add(value);
 			sum += value;
 			cont++;

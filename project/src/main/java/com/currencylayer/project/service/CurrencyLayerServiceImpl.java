@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.currencylayer.project.model.Currency;
 import com.currencylayer.project.model.CurrencyCouple;
+import com.currencylayer.project.utilis.FileAnalysis;
 
 import org.json.simple.*;
 
@@ -28,6 +29,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	private String url = "http://api.currencylayer.com/";
 	private String key = "74a39b5b1ae2f4bac3f38eaa28bec030";
 	private String source = "USD";
+	private FileAnalysis file = new FileAnalysis();
 	private Currency currencyObject;
 	private CurrencyCouple currencyCouple;
 	private ArrayList<Currency> currencyList = new ArrayList<Currency>();
@@ -211,7 +213,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Double getCouple(String acronym) {
+	public JSONObject getCouple(String acronym) {
 		JSONObject curr = new JSONObject();
 		JSONObject obj = new JSONObject();
 		Double value = new Double(0);
@@ -226,14 +228,12 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		}
 		//TODO compilare e collegare con model
 		currencyCouple = new CurrencyCouple();
-		//TODO capire perché non stampa
-		//curr.put("infos", obj);
-		//JSONObject list = (JSONObject) getList();
-		//JSONObject listC = (JSONObject) list.get("currencies");
-		//obj.put(source, listC.get(source));
-		//obj.put(acronym,listC.get(acronym));
-		//obj.put("rate", value);
-		return value;
+	    curr.put("infos", obj);
+		JSONObject list = file.readFile("List.txt", "currencies");
+		obj.put(source, list.get(source));
+		obj.put(acronym,list.get(acronym));
+		obj.put("rate", value);
+		return curr;
 	}
 }
 
