@@ -6,6 +6,12 @@ import org.springframework.stereotype.Service;
 import com.currencylayer.project.service.CurrencyLayerServiceImpl;
 import com.currencylayer.project.utilis.FileAnalysis;
 
+/** 
+ * Classe contentente i filtri
+ * @author Sara Bruschi
+ * @author Marco Di Vita
+ */
+
 @Service
 public class Filters implements FiltersService {
 	
@@ -16,6 +22,11 @@ public class Filters implements FiltersService {
 	private String nameQuote = "";
 	private Double value = null;
 	
+	/**
+	 * Metodo che filtra la lista contentente i nomi delle currency
+	 * @param acronym
+	 * @return filter
+	 */
 	@Override
 	public JSONObject currencyFilter(String acronym) {
 		JSONObject obj = new JSONObject();
@@ -31,6 +42,11 @@ public class Filters implements FiltersService {
 		return filter;
 	}
 	
+	/**
+	 * Metodo che filtra la lista contentente le historicalQuotes
+	 * @param date,acronym1,acronym2
+	 * @return filter
+	 */
 	@Override
 	public JSONObject historicalFilter(String date, String acronym1, String acronym2) {
 		JSONObject obj = new JSONObject();

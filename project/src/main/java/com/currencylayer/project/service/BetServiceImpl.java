@@ -7,6 +7,12 @@ import com.currencylayer.project.model.Bet;
 import com.currencylayer.project.model.CurrencyCouple;
 import com.currencylayer.project.utilis.FileAnalysis;
 
+/**
+ * Classe che contiene metodi utili alla scommessa 
+ * @author Sara bruschi
+ * @author Marco Di Vita
+ */
+
 @Service
 public class BetServiceImpl {
 	
@@ -22,7 +28,12 @@ public class BetServiceImpl {
 	private String dateTomorrow = "2021-12-11";
 	JSONObject obj;;
 	
-	
+	/**
+	 * metodo per piazzare la scommessa, restituisce la scommessa
+	 * piazzata insieme ai valori di riferimento della stessa
+	 * @param acronym1,acronym2
+	 * @return basedBet
+	 */
 	
 	public String doBet (String acronym1, String acronym2){
 		String basedBet;
@@ -39,33 +50,41 @@ public class BetServiceImpl {
 		return basedBet;
 	}
 	
-	public String betResult() {
+	/** 
+	 * metodo che verifica il risultato della scommesa
+	 * @return result
+	 */
+	
+	public JSONObject betResult() {
 		 Double value1Tom; 
 		 Double value2Tom;
+		 JSONObject betJSon1 = new JSONObject();
+		 JSONObject betJSon2 = new JSONObject();
+		 JSONObject json =new JSONObject();
+		 JSONObject jjson = new JSONObject();
+		  
 		 String result;
-		 boolean result1 = false;
-		 boolean result2 = false;
+		 String result1 = "You lost";
+		 String result2 = "You lost";
 		 obj = file.readFile(dateTomorrow,"quotes");
 		 value1Tom= (Double) obj.get(bet1);
 		 value2Tom = (Double) obj.get(bet2);
 		 if(value1Tom>value1Today) {
-			 result1 = true;
+			result1 = "You won";
 		 }
 		 if(value2Tom>value2Today) {
-			 result2 = true;
+			result2 = "You won";
 		 }
-		 if(result1 && result2) {
-			 result = "You won";
-		 }
-		 else if(result1 && !result2) {
-			 result = "You won the first bet";
-		 }
-		 else if(!result1 && result2) {
-			 result = "You won the second bet";
-		 }
-		 else {
-			 result = "You lost";
-		 }
-		return result;
+		betJSon1.put("first bet",json);
+		betJSon1.put("second bet", jjson);
+		json.put("bet on", bet1);
+		json.put("yesterday rate", value1Today);
+		json.put("today rate", value1Tom);
+		json.put("result", result1);
+		jjson.put("based on", bet2);
+		jjson.put("yesterday rate", value2Today);
+		jjson.put("today rate", value2Tom);
+		jjson.put("result", result2);
+		return betJSon1;
 	}
 }

@@ -2,10 +2,10 @@ package com.currencylayer.project.model;
 
 /**
  *  Classe che modella la valuta descrivendone le sue caratteristiche
- *  principali, quali il nome e l'acronimo che la condraddistingue.
+ *  principali, quali il nome e l'acronimo che la condraddistinguono.
  *  @author Sara Bruschi 
  *  @author Marco Di Vita
- *  **********************   */
+ */
 
 public class Currency {
 
