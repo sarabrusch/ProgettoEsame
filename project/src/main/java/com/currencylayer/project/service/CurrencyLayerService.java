@@ -12,15 +12,8 @@ import org.json.simple.parser.ParseException;
 
 public interface CurrencyLayerService {
 	
-	public JSONObject getLive() throws IOException;
-	public JSONObject getList() throws IOException;
+	public JSONObject getData(String word) throws IOException;
 	public JSONObject getHistoricalQuotation(String data);
-	//public JSONObject toJSON(Object obj);
-	public JSONObject getCurrency(String acronym);
-	public JSONObject getCouple(String acronym);
-	public HashMap<String,String> createHashMapList(String acronym);
-	public HashMap<String, Double> createHashMapLive (String acronym);
-	//public HashMap<String, Double> createHashMapHistorical (String acronym,String date);
-	//public Double getHistoricalCouple(String acronym,String date);
-	
+	public String getCurrency(String acronym);
+	public Double getCouple(String acronym);
 }
