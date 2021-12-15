@@ -37,11 +37,13 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	 * con relativo acronimo e nome.  */
 	/**Metodo per la chiamata all'API che restituisce la lista di exchange rates
 	 * relativa a coppie di valute, di cui la source è sempre "USD".  */
-	
 	@Override
 	public JSONObject getData(String word) {
 		JSONObject data = new JSONObject();
 		try {
+			//FileWriter file ;
+			//file = new FileWriter("word");
+			//BufferedWriter writer = new BufferedWriter(file);
 			URLConnection openConnection = new URL(url+word+"?access_key="+key).openConnection();
 			InputStream input = openConnection.getInputStream();
 			String readData = "";
@@ -52,11 +54,14 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 				//Write all the JSON data into a string using a scanner
 				while ((inline = buf.readLine()) != null) {
 					readData += inline;
+					//writer.write(data);
 				}
 			}
 			finally {
 				//Close the scanner
 				input.close();
+				//writer.flush();
+				//writer.close();
 			}
 			data = (JSONObject) JSONValue.parseWithException(readData);
 		}
@@ -117,8 +122,6 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	
 	@SuppressWarnings("unchecked")
 	public String getCurrency(String acronym) {
-		//JSONObject obj = new JSONObject();
-		//JSONObject curr = new JSONObject();
 		String name = "";
 		try {
 		JSONObject json = getData("list");
@@ -130,15 +133,11 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 			System.out.println(e);
 		}
 		currency = new Currency(name,acronym);
-		//curr.put("currency", obj);
-		//obj.put(acronym, name);
 		return name;
 	}
 
 	@SuppressWarnings("unchecked")
 	public Double getCouple(String acronym) {
-		//JSONObject curr = new JSONObject();
-		//JSONObject obj = new JSONObject();
 		Double value = null;
 		String couple = source+acronym;
 		try {
@@ -151,11 +150,6 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		}
 		//TODO compilare e collegare con model
 		currencyCouple = new CurrencyCouple();
-	    //curr.put("infos", obj);
-		//JSONObject list = file.readFile("List.txt", "currencies");
-		//obj.put(source, list.get(source));
-		//obj.put(acronym,list.get(acronym));
-		//obj.put("rate", value);
 		return value;
 	}
 }

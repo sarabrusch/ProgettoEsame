@@ -1,6 +1,8 @@
 package com.currencylayer.project.controller;
 
 import java.util.*;
+
+import com.currencylayer.project.filters.Filters;
 import com.currencylayer.project.service.*;
 import com.currencylayer.project.statistics.Statistics;
 
@@ -28,6 +30,8 @@ public class CurrencyLayerController {
 	Statistics statistics;
 	@Autowired
 	BetServiceImpl betService;
+	@Autowired
+	Filters filters;
 
 	@RequestMapping(value = "/live")
 	public ResponseEntity<Object> getLiveQuotation() throws ParseException {
@@ -45,18 +49,6 @@ public class CurrencyLayerController {
 		return new ResponseEntity<>(currencyLayerService.getHistoricalQuotation(date),HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/list/{acronym}")
-	public ResponseEntity<Object> getCurrency(Map<String,Object> model,@PathVariable String acronym) throws ParseException {
-		model.put("acronym", acronym);
-		return new ResponseEntity<>(currencyLayerService.getCurrency(acronym),HttpStatus.OK);
-	} 
-
-	@RequestMapping(value = "/live/{acronym}")
-	public ResponseEntity<Object> getCouple(Map<String,Object> model,@PathVariable String acronym) throws ParseException {
-		model.put("acronym", acronym);
-		return new ResponseEntity<>(currencyLayerService.getCouple(acronym),HttpStatus.OK);
-	} 
-
 	@RequestMapping(value = "/statistics/{acronym}")
 	public ResponseEntity<Object> getStatistics(Map<String,Object> model,@PathVariable String acronym) throws ParseException {
 		model.put("acronym", acronym);
@@ -71,5 +63,16 @@ public class CurrencyLayerController {
 	@GetMapping("/betResult")
 	public ResponseEntity<Object> betResult() {
 		return new ResponseEntity<>(betService.betResult(),HttpStatus.OK);
+	} 
+	
+	@RequestMapping(value = "/currencyFilter/{acronym}")
+	public ResponseEntity<Object> currencyFilter(Map<String,Object> model,@PathVariable String acronym) throws ParseException {
+		model.put("acronym", acronym);
+		return new ResponseEntity<>(filters.currencyFilter(acronym),HttpStatus.OK);
+	} 
+	
+	@GetMapping(value="/historicalFilter")
+	public ResponseEntity<Object> historicalFilter(@RequestParam(name="date") String date, @RequestParam(name="acronym1") String acronym1,@RequestParam(name="acronym2",required=false) String acronym2) throws ParseException {
+		return new ResponseEntity<>(filters.historicalFilter(date,acronym1,acronym2),HttpStatus.OK);
 	} 
 }
