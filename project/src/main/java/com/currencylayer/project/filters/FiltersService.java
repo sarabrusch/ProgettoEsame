@@ -3,7 +3,7 @@ package com.currencylayer.project.filters;
 import org.json.simple.JSONObject;
 
 /**
- * Interfaccia relativa ai filti
+ * Interfaccia relativa ai filtri
  * @author Marco Di Vita
  * @author Sara Bruschi
  */

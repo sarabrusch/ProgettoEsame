@@ -21,7 +21,8 @@ import org.json.simple.*;
  * da quest'ultima per la rielaborazione dei dati.
  * 
  * @author Marco Di Vita
- * @author Sara Bruschi */
+ * @author Sara Bruschi 
+ * */
 
 @Service
 public class CurrencyLayerServiceImpl implements CurrencyLayerService {
@@ -33,10 +34,12 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	private Currency currency;
 	private CurrencyCouple currencyCouple;
 
-	/**Metodo per la chiamata all'API che restituisce la lista di valute
-	 * con relativo acronimo e nome.  */
-	/**Metodo per la chiamata all'API che restituisce la lista di exchange rates
-	 * relativa a coppie di valute, di cui la source è sempre "USD".  */
+	/**Metodo per la chiamata all'API, a seconda della word inserita è possibile
+	 * ottenere la lista di valute presenti nel programma o il live di tutti
+	 * gli exchange rate.
+	 * @param word che deve essere "live" o "list" a seconda delle necessità
+	 * @return data JSONObject che rappresenta il live o la list.
+	 * */
 	@Override
 	public JSONObject getData(String word) {
 		JSONObject data = new JSONObject();
@@ -79,7 +82,8 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
     /**Metodo per la chiamata all'API che restituisce la lista di exchange rates
 	 * relativa a coppie di valute, di cui la source è sempre "USD", di una
 	 * precisa data che deve essere specificata.
-	 * @param date di cui si vuole conoscere l'exchange rate  */
+	 * @param date di cui si vuole conoscere l'exchange rate in formato YYYY-MM-DD
+	 * @return historicalExchangeRate JSONObject  */
     @Override
 	public JSONObject getHistoricalQuotation(String date) {
 		JSONObject historicalExchangeRate = new JSONObject();
@@ -120,6 +124,12 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		return historicalExchangeRate;
 	}
 	
+    /** Metodo che permette di ottenere il nome completo di una valuta inserendone
+     * il suo acronimo in ingresso.
+     * @param acronym acronimo della valuta della quale si vuole ottenere il
+     * nome completo
+     * @return String name, nome completo della valuta
+     * */
 	@SuppressWarnings("unchecked")
 	public String getCurrency(String acronym) {
 		String name = "";
@@ -136,6 +146,12 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		return name;
 	}
 
+	/** Metodo che permette di ottenere il tasso di cambio di una valuta relativo a USD
+	 * inserendone l'acronimo in ingresso.
+     * @param acronym acronimo della valuta della quale si vuole ottenere il
+     * tasso di cambio rispetto alla source.
+     * @return Double value, tasso di cambio della coppia.
+     * */
 	@SuppressWarnings("unchecked")
 	public Double getCouple(String acronym) {
 		Double value = null;

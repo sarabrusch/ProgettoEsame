@@ -9,18 +9,19 @@ import com.currencylayer.project.model.CurrencyCouple;
 import com.currencylayer.project.utilis.FileAnalysis;
 
 /**
- * Classe che contiene metodi utili alla scommessa 
+ * Classe  implementazione di BetService che contiene l'implementazione dei
+ * metodi per le scommesse
  * @author Sara bruschi
  * @author Marco Di Vita
  */
 
 @Service
-public class BetServiceImpl {
+public class BetServiceImpl implements BetService {
 	
 	private Bet bet;
 	private FileAnalysis file = new FileAnalysis();
 	private CurrencyLayerServiceImpl currencyService = new CurrencyLayerServiceImpl();
-	private final String source = "USD";
+	private static final String source = "USD";
 	private String bet1, bet2, bet3;
 	private Double value1Today, value2Today, value3Today;
 	private String dateToday = "2021-12-11";
@@ -32,8 +33,10 @@ public class BetServiceImpl {
 	/**
 	 * Metodo per piazzare la scommessa, restituisce la scommessa
 	 * piazzata insieme ai valori di riferimento della stessa
-	 * @param acronym1,acronym2
-	 * @return basedBet
+	 * @param acronym1,acronym2,acronym3 acronimi delle valute sulle quali si vuole
+	 * scommettere (ricordando che source = "USD" sempre).
+	 * @return basedBet è una stringa che dichiara le caratteristiche della/e
+	 * scommessa/e appena piazzata/e
 	 */
 	public String doBet (String acronym1, String acronym2,String acronym3) throws CurrencyNotFoundException{
 		String basedBet;
@@ -62,7 +65,7 @@ public class BetServiceImpl {
 	    }
 		obj = file.readFile(dateToday,"quotes");
 		value1Today= (Double) obj.get(bet1);
-		bet = new Bet(source,acronym1,value1Today); 
+		//bet = new Bet(source,acronym1,value1Today); 
 		value2Today = (Double) obj.get(bet2);
 		value3Today = (Double) obj.get(bet3);
 		basedBet = "Bet based on: "+bet1+" with current ExchangeRate: "+value1Today;
@@ -76,8 +79,10 @@ public class BetServiceImpl {
 	}
 	
 	/** 
-	 * metodo che verifica il risultato della scommesa
-	 * @return result
+	 * Metodo che verifica e stampa il risultato della scommesa precedentemente
+	 * piazzata.
+	 * @return result JSONObject contenente tutte le informazioni riguardanti le
+	 * scommesse, tra cui anche il risultato.
 	 */
 	@SuppressWarnings("unchecked")
 	public JSONObject betResult() {

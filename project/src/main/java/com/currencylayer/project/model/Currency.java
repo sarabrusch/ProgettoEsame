@@ -12,32 +12,52 @@ public class Currency {
 	private String name;
 	private String acronym;
 
-	//costruttore
+	/** Costruttore di default
+	 */
 	public Currency() {
 
 	}
 
+	/** Costruttore di Currency 
+	 * @param name, acronym caratteristiche della Currency
+	 * */
 	public Currency(String name, String acronym) {
 		this.name = name;
 		this.acronym = acronym;
 	}
 
+	/** Getter di
+	 * @return name nome della currency
+	 * */
 	public String getName() {
 		return name;
 	}
 
+	/** Setter del nome della currency 
+	 * @param name nome della currency
+	 * */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/** Getter di
+	 * @return acronym acronimo della currency
+	 * */
 	public String getAcronym() {
 		return acronym;
 	}
 
-	public void setAcronym() {
+	/** Setter dell'acronimo della currency 
+	 * @param acronym acronimo della currency
+	 * */
+	public void setAcronym(String acronym) {
 		this.acronym = acronym;
 	}
 
+	/**
+	 * Metodo override di toString
+	 * @return "Currency: "+name+" Acronym: "+acronym
+	 */
 	@Override
 	public String toString() {
 		return "Currency: "+name+" Acronym: "+acronym;

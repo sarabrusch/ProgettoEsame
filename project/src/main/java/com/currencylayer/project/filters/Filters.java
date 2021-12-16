@@ -7,7 +7,7 @@ import com.currencylayer.project.service.CurrencyLayerServiceImpl;
 import com.currencylayer.project.utilis.FileAnalysis;
 
 /** 
- * Classe contentente i filtri
+ * Classe implementazione di FiltersService contentente i filtri per periodo e per valuta.
  * @author Sara Bruschi
  * @author Marco Di Vita
  */
@@ -23,10 +23,14 @@ public class Filters implements FiltersService {
 	private Double value = null;
 	
 	/**
-	 * Metodo che filtra la lista contentente i nomi delle currency
-	 * @param acronym
-	 * @return filter
+	 * Metodo che filtra la lista contentente i nomi delle currency restituendo tutte
+	 * le informazioni relative alla currency richiesta in ingresso.
+	 * @param acronym Stringa contenente l'acronimo della currency che si vuole
+	 * filtrare.
+	 * @return filter JSONObject contenente tutte le informazioni relative all'acronym
+	 * in ingresso.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject currencyFilter(String acronym) {
 		JSONObject obj = new JSONObject();
@@ -43,9 +47,13 @@ public class Filters implements FiltersService {
 	}
 	
 	/**
-	 * Metodo che filtra la lista contentente le historicalQuotes
-	 * @param date,acronym1,acronym2
-	 * @return filter
+	 * Metodo che filtra la lista contentente le historicalQuotes restituendo 
+	 * l'exchange rate relativo alla coppia source+acronym che si aveva alla data
+	 * richiesta in ingresso.
+	 * @param date data di cui si richiede di conoscere l'exchange rate
+	 * @param acronym1 prima currency che si vuole filtrare per periodo
+	 * @param acronym2 seconda currency che si vuole filtrare per periodo
+	 * @return filter informazioni relative alle richieste effettuate.
 	 */
 	@Override
 	public JSONObject historicalFilter(String date, String acronym1, String acronym2) {

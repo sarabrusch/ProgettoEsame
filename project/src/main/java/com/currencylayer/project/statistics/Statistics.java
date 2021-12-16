@@ -11,13 +11,13 @@ import com.currencylayer.project.utilis.FileAnalysis;
 
 /** Classe per il calcolo delle statistiche (media e varianza) relative 
  * al tasso di cambio di coppie di variabili che possono essere chieste in
- * ingresso dall'utent (filtro) o stampate tutte insieme TODO.
+ * ingresso dall'utent (filtro) o stampate tutte insieme.
  * @author Sara Bruschi
  * @author Marco Di Vita
  * */
 
 @Service
-public class Statistics {
+public class Statistics implements StatisticsService {
 
 	private FileAnalysis file = new FileAnalysis();
 	private final String source = "USD";
@@ -91,10 +91,11 @@ public class Statistics {
 		  return min;
 	}
 	
-    /** Metodo per la stampa delle statistiche, ovvero media e varianza
+    /** Metodo per la stampa delle statistiche, ovvero media e varianza e max e min
 	 *  del tasso di cambio di una coppia di valute, di cui una è sempre USD 
 	 *  e l'altra è definita in ingresso dall'utente.
 	 * @param String acronym della seconda valuta
+	 * @return JSONObject contenente tutte le statistiche
 	 * */
 	@SuppressWarnings("unchecked")
 	public JSONObject getStatistics(String acronym) {

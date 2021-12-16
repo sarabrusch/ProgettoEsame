@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Controller per la gestione delle richieste API relative ad informazioni sulle
- * varia valute e coppie di valute. 
+/** Classe Controller per la gestione delle richieste API relative ad informazioni sulle
+ * varie valute e coppie di valute. Definisce le rotte e la risposta che ogni richiesta
+ * restituisce. Le richieste devono essere fatte all'indirizzo localhost:8080.
  * @author Sara Bruschi
- * *******************  */
+ * @author Marco Di Vita
+ */
 
 @RestController
 public class CurrencyLayerController {
