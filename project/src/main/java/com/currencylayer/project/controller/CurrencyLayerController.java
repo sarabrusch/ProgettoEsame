@@ -5,6 +5,7 @@ import java.util.*;
 import com.currencylayer.project.exceptions.CurrencyNotFoundException;
 import com.currencylayer.project.exceptions.InvalidFormatDateException;
 import com.currencylayer.project.filters.Filters;
+import com.currencylayer.project.model.OurDate;
 import com.currencylayer.project.service.*;
 import com.currencylayer.project.statistics.Statistics;
 
@@ -36,6 +37,8 @@ public class CurrencyLayerController {
 	BetServiceImpl betService;
 	@Autowired
 	Filters filters;
+	@Autowired
+	OurDate d;
 
 	@RequestMapping(value = "/live")
 	public ResponseEntity<Object> getLiveQuotation() throws ParseException {
@@ -48,7 +51,7 @@ public class CurrencyLayerController {
 	} 
 
 	@RequestMapping(value = "/historical/{date}")
-	public ResponseEntity<Object> getHistory(Map<String,Object> model,@PathVariable String date) throws ParseException {
+	public ResponseEntity<Object> getHistory(Map<String,Object> model,@PathVariable String date) throws ParseException, InvalidFormatDateException {
 		model.put("date", date);
 		return new ResponseEntity<>(currencyLayerService.getHistoricalQuotation(date),HttpStatus.OK);
 	}
@@ -78,5 +81,6 @@ public class CurrencyLayerController {
 	@GetMapping(value="/historicalFilter")
 	public ResponseEntity<Object> historicalFilter(@RequestParam(name="date") String date, @RequestParam(name="acronym1") String acronym1,@RequestParam(name="acronym2",required=false) String acronym2) throws ParseException, CurrencyNotFoundException, InvalidFormatDateException {
 		return new ResponseEntity<>(filters.historicalFilter(date,acronym1,acronym2),HttpStatus.OK);
-	} 
-}
+	}  
+	}
+

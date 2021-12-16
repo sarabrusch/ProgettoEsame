@@ -11,8 +11,10 @@ import java.util.*;
 import org.springframework.stereotype.Service;
 
 import com.currencylayer.project.exceptions.CurrencyNotFoundException;
+import com.currencylayer.project.exceptions.InvalidFormatDateException;
 import com.currencylayer.project.model.Currency;
 import com.currencylayer.project.model.CurrencyCouple;
+import com.currencylayer.project.model.OurDate;
 import com.currencylayer.project.model.Source;
 import com.currencylayer.project.utilis.FileAnalysis;
 
@@ -34,6 +36,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	private Source source = new Source();
 	private String src = source.getAcronym();
 	private FileAnalysis file = new FileAnalysis();
+	private OurDate date = new OurDate();
 	private Currency currency;
 	private CurrencyCouple currencyCouple;
 
@@ -88,13 +91,18 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	 * @param date di cui si vuole conoscere l'exchange rate in formato YYYY-MM-DD
 	 * @return historicalExchangeRate JSONObject  */
     @Override
-	public JSONObject getHistoricalQuotation(String date) {
+	public JSONObject getHistoricalQuotation(String date) throws InvalidFormatDateException {
 		JSONObject historicalExchangeRate = new JSONObject();
 		try {
 			//TODO
 			//FileWriter file ;
 			//file = new FileWriter("2021-12-01");
 			//BufferedWriter writer = new BufferedWriter(file);
+			this.date = new OurDate(date);
+			date = this.date.toString();
+			if(!this.date.isRight()) {
+				throw new InvalidFormatDateException ("Invalid format date");
+			}
 			URLConnection openConnection = new URL(url+"historical"+"?access_key="+key+"&date="+date).openConnection();
 			InputStream input = openConnection.getInputStream();
 			String readData = "";
