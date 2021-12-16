@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.currencylayer.project.exceptions.CurrencyNotFoundException;
 import com.currencylayer.project.model.Currency;
+import com.currencylayer.project.model.Date;
 import com.currencylayer.project.model.Source;
 import com.currencylayer.project.service.CurrencyLayerServiceImpl;
 import com.currencylayer.project.utilis.FileAnalysis;
@@ -23,7 +24,8 @@ public class Statistics implements StatisticsService {
 
 	private FileAnalysis file = new FileAnalysis();
 	private Source source = new Source();
-	private final String src = source.getAcronym();
+	private String src = source.getAcronym();
+	private Date date = new Date();
 	private Double average;
 	private Double variance;
 	private Double sumVariance = new Double(0);
@@ -40,10 +42,13 @@ public class Statistics implements StatisticsService {
 		JSONObject obj = new JSONObject();
 		Double sum = new Double(0);
 		Double value = new Double(0);
+		String day = date.getDay(1);
 		int cont = 0;
 		String couple = src+acronym;
 		for(int i=1; i<=12;i++) {
-			value = (Double) file.readFile(getMonth(i),"quotes").get(couple);
+			String month = date.getMonth(i);
+			date = new Date(2021,Integer.parseInt(month),Integer.parseInt(day));
+			value = (Double) file.readFile(date.toString(),"quotes").get(couple);
 			rates.add(value);
 			sum += value;
 			cont++;
@@ -119,15 +124,5 @@ public class Statistics implements StatisticsService {
 	/** Metodo per definire i mesi dell'anno che rappresentano i file di
 	 * riferimento per il calcolo delle statistiche.
 	 * */
-	public String getMonth(int index) {
-		String date ="";
-		if(index<10) {
-			date = "2021-0"+index+"-01";
-		}
-		else {
-			date = "2021-"+index+"-01";
-		}
-		return date;
-	}
 }
 
