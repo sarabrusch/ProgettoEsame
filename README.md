@@ -1,6 +1,6 @@
 # Currency Layer App
 
-***Programma per scommettere sul tasso di cambio di coppie di valute.
+***Programma per scommettere sul tasso di cambio di coppie di valute.***
 
 ## Indice
 * [Introduzione](#introduzione)
