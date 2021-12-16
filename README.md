@@ -8,7 +8,11 @@
 
 ## Indice
 * [Introduzione](#introduzione)
-* [Rotte](#rotte)
+* [Rotte](#rotte)	
+	* [Rotte](#rotte)
+	* [Parametri](#parametri)
+	* [Formato restituito](#formato-restituito)
+	* [Esempi di stampa](#esempi-di-stampa)
 * [Struttura programma](#struttura-programma)
 * [Come usarlo](#come-usarlo)
 * [Avvertenze](#avvertenze)
@@ -165,15 +169,6 @@ La rotta ```/statistics/{acronym}``` chiede in ingresso l'acronimo della valuta 
 Per rendere più comprensibile ed organizzato il programma e tutto ciò che lo riguarda abbiamo deciso di organizzare le nostre classi in più package, così che ogni package di riferimento vada ad identificare la funzione di ogni classe presente al suo interno.
 Di seguito la lista dei package:
 
-* *com.currencylayer.project*
-* *com.currencylayer.project.controller*
-* *com.currencylayer.project.exceptions*
-* *com.currencylayer.project.filters*
-* *com.currencylayer.project.model*
-* *com.currencylayer.project.service*
-* *com.currencylayer.project.statistics*
-* *com.currencylayer.project.utilis*
-
 ### **com.currencylayer.project**
 Il primo package da cui parte tutta la nostra implementazione contiene soltando la classe ```ProjectApplication``` che è la classe responsabile dell'avvio di tutta l'applicazione Spring Boot.
 
@@ -181,21 +176,7 @@ Il primo package da cui parte tutta la nostra implementazione contiene soltando 
 In questo package, come è intuibile dal nome, è presente soltanto la classe ```CurrencyLayerController```.
 Tale classe è indispensabile alla creazione del programma poiché contiene tutte le rotte che l'utente può richiedere all'indirizzo localhost:8080 e, dunque, contiene i metodi che stabiliscono il tipo di risposta che dovrà essere restituita a seguito di una chiamata.
 In particolare ogni metodo del controller richiama metodi di altre classi responsabili di definire e di elaborare i dati a nostra disposizione.
-Alcuni esempi: 
 
-``` java
-@RequestMapping(value = "/statistics/{acronym}")
-	public ResponseEntity<Object> getStatistics(Map<String,Object> model,@PathVariable String acronym) throws ParseException, CurrencyNotFoundException {
-		model.put("acronym", acronym);
-		return new ResponseEntity<>(statistics.getStatistics(acronym),HttpStatus.OK);
-	} 
-  
-  @GetMapping(value="/historicalFilter")
-	public ResponseEntity<Object> historicalFilter(@RequestParam(name="date") String date, @RequestParam(name="acronym1") String acronym1,@RequestParam(name="acronym2",required=false) String acronym2) throws ParseException, CurrencyNotFoundException, InvalidFormatDateException {
-		return new ResponseEntity<>(filters.historicalFilter(date,acronym1,acronym2),HttpStatus.OK);
-	}  
-
-```
 
 ### **com.currencylayer.project.exceptions**
 Contiene le eccezioni personalizzate che abbiamo deciso di introdurre per il nostro programma.
@@ -210,26 +191,6 @@ Contiene l'interfaccia ```FiltersService``` necessaria a modellare i metodi che 
 La classe ```Filters``` contiene i metodi:
 * ```currencyFilter(String acronym)``` che implementa un filtraggio delle valute presenti nel sistema avendo in ingresso l'acronimo della valuta di cui si stanno cercando le informazioni. Tale metodo è quello che utilizziamo per la rotta ```/currencyFilter/{acronym}```.
 * ```historicalFilter(String date, String acronym1, String acronym2)``` implementa un filtraggio "storico", ovvero prende in ingresso una data (nel formato YYYY-MM-DD) e massimo due acronimi per stampare in uscita le informazioni storiche relative alle valute richieste nel giorno richiesto. Questo metodo viene utilizzato per la rotta ```/historicalFilter``` che usa ha come parametri la data e uno (o due) acronimi, come è possibile vedere alla tabella [parametri](#parametri).
-Riporto il primo come esempio:
-
-``` java
-public JSONObject currencyFilter(String acronym) throws CurrencyNotFoundException {
-		JSONObject obj = new JSONObject();
-		JSONObject filter = new JSONObject();
-		JSONObject list = file.readFile("List.txt", "currencies");
-		nameSource = source.getName();
-		nameQuote = (String) list.get(acronym);
-		if(nameQuote == null ) {
-			throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
-		}
-		value = currencyService.getCouple(acronym);
-		filter.put("filter",obj);
-		obj.put(src, nameSource);
-		obj.put(acronym, nameQuote);
-		obj.put(src+acronym, value);
-		return filter;
-	}
-```
 
 ### **com.currencylayer.project.model**
 Questo package contiene le classi che vanno a modellare il problema richiesto, in particolare troviamo le classi: ```Bet```,```Currency```,```CurrencyCouple```,```OurDate```,```Source```, all'interno delle quali sono presenti sia il classico costruttore necessario per definire oggetti delle relative classi, sia getters e setters delle variabili che le descrivono, ma anche un overriding del metodo ```toString()```.
@@ -259,26 +220,6 @@ Questo package contiene le classi necessarie al calcolo delle statistiche, in pa
 * ```getMax()``` restituisce il picco più alto raggiunto dal tasso di cambio della coppia in esame nel periodo di riferimento.
 * ```getMin()``` restituisce il picco più basso raggiunto dal tasso di cambio della coppia in esame nel periodo di riferimento.
 * ```getStatistics(String acronym)``` restituisce il JSONObject contenente i dati restituiti dai metodi elencati sopra.
-
-```java
-public JSONObject getStatistics(String acronym) throws CurrencyNotFoundException {
-		JSONObject obj = new JSONObject();
-		JSONObject objj = new JSONObject();
-		JSONObject curr = new JSONObject();
-		curr = file.readFile("List.txt","currencies");
-		if(curr.get(acronym) == null) {
-			throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
-		}
-		objj.put("Statistics",obj);
-		obj.put("Couple", src+acronym);
-		obj.put("Average",getAverage(acronym));
-		obj.put("Variance",getVariance());
-		obj.put("Max",getMax());
-		obj.put("Min",getMin());
-		obj.put("Period", "2021");
-		return obj;
-	}
-```
 
 ### **com.currencylayer.project.utilis**
 All'interno di quest'ultimo package abbiamo raccolto metodi utili alla risoluzione delle problematiche che ci si sono presentate; in particolare è presente una classe ```FileAnalysis``` contenente il metodo ```readFile(String fileName, String word)``` che ci permette di leggere il file con nome=fileName e restituisce il JSONObject letto e relativo alla key "currencies" o "quotes" a seconda del tipo di file che si va a leggere.
