@@ -69,6 +69,8 @@ public class Filters implements FiltersService {
 	 */
 	@Override
 	public JSONObject historicalFilter(String date, String acronym1, String acronym2) throws CurrencyNotFoundException, InvalidFormatDateException {
+		boolean control = true;
+		Double quote2 = new Double(0);
 		JSONObject obj = new JSONObject();
 		JSONObject filter = new JSONObject();
 		d = new OurDate(date);
@@ -79,20 +81,20 @@ public class Filters implements FiltersService {
 		JSONObject list = currencyService.getHistoricalQuotation(date);
 		list = (JSONObject) list.get("quotes");
 	    Double quote1 = (Double) list.get(src+acronym1);
-	    Double quote2 = (Double) list.get(src+acronym2);
 	    if(quote1 == null ) {
-			throw new CurrencyNotFoundException("This currency: "+acronym1+" doesn't exist");
-		}
-	    if(quote2 == null) {
-	    	throw new CurrencyNotFoundException("This currency: "+acronym2+" doesn't exist");
+	    	throw new CurrencyNotFoundException("This currency: "+acronym1+" doesn't exist");
 	    }
-		filter.put("historical",obj);
-		obj.put("date", date);
-		obj.put(src+acronym1, quote1);
-		if(acronym2 != null) {
-			obj.put(src+acronym2, quote2);
-		}
-		return filter;
+	    if(acronym2 != null) { 
+	    	quote2 = (Double) list.get(src+acronym2); 
+	    	if(quote2 == null) {
+	    		throw new CurrencyNotFoundException("This currency: "+acronym2+" doesn't exist");
+	    	}
+	    	obj.put(src+acronym2, quote2);
+	    }
+	    filter.put("historical",obj);
+	    obj.put("date", date);
+	    obj.put(src+acronym1, quote1);
+	    return filter;
 	}
 
 }
