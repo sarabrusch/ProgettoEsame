@@ -45,16 +45,29 @@ Passiamo ora alle rotte che sono state aggiunte dopo un'analisi adeguata dei dat
 * Con la rotta ```/currencyFilter/{acronym}``` avviene un filtraggio per valuta attraverso il suo acronimo.
 * Con la rotta ```/historicalFilter``` avviene un filtraggio per valuta attraverso la scelta dell'acronimo e della data di cui si vogliono avere le informazioni.
 
-| **Tipo** | **Rotta** | **Parametri** | **Tipo parametri** | **Richiesti** | **Indirizzo**             | **Desctizione** |
-|----------|-----------|---------------|--------------------|---------------|---------------------------|-----------------|
-|```GET``` |```/live```| ```null```    |                    |               |http://localhost:8080/live | Restituisce la lista degli attuali tassi di cambio |
-|```GET``` |```/list```| ```null```    |                    |               |http://localhost:8080/live | Restituisce la lista di tutte le valute presenti nel servizio |
-|```GET``` |```/historical/{date}```|```date```|*String*|*Sì*|http://localhost:8080/historical/YYYY-MM-DD| Restituisce i tassi di cambio relativi alla data specificata|
-|```GET``` |```/statistics/{acronym}```|```acronym```|*String*|*Sì*|http://localhost:8080/statistics/acronym| Restituisce le statistiche relative alla valuta specificata|
-|```GET``` |```/bet```|```acronym1,acronym2,acronym3```|*String, String, String*|*Sì,No,No*|http://localhost:8080/bet?acronym1=GBP&acronym2=EUR&acronym3=MXN|Permette di piazzare una scommessa sulle valute specificate|
-|```GET``` |```/betResult```|```null```| | | http://localhost:8080/betResult | Restituisce il risultato delle scommesse precedentemente piazzate|
-|```GET``` |```/currencyFilter/{acronym}```|```acronym```|*String*|*Sì*|http://localhost:8080/currencyFilter/acronym| Filtra la valuta chiesta in ingresso stampando le informazioni ad essa relative|
-|```GET``` |```/historicalFilter```|```date,acronym```|*String,String*|*Sì,Sì*| inserire | Restituisce le informazioni relative alla valuta in ingresso nella data specificata|
+|**N°**|**Tipo**|**Rotta**|**Indirizzo**|**Descrizione**|
+|------|--------|---------|-------------|---------------|
+|**1**|```GET``` |```/live```|http://localhost:8080/live| Restituisce la lista degli attuali tassi di cambio|
+|**2**|```GET``` |```/list```|http://localhost:8080/list| Restituisce la lista di tutte le valute presenti nel servizio |
+|**3**|```GET``` |```/historical/{date}```|http://localhost:8080/historical/YYYY-MM-DD| Restituisce i tassi di cambio relativi alla data specificata |
+|**4**|```GET``` |```/statistics/{acronym}```|http://localhost:8080/statistics/acronym| Restituisce le statistiche relative alla valuta specificata (media,varianza,max,min)|
+|**5**|```GET``` |```/bet```|http://localhost:8080/bet?acronym1=GBP&acronym2=EUR&acronym3=MXN| Permette di piazzare una scommessa sulle valute specificate fino ad un massimo di tre|
+|**6**|```GET``` |```/betResult```|http://localhost:8080/betResult |Restituisce il risultato delle scommesse precedentemente piazzate|
+|**7**|```GET``` |```/currencyFilter/{acronym}```| http://localhost:8080/currencyFilter/acronym| Filtra la valuta chiesta in ingresso stampando le informazioni ad essa relative|
+|**8**|```GET``` |```/historicalFilter```|http://localhost:8080/historicalFilter?date=2021-12-14&acronym1=GBP&acronym2=EUR| Restituisce le informazioni relative alla valuta in ingresso nella data specificata|
+
+### Parametri
+
+|**N°**|**Parametri**|**Tipo**|**Richiesti**|
+|------|-------------|--------|-------------|
+|**3**| ```date``` | *String* | *Sì* |
+|**4**| ```acronym```|*String*|*Sì*|
+|**5**|```acronym1,arcronym2,acronym3 ```|*String, String, String*|*Sì,No,No*|
+|**7**|```acronym```|*String*|*Sì*|
+|**8**|```date,acronym1,acronym2```|*String, String, String*|*Sì,Sì,No*|
+
+### Esempi di stampa
+  INSERIRE IMMAGINI
 
 ## Struttura programma
 Per rendere più comprensibile ed organizzato il programma e tutto ciò che lo riguarda abbiamo deciso di organizzare le nostre classi in più package, così che ogni package di riferimento vada ad identificare la funzione di ogni classe presente al suo interno.
