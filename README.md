@@ -181,11 +181,26 @@ Il primo package da cui parte tutta la nostra implementazione contiene soltando 
 In questo package, come è intuibile dal nome, è presente soltanto la classe ```CurrencyLayerController```.
 Tale classe è indispensabile alla creazione del programma poiché contiene tutte le rotte che l'utente può richiedere all'indirizzo localhost:8080 e, dunque, contiene i metodi che stabiliscono il tipo di risposta che dovrà essere restituita a seguito di una chiamata.
 In particolare ogni metodo del controller richiama metodi di altre classi responsabili di definire e di elaborare i dati a nostra disposizione.
+Alcuni esempi: 
+
+``` java
+@RequestMapping(value = "/statistics/{acronym}")
+	public ResponseEntity<Object> getStatistics(Map<String,Object> model,@PathVariable String acronym) throws ParseException, CurrencyNotFoundException {
+		model.put("acronym", acronym);
+		return new ResponseEntity<>(statistics.getStatistics(acronym),HttpStatus.OK);
+	} 
+  
+  @GetMapping(value="/historicalFilter")
+	public ResponseEntity<Object> historicalFilter(@RequestParam(name="date") String date, @RequestParam(name="acronym1") String acronym1,@RequestParam(name="acronym2",required=false) String acronym2) throws ParseException, CurrencyNotFoundException, InvalidFormatDateException {
+		return new ResponseEntity<>(filters.historicalFilter(date,acronym1,acronym2),HttpStatus.OK);
+	}  
+
+```
 
 ### **com.currencylayer.project.exceptions**
 Contiene le eccezioni personalizzate che abbiamo deciso di introdurre per il nostro programma.
 
-```CurrencyNotFoundException``` che viene lanciata quando non si trova una corrispondenza con una valuta inserita dall'utente e, quindi, tale valuta non esisterà o sarà stata inserita in modo scorretto.
+```CurrencyNotFoundException``` che viene lanciata quando non si trova una corrispondenza con una valuta inserita dall'utente e, quindi, tale valuta non esisterà o sarà stata inserita in modo scorretto (esempio: FUR inesistente o eur formato errato).
 
 ```InvalidFormatDateException``` che viene lanciata quando l'utente ha inserito una data scritta nel modo sbagliato o non esistente. Esempio: 12-02-2021 (formato non corretto) o 2021-13-11 (non esistente).
 
@@ -195,11 +210,31 @@ Contiene l'interfaccia ```FiltersService``` necessaria a modellare i metodi che 
 La classe ```Filters``` contiene i metodi:
 * ```currencyFilter(String acronym)``` che implementa un filtraggio delle valute presenti nel sistema avendo in ingresso l'acronimo della valuta di cui si stanno cercando le informazioni. Tale metodo è quello che utilizziamo per la rotta ```/currencyFilter/{acronym}```.
 * ```historicalFilter(String date, String acronym1, String acronym2)``` implementa un filtraggio "storico", ovvero prende in ingresso una data (nel formato YYYY-MM-DD) e massimo due acronimi per stampare in uscita le informazioni storiche relative alle valute richieste nel giorno richiesto. Questo metodo viene utilizzato per la rotta ```/historicalFilter``` che usa ha come parametri la data e uno (o due) acronimi, come è possibile vedere alla tabella [parametri](#parametri).
+Riporto il primo come esempio:
+
+``` java
+public JSONObject currencyFilter(String acronym) throws CurrencyNotFoundException {
+		JSONObject obj = new JSONObject();
+		JSONObject filter = new JSONObject();
+		JSONObject list = file.readFile("List.txt", "currencies");
+		nameSource = source.getName();
+		nameQuote = (String) list.get(acronym);
+		if(nameQuote == null ) {
+			throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
+		}
+		value = currencyService.getCouple(acronym);
+		filter.put("filter",obj);
+		obj.put(src, nameSource);
+		obj.put(acronym, nameQuote);
+		obj.put(src+acronym, value);
+		return filter;
+	}
+```
 
 ### **com.currencylayer.project.model**
-Questo package contiene le classi che vanno a modellare il problema richiesto, in particolare troviamo le classi: ```Bet```,```Currency```,```CurrencyCouple```,```Date```,```Source```, all'interno delle quali sono presenti sia il classico costruttore necessario per definire oggetti delle relative classi, sia getters e setters delle variabili che le descrivono, ma anche un overriding del metodo ```toString()```.
+Questo package contiene le classi che vanno a modellare il problema richiesto, in particolare troviamo le classi: ```Bet```,```Currency```,```CurrencyCouple```,```OurDate```,```Source```, all'interno delle quali sono presenti sia il classico costruttore necessario per definire oggetti delle relative classi, sia getters e setters delle variabili che le descrivono, ma anche un overriding del metodo ```toString()```.
 
-All'interno di queste classi abbiamo cercato di usare il più possibile i concetti di ereditarietà acquisiti durante il corso di Programmazione a oggetti fondamentali per un linguaggio come Java.
+All'interno di queste classi abbiamo cercato di usare il più possibile i concetti di ereditarietà acquisiti durante il corso di Programmazione a oggetti, fondamentali per un linguaggio di programmazione come Java.
 
 ### **com.currencylayer.project.service**
 Il package service ci è servito per raggruppare le classi che sono responsabili del "servizio", appunto, offerto dal nostro programma, ma anche le classi che contengono metodi utili alla lettura da API, che ci hanno permesso di raccogliere e memorizzare i dati necessari, così da rielaborarli secondo necessità.
@@ -211,6 +246,10 @@ Troviamo al suo interno l'interfaccia ```CurrencyLayerService``` che viene imple
 * ```getCurrency(String acronym)``` sfrutta la chiamata a /list per permetterci di ottenere una corrispondenza acronimo-nome di una valuta della quale si specifica l'acronimo in input (questo metodo viene riutilizzato per l'implementazione dei filtri).
 * ```getCouple(String acronym)``` sfrutta la chiamata a /live per permetterci di ottenere una corrispondenza coppia-tasso di cambio di una valuta della quale si specifica l'acronimo in input, ricordando che la source è sempre la moneta americana "USD" (questo metodo viene riutilizzato per l'implementazione dei filtri).
 
+All'interno dello stesso package viene poi anche implementata l'interfaccia ```BetService``` dalla classe ```BetServiceImpl``` che raccoglie i metodi necessari ad implementare il servizio di scommesse, tra essi:
+* ```doBet (String acronym1, String acronym2,String acronym3)``` che si occupa di gestire la memorizzazione della scommessa basandosi sugli acronimi inseriti dall'utente (il return di questo metodo viene stampato in risposta alla rotta ```/doBet```.
+* ```betResult()``` va a confrontare il tasso di cambio che si aveva al momento della scommessa con quello del giorno successivo per decretare se la scommessa effettuata è vincente (se il tasso di cambio aumenta) o perdente (se il tasso di cambio diminuisce).
+
 ### **com.currencylayer.project.statistics**
 Questo package contiene le classi necessarie al calcolo delle statistiche, in particolare troviamo un'interfaccia ```StatisticsService``` che definisce i metodi necessari ai nostri scopi, i quali vengono implementati dalla classe ```Statistics```.
 > Attenzione: per il calcolo delle statistiche ci siamo basati su una raccolta di dati attraverso scrittura su file delle chiamate API andando ad effettuare i calcoli soltanto per il primo di ogni mese dell'anno 2021. Qualora si volesse estendere la valutazione sarebbe semplicemente necessario applicare qualche modifica all'interno dei metodi elencati di seguito.
@@ -219,11 +258,37 @@ Questo package contiene le classi necessarie al calcolo delle statistiche, in pa
 * ```getVariance()``` calcola la varianza della stessa coppia di valute basandosi sul calcolo della loro media.
 * ```getMax()``` restituisce il picco più alto raggiunto dal tasso di cambio della coppia in esame nel periodo di riferimento.
 * ```getMin()``` restituisce il picco più basso raggiunto dal tasso di cambio della coppia in esame nel periodo di riferimento.
+* ```getStatistics(String acronym)``` restituisce il JSONObject contenente i dati restituiti dai metodi elencati sopra.
+
+```java
+public JSONObject getStatistics(String acronym) throws CurrencyNotFoundException {
+		JSONObject obj = new JSONObject();
+		JSONObject objj = new JSONObject();
+		JSONObject curr = new JSONObject();
+		curr = file.readFile("List.txt","currencies");
+		if(curr.get(acronym) == null) {
+			throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
+		}
+		objj.put("Statistics",obj);
+		obj.put("Couple", src+acronym);
+		obj.put("Average",getAverage(acronym));
+		obj.put("Variance",getVariance());
+		obj.put("Max",getMax());
+		obj.put("Min",getMin());
+		obj.put("Period", "2021");
+		return obj;
+	}
+```
 
 ### **com.currencylayer.project.utilis**
 All'interno di quest'ultimo package abbiamo raccolto metodi utili alla risoluzione delle problematiche che ci si sono presentate; in particolare è presente una classe ```FileAnalysis``` contenente il metodo ```readFile(String fileName, String word)``` che ci permette di leggere il file con nome=fileName e restituisce il JSONObject letto e relativo alla key "currencies" o "quotes" a seconda del tipo di file che si va a leggere.
 
 ## Come usarlo
+Per poter accedere al programma è necessario clonare la repository in locale utilizzando [Github Desktop](https://desktop.github.com/) oppure da terminale con il comando 
+
+```git clone https://github.com/sarabrusch/ProgettoEsame```
+
+Successivamente sarà possibile mandare in esecuzione il programma con un IDE (nel nostro caso è stato usato Eclipse) o direttamente da terminale. In questo modo si potranno testare le varie rotte andando a chiamare il client http://localhost:8080 da Postman o direttamente da web.
 
 
 ## Avvertenze
