@@ -5,7 +5,9 @@ import java.util.Vector;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
+import com.currencylayer.project.exceptions.CurrencyNotFoundException;
 import com.currencylayer.project.model.Currency;
+import com.currencylayer.project.model.Source;
 import com.currencylayer.project.service.CurrencyLayerServiceImpl;
 import com.currencylayer.project.utilis.FileAnalysis;
 
@@ -20,7 +22,8 @@ import com.currencylayer.project.utilis.FileAnalysis;
 public class Statistics implements StatisticsService {
 
 	private FileAnalysis file = new FileAnalysis();
-	private final String source = "USD";
+	private Source source = new Source();
+	private final String src = source.getAcronym();
 	private Double average;
 	private Double variance;
 	private Double sumVariance = new Double(0);
@@ -38,7 +41,7 @@ public class Statistics implements StatisticsService {
 		Double sum = new Double(0);
 		Double value = new Double(0);
 		int cont = 0;
-		String couple = source+acronym;
+		String couple = src+acronym;
 		for(int i=1; i<=12;i++) {
 			value = (Double) file.readFile(getMonth(i),"quotes").get(couple);
 			rates.add(value);
@@ -96,10 +99,16 @@ public class Statistics implements StatisticsService {
 	 *  e l'altra è definita in ingresso dall'utente.
 	 * @param String acronym della seconda valuta
 	 * @return JSONObject contenente tutte le statistiche
+     * @throws CurrencyNotFoundException 
 	 * */
 	@SuppressWarnings("unchecked")
-	public JSONObject getStatistics(String acronym) {
+	public JSONObject getStatistics(String acronym) throws CurrencyNotFoundException {
 		JSONObject obj = new JSONObject();
+		JSONObject curr = new JSONObject();
+		curr = file.readFile("List.txt","currencies");
+		if(curr.get(acronym) == null) {
+			throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
+		}
 		obj.put("Average",getAverage(acronym));
 		obj.put("Variance",getVariance());
 		obj.put("Max",getMax());

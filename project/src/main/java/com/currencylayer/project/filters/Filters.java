@@ -3,6 +3,8 @@ package com.currencylayer.project.filters;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
+import com.currencylayer.project.exceptions.CurrencyNotFoundException;
+import com.currencylayer.project.model.Source;
 import com.currencylayer.project.service.CurrencyLayerServiceImpl;
 import com.currencylayer.project.utilis.FileAnalysis;
 
@@ -15,7 +17,8 @@ import com.currencylayer.project.utilis.FileAnalysis;
 @Service
 public class Filters implements FiltersService {
 	
-	private final String source = "USD";
+	private Source source = new Source();
+	private final String src = source.getAcronym();
 	private CurrencyLayerServiceImpl currencyService = new CurrencyLayerServiceImpl();
 	private FileAnalysis file = new FileAnalysis();
 	private String nameSource = "";
@@ -29,20 +32,24 @@ public class Filters implements FiltersService {
 	 * filtrare.
 	 * @return filter JSONObject contenente tutte le informazioni relative all'acronym
 	 * in ingresso.
+	 * @throws CurrencyNotFoundException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public JSONObject currencyFilter(String acronym) {
+	public JSONObject currencyFilter(String acronym) throws CurrencyNotFoundException {
 		JSONObject obj = new JSONObject();
 		JSONObject filter = new JSONObject();
 		JSONObject list = file.readFile("List.txt", "currencies");
-		nameSource = (String) list.get(source);
+		nameSource = source.getName();
 		nameQuote = (String) list.get(acronym);
+		if(nameQuote == null ) {
+			throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
+		}
 		value = currencyService.getCouple(acronym);
 		filter.put("filter",obj);
-		obj.put(source, nameSource);
+		obj.put(src, nameSource);
 		obj.put(acronym, nameQuote);
-		obj.put(source+acronym, value);
+		obj.put(src+acronym, value);
 		return filter;
 	}
 	
@@ -54,20 +61,27 @@ public class Filters implements FiltersService {
 	 * @param acronym1 prima currency che si vuole filtrare per periodo
 	 * @param acronym2 seconda currency che si vuole filtrare per periodo
 	 * @return filter informazioni relative alle richieste effettuate.
+	 * @throws CurrencyNotFoundException 
 	 */
 	@Override
-	public JSONObject historicalFilter(String date, String acronym1, String acronym2) {
+	public JSONObject historicalFilter(String date, String acronym1, String acronym2) throws CurrencyNotFoundException {
 		JSONObject obj = new JSONObject();
 		JSONObject filter = new JSONObject();
 		JSONObject list = currencyService.getHistoricalQuotation(date);
 		list = (JSONObject) list.get("quotes");
-	    Double quote1 = (Double) list.get(source+acronym1);
-	    Double quote2 = (Double) list.get(source+acronym2);
+	    Double quote1 = (Double) list.get(src+acronym1);
+	    Double quote2 = (Double) list.get(src+acronym2);
+	    if(quote1 == null ) {
+			throw new CurrencyNotFoundException("This currency: "+acronym1+" doesn't exist");
+		}
+	    if(quote2 == null) {
+	    	throw new CurrencyNotFoundException("This currency: "+acronym2+" doesn't exist");
+	    }
 		filter.put("historical",obj);
 		obj.put("date", date);
-		obj.put(source+acronym1, quote1);
+		obj.put(src+acronym1, quote1);
 		if(acronym2 != null) {
-			obj.put(source+acronym2, quote2);
+			obj.put(src+acronym2, quote2);
 		}
 		return filter;
 	}

@@ -53,7 +53,7 @@ public class CurrencyLayerController {
 	}
 
 	@RequestMapping(value = "/statistics/{acronym}")
-	public ResponseEntity<Object> getStatistics(Map<String,Object> model,@PathVariable String acronym) throws ParseException {
+	public ResponseEntity<Object> getStatistics(Map<String,Object> model,@PathVariable String acronym) throws ParseException, CurrencyNotFoundException {
 		model.put("acronym", acronym);
 		return new ResponseEntity<>(statistics.getStatistics(acronym),HttpStatus.OK);
 	} 
@@ -69,13 +69,13 @@ public class CurrencyLayerController {
 	} 
 	
 	@RequestMapping(value = "/currencyFilter/{acronym}")
-	public ResponseEntity<Object> currencyFilter(Map<String,Object> model,@PathVariable String acronym) throws ParseException {
+	public ResponseEntity<Object> currencyFilter(Map<String,Object> model,@PathVariable String acronym) throws ParseException, CurrencyNotFoundException {
 		model.put("acronym", acronym);
 		return new ResponseEntity<>(filters.currencyFilter(acronym),HttpStatus.OK);
 	} 
 	
 	@GetMapping(value="/historicalFilter")
-	public ResponseEntity<Object> historicalFilter(@RequestParam(name="date") String date, @RequestParam(name="acronym1") String acronym1,@RequestParam(name="acronym2",required=false) String acronym2) throws ParseException {
+	public ResponseEntity<Object> historicalFilter(@RequestParam(name="date") String date, @RequestParam(name="acronym1") String acronym1,@RequestParam(name="acronym2",required=false) String acronym2) throws ParseException, CurrencyNotFoundException {
 		return new ResponseEntity<>(filters.historicalFilter(date,acronym1,acronym2),HttpStatus.OK);
 	} 
 }

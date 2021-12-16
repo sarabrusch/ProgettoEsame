@@ -10,8 +10,10 @@ import java.util.*;
 
 import org.springframework.stereotype.Service;
 
+import com.currencylayer.project.exceptions.CurrencyNotFoundException;
 import com.currencylayer.project.model.Currency;
 import com.currencylayer.project.model.CurrencyCouple;
+import com.currencylayer.project.model.Source;
 import com.currencylayer.project.utilis.FileAnalysis;
 
 import org.json.simple.*;
@@ -29,7 +31,8 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 
 	private String url = "http://api.currencylayer.com/";
 	private String key = "74a39b5b1ae2f4bac3f38eaa28bec030";
-	private String source = "USD";
+	private Source source = new Source();
+	private String src = source.getAcronym();
 	private FileAnalysis file = new FileAnalysis();
 	private Currency currency;
 	private CurrencyCouple currencyCouple;
@@ -130,17 +133,18 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
      * nome completo
      * @return String name, nome completo della valuta
      * */
-	@SuppressWarnings("unchecked")
-	public String getCurrency(String acronym) {
+	public String getCurrency(String acronym) throws CurrencyNotFoundException {
 		String name = "";
 		try {
 		JSONObject json = getData("list");
 	    JSONObject currenciesList = (JSONObject) json.get("currencies");
 	    name = (String) currenciesList.get(acronym);
+		if(name == null) {
+	    	throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
+	    }
 		}
 		catch(Exception e) {
 			System.out.println("Errore...");
-			System.out.println(e);
 		}
 		currency = new Currency(name,acronym);
 		return name;
@@ -152,19 +156,20 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
      * tasso di cambio rispetto alla source.
      * @return Double value, tasso di cambio della coppia.
      * */
-	@SuppressWarnings("unchecked")
-	public Double getCouple(String acronym) {
+	public Double getCouple(String acronym) throws CurrencyNotFoundException {
 		Double value = null;
-		String couple = source+acronym;
+		String couple = src+acronym;
 		try {
 			JSONObject json = getData("live");
 			JSONObject currenciesQuotes = (JSONObject) json.get("quotes");
 			value = (Double) currenciesQuotes.get(couple);
+			if(value == null) {
+				throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
+			}
 		}
 		catch(Exception e) {
 			System.out.println("Errore...");
 		}
-		//TODO compilare e collegare con model
 		currencyCouple = new CurrencyCouple();
 		return value;
 	}

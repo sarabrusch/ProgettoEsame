@@ -5,6 +5,8 @@ import java.util.HashMap;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
+import com.currencylayer.project.exceptions.CurrencyNotFoundException;
+
 /** Interfaccia pubblica che chiede di implementare i metodi necessari
  * a leggere l'API assegnata alle rotte necessarie.
  * @author Marco Di Vita 
@@ -15,6 +17,6 @@ public interface CurrencyLayerService {
 	
 	public JSONObject getData(String word) throws IOException;
 	public JSONObject getHistoricalQuotation(String data);
-	public String getCurrency(String acronym);
-	public Double getCouple(String acronym);
+	public String getCurrency(String acronym) throws CurrencyNotFoundException;
+	public Double getCouple(String acronym) throws CurrencyNotFoundException;
 }
