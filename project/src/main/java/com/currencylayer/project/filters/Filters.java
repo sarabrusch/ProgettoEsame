@@ -4,6 +4,8 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.currencylayer.project.exceptions.CurrencyNotFoundException;
+import com.currencylayer.project.exceptions.InvalidFormatDateException;
+import com.currencylayer.project.model.Date;
 import com.currencylayer.project.model.Source;
 import com.currencylayer.project.service.CurrencyLayerServiceImpl;
 import com.currencylayer.project.utilis.FileAnalysis;
@@ -18,6 +20,7 @@ import com.currencylayer.project.utilis.FileAnalysis;
 public class Filters implements FiltersService {
 	
 	private Source source = new Source();
+	private Date d = new Date();
 	private final String src = source.getAcronym();
 	private CurrencyLayerServiceImpl currencyService = new CurrencyLayerServiceImpl();
 	private FileAnalysis file = new FileAnalysis();
@@ -62,12 +65,16 @@ public class Filters implements FiltersService {
 	 * @param acronym2 seconda currency che si vuole filtrare per periodo
 	 * @return filter informazioni relative alle richieste effettuate.
 	 * @throws CurrencyNotFoundException 
+	 * @throws InvalidFormatDateException 
 	 */
 	@Override
-	public JSONObject historicalFilter(String date, String acronym1, String acronym2) throws CurrencyNotFoundException {
+	public JSONObject historicalFilter(String date, String acronym1, String acronym2) throws CurrencyNotFoundException, InvalidFormatDateException {
 		JSONObject obj = new JSONObject();
 		JSONObject filter = new JSONObject();
 		JSONObject list = currencyService.getHistoricalQuotation(date);
+		if(date != d.toString()) {
+			throw new InvalidFormatDateException("Invalid format date");
+		}
 		list = (JSONObject) list.get("quotes");
 	    Double quote1 = (Double) list.get(src+acronym1);
 	    Double quote2 = (Double) list.get(src+acronym2);

@@ -40,8 +40,9 @@ public class BetServiceImpl implements BetService {
 	 * scommettere (ricordando che source = "USD" sempre).
 	 * @return basedBet è una stringa che dichiara le caratteristiche della/e
 	 * scommessa/e appena piazzata/e
+	 * @throws WrongRouteException 
 	 */
-	public String doBet (String acronym1, String acronym2,String acronym3) throws CurrencyNotFoundException{
+	public String doBet (String acronym1, String acronym2,String acronym3) throws CurrencyNotFoundException {
 		String basedBet;
 		bet1 = src+acronym1;
 		JSONObject json = (JSONObject) currencyService.getData("live").get("quotes");

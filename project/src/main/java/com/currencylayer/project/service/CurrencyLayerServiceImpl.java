@@ -44,7 +44,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	 * @return data JSONObject che rappresenta il live o la list.
 	 * */
 	@Override
-	public JSONObject getData(String word) {
+	public JSONObject getData(String word)  {
 		JSONObject data = new JSONObject();
 		try {
 			//FileWriter file ;
