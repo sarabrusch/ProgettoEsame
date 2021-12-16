@@ -71,10 +71,29 @@ Passiamo ora alle rotte che sono state aggiunte dopo un'analisi adeguata dei dat
 
 #### *Statistics*
 
+``` json
+{
+    "Min": 0.818495,
+    "Max": 0.883455,
+    "Couple": "USDEUR",
+    "Average": 0.8432186666666664,
+    "Period": "2021",
+    "Variance": 3.315002208888887E-4
+}
+```
 
 #### *Bet*
 
-``` json
+```java
+Bet based on: USDEUR with current ExchangeRate: 0.883645
+Bet based on: USDGBP with current ExchangeRate: 0.753438
+Bet based on: USDMXN with current ExchangeRate: 20.885204
+See results at http://localhost:8080/betResult
+```
+
+#### *Bet Result*
+
+```json
 {
     "first bet": {
         "result": "You lost",
@@ -97,15 +116,29 @@ Passiamo ora alle rotte che sono state aggiunte dopo un'analisi adeguata dei dat
 }
 ```
 
-#### *Bet Result*
-
-
 #### *Filter for currency*
 
+``` json
+{
+    "filter": {
+        "USDEUR": 0.884498,
+        "EUR": "Euro",
+        "USD": "United States Dollar"
+    }
+}
+```
 
 #### *Filter for date*
 
-
+``` json
+{
+    "historical": {
+        "date": "2008-12-14",
+        "USDEUR": 0.748763,
+        "USDGBP": 0.668464
+    }
+}
+```
 
 ### Esempi di stampa
 Vediamo alcuni esempi di stampa per alcune rotte.
@@ -119,9 +152,13 @@ La rotta ```/betResult``` restituisce un JSONObject contenente il resoconto dell
 
 ![image](https://user-images.githubusercontent.com/91832750/146399009-ab03aba6-21da-480e-9cfd-96635ce1cf8f.png)
 
-La rotta ```currencyFilter``` che in ingresso chiede l'acronimo della valuta che si vuole filtrare restituisce un JSONObject contenente le informazioni relative tale valuta richiesta, tra cui il suo nome, il nome della source e il tasso di cambio della coppia.
+La rotta ```/currencyFilter``` che in ingresso chiede l'acronimo della valuta che si vuole filtrare restituisce un JSONObject contenente le informazioni relative tale valuta richiesta, tra cui il suo nome, il nome della source e il tasso di cambio della coppia.
 
 ![image](https://user-images.githubusercontent.com/91832750/146399295-0c274d4b-bbe8-42e3-aab5-831b19803573.png)
+
+La rotta ```/statistics/{acronym}``` chiede in ingresso l'acronimo della valuta della quale si vogliono conoscere le statistiche: media, varianza, massimo e minimo nel periodo di riferimento.
+
+![image](https://user-images.githubusercontent.com/91832750/146436537-38608985-8f23-488e-9116-976b5d66dd30.png)
 
 
 ## Struttura programma
