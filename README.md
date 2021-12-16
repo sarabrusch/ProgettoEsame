@@ -67,6 +67,46 @@ Passiamo ora alle rotte che sono state aggiunte dopo un'analisi adeguata dei dat
 |**7**|```acronym```|*String*|*Sì*|
 |**8**|```date,acronym1,acronym2```|*String, String, String*|*Sì,Sì,No*|
 
+### Formato restituito 
+
+#### *Statistics*
+
+
+#### *Bet*
+
+``` json
+{
+    "first bet": {
+        "result": "You lost",
+        "bet on": "USDEUR",
+        "yesterday rate": 0.883645,
+        "today rate": 0.883645
+    },
+    "third bet": {
+        "result": "You lost",
+        "yesterday rate": 20.885204,
+        "based on": "USDMXN",
+        "today rate": 20.885204
+    },
+    "second bet": {
+        "result": "You lost",
+        "yesterday rate": 0.753438,
+        "based on": "USDGBP",
+        "today rate": 0.753438
+    }
+}
+```
+
+#### *Bet Result*
+
+
+#### *Filter for currency*
+
+
+#### *Filter for date*
+
+
+
 ### Esempi di stampa
 Vediamo alcuni esempi di stampa per alcune rotte.
 
