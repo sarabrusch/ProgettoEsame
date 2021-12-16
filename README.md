@@ -59,7 +59,7 @@ Passiamo ora alle rotte che sono state aggiunte dopo un'analisi adeguata dei dat
 ## Struttura programma
 Per rendere più comprensibile ed organizzato il programma e tutto ciò che lo riguarda abbiamo deciso di organizzare le nostre classi in più package, così che ogni package di riferimento vada ad identificare la funzione di ogni classe presente al suo interno.
 Di seguito la lista dei package:
-* [com.currencylayer.project](#com.currencylayer.project)
+* [com.currencylayer.project](#com-currencylayer-project)
 * [com.currencylayer.project.controller](#com.currencylayer.project.controller)
 * [com.currencylayer.project.exceptions](#com.currencylayer.project.exceptions)
 * [com.currencylayer.project.filters](#com.currencylayer.project.filters)
