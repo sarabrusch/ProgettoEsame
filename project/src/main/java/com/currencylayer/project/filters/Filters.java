@@ -10,8 +10,8 @@ import com.currencylayer.project.model.Source;
 import com.currencylayer.project.service.CurrencyLayerServiceImpl;
 import com.currencylayer.project.utilis.FileAnalysis;
 
-/** 
- * Classe implementazione di FiltersService contentente i filtri per periodo e per valuta.
+/** Classe implementazione di FiltersService contentente i filtri 
+ * per periodo e per valuta.
  * @author Sara Bruschi
  * @author Marco Di Vita
  */
@@ -28,9 +28,8 @@ public class Filters implements FiltersService {
 	private String nameQuote = "";
 	private Double value = null;
 	
-	/**
-	 * Metodo che filtra la lista contentente i nomi delle currency restituendo tutte
-	 * le informazioni relative alla currency richiesta in ingresso.
+	/** Metodo che filtra la lista contentente i nomi delle currency restituendo 
+	 * tutte le informazioni relative alla currency richiesta in ingresso.
 	 * @param acronym Stringa contenente l'acronimo della currency che si vuole
 	 * filtrare.
 	 * @return filter JSONObject contenente tutte le informazioni relative all'acronym
@@ -56,8 +55,7 @@ public class Filters implements FiltersService {
 		return filter;
 	}
 	
-	/**
-	 * Metodo che filtra la lista contentente le historicalQuotes restituendo 
+	/** Metodo che filtra la lista contentente le historicalQuotes restituendo 
 	 * l'exchange rate relativo alla coppia source+acronym che si aveva alla data
 	 * richiesta in ingresso.
 	 * @param date data di cui si richiede di conoscere l'exchange rate

@@ -46,7 +46,6 @@ public class FileAnalysis {
 			System.out.println("Errore");
 			e.printStackTrace();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return (JSONObject) fileRead.get(word);

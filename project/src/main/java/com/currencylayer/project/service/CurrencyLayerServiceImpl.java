@@ -35,7 +35,6 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	private String key = "74a39b5b1ae2f4bac3f38eaa28bec030";
 	private Source source = new Source();
 	private String src = source.getAcronym();
-	private FileAnalysis file = new FileAnalysis();
 	private OurDate date = new OurDate();
 	private Currency currency;
 	private CurrencyCouple currencyCouple;
@@ -47,7 +46,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	 * @return data JSONObject che rappresenta il live o la list.
 	 * */
 	@Override
-	public JSONObject getData(String word)  {
+	public JSONObject getData(String word) {
 		JSONObject data = new JSONObject();
 		try {
 			//FileWriter file ;
@@ -89,12 +88,13 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	 * relativa a coppie di valute, di cui la source è sempre "USD", di una
 	 * precisa data che deve essere specificata.
 	 * @param date di cui si vuole conoscere l'exchange rate in formato YYYY-MM-DD
-	 * @return historicalExchangeRate JSONObject  */
+	 * @return historicalExchangeRate JSONObject  
+	 * @throws InvalidFormatDateException 
+	 * */
     @Override
 	public JSONObject getHistoricalQuotation(String date) throws InvalidFormatDateException {
 		JSONObject historicalExchangeRate = new JSONObject();
 		try {
-			//TODO
 			//FileWriter file ;
 			//file = new FileWriter("2021-12-01");
 			//BufferedWriter writer = new BufferedWriter(file);
@@ -140,6 +140,7 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
      * @param acronym acronimo della valuta della quale si vuole ottenere il
      * nome completo
      * @return String name, nome completo della valuta
+     * @throws CurrencyNotFoundException
      * */
 	public String getCurrency(String acronym) throws CurrencyNotFoundException {
 		String name = "";
@@ -162,7 +163,8 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	 * inserendone l'acronimo in ingresso.
      * @param acronym acronimo della valuta della quale si vuole ottenere il
      * tasso di cambio rispetto alla source.
-     * @return Double value, tasso di cambio della coppia.
+     * @return Double value, tasso di cambio della coppia
+     * @throws CurrencyNotFoundException
      * */
 	public Double getCouple(String acronym) throws CurrencyNotFoundException {
 		Double value = null;

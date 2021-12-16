@@ -5,8 +5,7 @@ import org.json.simple.JSONObject;
 import com.currencylayer.project.exceptions.CurrencyNotFoundException;
 import com.currencylayer.project.exceptions.InvalidFormatDateException;
 
-/**
- * Interfaccia relativa ai filtri
+/** Interfaccia relativa ai filtri
  * @author Marco Di Vita
  * @author Sara Bruschi
  */

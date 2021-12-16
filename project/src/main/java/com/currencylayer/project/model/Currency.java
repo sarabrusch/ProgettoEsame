@@ -1,7 +1,6 @@
 package com.currencylayer.project.model;
 
-/**
- *  Classe che modella la valuta descrivendone le sue caratteristiche
+/** Classe che modella la valuta descrivendone le sue caratteristiche
  *  principali, quali il nome e l'acronimo che la condraddistinguono.
  *  @author Sara Bruschi 
  *  @author Marco Di Vita
@@ -13,13 +12,14 @@ public class Currency {
 	private String acronym;
 
 	/** Costruttore di default
-	 */
+	  * */
 	public Currency() {
 
 	}
 
 	/** Costruttore di Currency 
-	 * @param name, acronym caratteristiche della Currency
+	 * @param name
+	 * @param acronym
 	 * */
 	public Currency(String name, String acronym) {
 		this.name = name;
@@ -54,8 +54,7 @@ public class Currency {
 		this.acronym = acronym;
 	}
 
-	/**
-	 * Metodo override di toString
+	/** Metodo override di toString
 	 * @return "Currency: "+name+" Acronym: "+acronym
 	 */
 	@Override

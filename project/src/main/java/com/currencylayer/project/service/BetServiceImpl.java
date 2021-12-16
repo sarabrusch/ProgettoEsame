@@ -24,7 +24,6 @@ public class BetServiceImpl implements BetService {
 	private String src = source.getAcronym();
 	private FileAnalysis file = new FileAnalysis();
 	private CurrencyLayerServiceImpl currencyService = new CurrencyLayerServiceImpl();
-	//private static final String source = "USD";
 	private String bet1, bet2, bet3;
 	private Double value1Today, value2Today, value3Today;
 	private String dateToday = "2021-12-11";

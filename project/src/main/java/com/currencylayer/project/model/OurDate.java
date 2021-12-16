@@ -4,6 +4,12 @@ import org.springframework.stereotype.Service;
 
 import com.currencylayer.project.exceptions.InvalidFormatDateException;
 
+/** Classe che modella il tipo di data necessario ai nostri scopi con
+ * relativi metodi che ci permettono di verificare che le date siano inserite
+ * nel giusto formato richiesto (YYYY-MM-DD).
+ * @author Marco Di Vita
+ * @author Sara Bruschi
+ * */
 @Service
 public class OurDate {
 
@@ -14,10 +20,14 @@ public class OurDate {
 	private int j;
 	private int i;
 	
-	
+	/** Costruttore di default
+	 * */
 	public OurDate() {
 	}
 	
+	/** Costruttore di OurDate 
+	 * @param date stringa che viene inserita dall'utente in input 
+	 * */
 	public OurDate (String date) {
 		this.date = date;
 		i = 0;
@@ -28,6 +38,7 @@ public class OurDate {
 		this.date = anno+"-"+mese+"-"+giorno; 
 	}
 	
+	//TODO commento
 	public String getSub() {
 		boolean controllo = true;
 		char carattere;
@@ -44,6 +55,10 @@ public class OurDate {
 		return subString;
 	}
 	
+	/** Metodo per controllare che la data inserita sia effettivamente
+	 * una data scritta nel modo corretto e che sia esistente
+	 * @return control che è true se la data è corretta e false altrimenti
+	 * */
 	public boolean isRight() {
 		boolean control = true;
 		int MM = Integer.parseInt(mese);
@@ -60,6 +75,7 @@ public class OurDate {
 		return control;
 	}
 	
+	//TODO commentare
 	public String getMonth(String month) {
 		try {
 			int MM = Integer.parseInt(month);
@@ -75,6 +91,7 @@ public class OurDate {
 		return month;
 	}
 	
+	//TODO commentare
 	public String getDay(String day) {
 		try {
 			int DD = Integer.parseInt(day);
@@ -90,6 +107,9 @@ public class OurDate {
 		return day;
 	}	
 	
+	/** Metodo override di toString 
+	 * @return date scritta nel giusto formato
+	 * */
 	@Override
 	public String toString() {
 		return date;

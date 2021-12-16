@@ -125,9 +125,5 @@ public class Statistics implements StatisticsService {
 		obj.put("Period", "2021");
 		return obj;
 	}
-	
-	/** Metodo per definire i mesi dell'anno che rappresentano i file di
-	 * riferimento per il calcolo delle statistiche.
-	 * */
 }
 

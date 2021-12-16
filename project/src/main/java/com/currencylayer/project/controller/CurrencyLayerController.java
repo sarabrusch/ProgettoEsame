@@ -5,7 +5,6 @@ import java.util.*;
 import com.currencylayer.project.exceptions.CurrencyNotFoundException;
 import com.currencylayer.project.exceptions.InvalidFormatDateException;
 import com.currencylayer.project.filters.Filters;
-import com.currencylayer.project.model.OurDate;
 import com.currencylayer.project.service.*;
 import com.currencylayer.project.statistics.Statistics;
 
@@ -37,8 +36,6 @@ public class CurrencyLayerController {
 	BetServiceImpl betService;
 	@Autowired
 	Filters filters;
-	@Autowired
-	OurDate d;
 
 	@RequestMapping(value = "/live")
 	public ResponseEntity<Object> getLiveQuotation() throws ParseException {
