@@ -10,7 +10,7 @@
 * [Introduzione](#introduzione)
 * [Rotte](#rotte)
 * [Struttura programma](#struttura-programma)
-* [Guida per l'uso](#guida-per-l'uso)
+* [Come usarlo](#come-usarlo)
 * [Avvertenze](#avvertenze)
 * [Autori](#autori)
 
@@ -87,14 +87,15 @@ La rotta ```currencyFilter``` che in ingresso chiede l'acronimo della valuta che
 ## Struttura programma
 Per rendere più comprensibile ed organizzato il programma e tutto ciò che lo riguarda abbiamo deciso di organizzare le nostre classi in più package, così che ogni package di riferimento vada ad identificare la funzione di ogni classe presente al suo interno.
 Di seguito la lista dei package:
-* [com.currencylayer.project](#com-currencylayer-project)
-* [com.currencylayer.project.controller](#com.currencylayer.project.controller)
-* [com.currencylayer.project.exceptions](#com.currencylayer.project.exceptions)
-* [com.currencylayer.project.filters](#com.currencylayer.project.filters)
-* [com.currencylayer.project.model](#com.currencylayer.project.model)
-* [com.currencylayer.project.service](#com.currencylayer.project.service)
-* [com.currencylayer.project.statistics](#com.currencylayer.project.statistics)
-* [com.currencylayer.project.utilis](#com.currencylayer.project.utilis)
+
+* *com.currencylayer.project*
+* *com.currencylayer.project.controller*
+* *com.currencylayer.project.exceptions*
+* *com.currencylayer.project.filters*
+* *com.currencylayer.project.model*
+* *com.currencylayer.project.service*
+* *com.currencylayer.project.statistics*
+* *com.currencylayer.project.utilis*
 
 ### **com.currencylayer.project**
 Il primo package da cui parte tutta la nostra implementazione contiene soltando la classe ```ProjectApplication``` che è la classe responsabile dell'avvio di tutta l'applicazione Spring Boot.
@@ -145,7 +146,7 @@ Questo package contiene le classi necessarie al calcolo delle statistiche, in pa
 ### **com.currencylayer.project.utilis**
 All'interno di quest'ultimo package abbiamo raccolto metodi utili alla risoluzione delle problematiche che ci si sono presentate; in particolare è presente una classe ```FileAnalysis``` contenente il metodo ```readFile(String fileName, String word)``` che ci permette di leggere il file con nome=fileName e restituisce il JSONObject letto e relativo alla key "currencies" o "quotes" a seconda del tipo di file che si va a leggere.
 
-## Guida per l'uso
+## Come usarlo
 
 
 ## Avvertenze
