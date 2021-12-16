@@ -110,15 +110,19 @@ public class Statistics implements StatisticsService {
 	@SuppressWarnings("unchecked")
 	public JSONObject getStatistics(String acronym) throws CurrencyNotFoundException {
 		JSONObject obj = new JSONObject();
+		JSONObject objj = new JSONObject();
 		JSONObject curr = new JSONObject();
 		curr = file.readFile("List.txt","currencies");
 		if(curr.get(acronym) == null) {
 			throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
 		}
+		objj.put("Statistics",obj);
+		obj.put("Couple", src+acronym);
 		obj.put("Average",getAverage(acronym));
 		obj.put("Variance",getVariance());
 		obj.put("Max",getMax());
 		obj.put("Min",getMin());
+		obj.put("Period", "2021");
 		return obj;
 	}
 	
