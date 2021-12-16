@@ -1,6 +1,10 @@
+<div align="center">
+  
 # Currency Layer App
 
 ***Programma per scommettere sul tasso di cambio di coppie di valute.***
+  
+</div>
 
 ## Indice
 * [Introduzione](#introduzione)
@@ -53,6 +57,42 @@ Passiamo ora alle rotte che sono state aggiunte dopo un'analisi adeguata dei dat
 |```GET``` |```/historicalFilter```|```date,acronym```|*String,String*|*Sì,Sì*| inserire | Restituisce le informazioni relative alla valuta in ingresso nella data specificata|
 
 ## Struttura programma
+Per rendere più comprensibile ed organizzato il programma e tutto ciò che lo riguarda abbiamo deciso di organizzare le nostre classi in più package, così che ogni package di riferimento vada ad identificare la funzione di ogni classe presente al suo interno.
+Di seguito la lista dei package:
+* [com.currencylayer.project](#com.currencylayer.project)
+* [com.currencylayer.project.controller](#com.currencylayer.project.controller)
+* [com.currencylayer.project.exceptions](#com.currencylayer.project.exceptions)
+* [com.currencylayer.project.filters](#com.currencylayer.project.filters)
+* [com.currencylayer.project.model](#com.currencylayer.project.model)
+* [com.currencylayer.project.service](#com.currencylayer.project.service)
+* [com.currencylayer.project.statistics](#com.currencylayer.project.statistics)
+* [com.currencylayer.project.utilis](#com.currencylayer.project.utilis)
+
+### **com.currencylayer.project**
+Il primo package da cui parte tutta la nostra implementazione contiene soltando la classe ```ProjectApplication``` che è la classe responsabile dell'avvio di tutta l'applicazione Spring Boot.
+
+### **com.currencylayer.project.controller**
+In questo package, come è intuibile dal nome, è presente soltanto la classe ```CurrencyLayerController```.
+Tale classe è indispensabile alla creazione del programma poiché contiene tutte le rotte che l'utente può richiedere all'indirizzo localhost:8080 e, dunque, contiene i metodi che stabiliscono il tipo di risposta che dovrà essere restituita a seguito di una chiamata.
+In particolare ogni metodo del controller richiama metodi di altre classi responsabili di definire e di elaborare i dati a nostra disposizione.
+
+### **com.currencylayer.project.exceptions**
+Contiene le eccezioni personalizzate che abbiamo deciso di introdurre per il nostro programma.
+
+```CurrencyNotFoundException``` che viene lanciata quando non si trova una corrispondenza con una valuta inserita dall'utente e, quindi, tale valuta non esisterà o sarà stata inserita in modo scorretto.
+
+```InvalidFormatDateException``` che viene lanciata quando l'utente ha inserito una data scritta nel modo sbagliato o non esistente. Esempio: 12-02-2021 (formato non corretto) o 2021-13-11 (non esistente).
+
+### **com.currencylayer.project.filters**
+
+### **com.currencylayer.project.model**
+
+### **com.currencylayer.project.service**
+
+### **com.currencylayer.project.statistics**
+
+### **com.currencylayer.project.utilis**
+
 
 ## Avvertenze
 Ci è necessario sottolineare il fatto che questo programma è stato realzzato per un progetto universitario e dunque non sarà più soggetto ad aggiornamenti o miglioramenti da parte dei proprietari.
