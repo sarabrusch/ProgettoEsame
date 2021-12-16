@@ -67,7 +67,21 @@ Passiamo ora alle rotte che sono state aggiunte dopo un'analisi adeguata dei dat
 |**8**|```date,acronym1,acronym2```|*String, String, String*|*Sì,Sì,No*|
 
 ### Esempi di stampa
-  INSERIRE IMMAGINI
+Vediamo alcuni esempi di stampa per alcune rotte.
+
+La rotta  ```/bet``` restituisce una Stringa dove si dichiara che le scommesse effettuate sono andate a buon fine e, in particolare, mostra all'utente l'attuale valore del tasso di cambio delle coppie su cui si è deciso di scommettere.
+In aggiunta si può notare come in questa risposta viene già indicata la rotta da seguire per ottenere il risultato delle proprie scommesse.
+
+![image](https://user-images.githubusercontent.com/91832750/146398901-d525964f-d107-4a69-8888-5e2862cbbc6e.png)
+
+La rotta ```/betResult``` restituisce un JSONObject contenente il resoconto delle proprie scommesse e dichiarando se ognuna è stata vincente o perdente. In aggiunta viene stampato anche il tasso di cambio del giorno attuale, da poter confrontare con quello ottenuto il giorno in cui si è effettuata la scommessa.
+
+![image](https://user-images.githubusercontent.com/91832750/146399009-ab03aba6-21da-480e-9cfd-96635ce1cf8f.png)
+
+La rotta ```currencyFilter``` che in ingresso chiede l'acronimo della valuta che si vuole filtrare restituisce un JSONObject contenente le informazioni relative tale valuta richiesta, tra cui il suo nome, il nome della source e il tasso di cambio della coppia.
+
+![image](https://user-images.githubusercontent.com/91832750/146399295-0c274d4b-bbe8-42e3-aab5-831b19803573.png)
+
 
 ## Struttura programma
 Per rendere più comprensibile ed organizzato il programma e tutto ciò che lo riguarda abbiamo deciso di organizzare le nostre classi in più package, così che ogni package di riferimento vada ad identificare la funzione di ogni classe presente al suo interno.
@@ -97,14 +111,38 @@ Contiene le eccezioni personalizzate che abbiamo deciso di introdurre per il nos
 ```InvalidFormatDateException``` che viene lanciata quando l'utente ha inserito una data scritta nel modo sbagliato o non esistente. Esempio: 12-02-2021 (formato non corretto) o 2021-13-11 (non esistente).
 
 ### **com.currencylayer.project.filters**
+Contiene l'interfaccia ```FiltersService``` necessaria a modellare i metodi che ci permettono poi di sviluppare i nostri filtri all'interno della classe ```Filters``` che implementa proprio l'interfaccia poco prima citata.
+
+La classe ```Filters``` contiene i metodi:
+* ```currencyFilter(String acronym)``` che implementa un filtraggio delle valute presenti nel sistema avendo in ingresso l'acronimo della valuta di cui si stanno cercando le informazioni. Tale metodo è quello che utilizziamo per la rotta ```/currencyFilter/{acronym}```.
+* ```historicalFilter(String date, String acronym1, String acronym2)``` implementa un filtraggio "storico", ovvero prende in ingresso una data (nel formato YYYY-MM-DD) e massimo due acronimi per stampare in uscita le informazioni storiche relative alle valute richieste nel giorno richiesto. Questo metodo viene utilizzato per la rotta ```/historicalFilter``` che usa ha come parametri la data e uno (o due) acronimi, come è possibile vedere alla tabella [parametri](#parametri).
 
 ### **com.currencylayer.project.model**
+Questo package contiene le classi che vanno a modellare il problema richiesto, in particolare troviamo le classi: ```Bet```,```Currency```,```CurrencyCouple```,```Date```,```Source```, all'interno delle quali sono presenti sia il classico costruttore necessario per definire oggetti delle relative classi, sia getters e setters delle variabili che le descrivono, ma anche un overriding del metodo ```toString()```.
+
+All'interno di queste classi abbiamo cercato di usare il più possibile i concetti di ereditarietà acquisiti durante il corso di Programmazione a oggetti fondamentali per un linguaggio come Java.
 
 ### **com.currencylayer.project.service**
+Il package service ci è servito per raggruppare le classi che sono responsabili del "servizio", appunto, offerto dal nostro programma, ma anche le classi che contengono metodi utili alla lettura da API, che ci hanno permesso di raccogliere e memorizzare i dati necessari, così da rielaborarli secondo necessità.
+
+Troviamo al suo interno l'interfaccia ```CurrencyLayerService``` che viene implementata dalla classe ```CurrencyLayerServiceImpl``` all'interno della quale troviamo i metodi:
+
+* ```getData(String word)``` che ci permette di andare a memorizzare il JSON restituito dalla chiamata all'API con rotta ```/word``` che nel nostro caso dovrà essere ```/live o /list```. Questo metodo viene infatti richiamato dal controllore per costruire le rotte omonime presenti nel nostro programma.
+* ```getHistoricalQuotation(String date)``` come il precedente ci permette di memorizzare il JSON restituito dall'API ma anche di costruire la nostra omonima rotta che richiede in input una data della quale si vogliono conoscere il tassi di cambio.
+* ```getCurrency(String acronym)``` sfrutta la chiamata a /list per permetterci di ottenere una corrispondenza acronimo-nome di una valuta della quale si specifica l'acronimo in input (questo metodo viene riutilizzato per l'implementazione dei filtri).
+* ```getCouple(String acronym)``` sfrutta la chiamata a /live per permetterci di ottenere una corrispondenza coppia-tasso di cambio di una valuta della quale si specifica l'acronimo in input, ricordando che la source è sempre la moneta americana "USD" (questo metodo viene riutilizzato per l'implementazione dei filtri).
 
 ### **com.currencylayer.project.statistics**
+Questo package contiene le classi necessarie al calcolo delle statistiche, in particolare troviamo un'interfaccia ```StatisticsService``` che definisce i metodi necessari ai nostri scopi, i quali vengono implementati dalla classe ```Statistics```.
+> Attenzione: per il calcolo delle statistiche ci siamo basati su una raccolta di dati attraverso scrittura su file delle chiamate API andando ad effettuare i calcoli soltanto per il primo di ogni mese dell'anno 2021. Qualora si volesse estendere la valutazione sarebbe semplicemente necessario applicare qualche modifica all'interno dei metodi elencati di seguito.
+
+* ```getAverage(String acronym)``` va a calcolare la media della coppia source+acronym (con acronym dichiarato in input) nel periodo preso come riferimento.
+* ```getVariance()``` calcola la varianza della stessa coppia di valute basandosi sul calcolo della loro media.
+* ```getMax()``` restituisce il picco più alto raggiunto dal tasso di cambio della coppia in esame nel periodo di riferimento.
+* ```getMin()``` restituisce il picco più basso raggiunto dal tasso di cambio della coppia in esame nel periodo di riferimento.
 
 ### **com.currencylayer.project.utilis**
+All'interno di quest'ultimo package abbiamo raccolto metodi utili alla risoluzione delle problematiche che ci si sono presentate; in particolare è presente una classe ```FileAnalysis``` contenente il metodo ```readFile(String fileName, String word)``` che ci permette di leggere il file con nome=fileName e restituisce il JSONObject letto e relativo alla key "currencies" o "quotes" a seconda del tipo di file che si va a leggere.
 
 
 ## Avvertenze
