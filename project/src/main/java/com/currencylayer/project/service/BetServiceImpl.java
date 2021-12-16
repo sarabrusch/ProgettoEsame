@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.currencylayer.project.exceptions.CurrencyNotFoundException;
 import com.currencylayer.project.model.Bet;
 import com.currencylayer.project.model.CurrencyCouple;
+import com.currencylayer.project.model.Source;
 import com.currencylayer.project.utilis.FileAnalysis;
 
 /**
@@ -19,9 +20,11 @@ import com.currencylayer.project.utilis.FileAnalysis;
 public class BetServiceImpl implements BetService {
 	
 	private Bet bet;
+	private Source source = new Source();
+	private String src = source.getAcronym();
 	private FileAnalysis file = new FileAnalysis();
 	private CurrencyLayerServiceImpl currencyService = new CurrencyLayerServiceImpl();
-	private static final String source = "USD";
+	//private static final String source = "USD";
 	private String bet1, bet2, bet3;
 	private Double value1Today, value2Today, value3Today;
 	private String dateToday = "2021-12-11";
@@ -40,12 +43,12 @@ public class BetServiceImpl implements BetService {
 	 */
 	public String doBet (String acronym1, String acronym2,String acronym3) throws CurrencyNotFoundException{
 		String basedBet;
-		bet1 = source+acronym1;
+		bet1 = src+acronym1;
 		JSONObject json = (JSONObject) currencyService.getData("live").get("quotes");
 		if(json.get(bet1) == null ) {
 			throw new CurrencyNotFoundException("This currency: "+acronym1+" doesn't exist");
 		}
-		bet2 = source+acronym2;
+		bet2 = src+acronym2;
 		if(acronym2 != null) {
 		if(json.get(bet2) == null ) {
 			throw new CurrencyNotFoundException("This currency: "+acronym2+" doesn't exist");
@@ -54,7 +57,7 @@ public class BetServiceImpl implements BetService {
 			control2 = true;
 		}
 		}
-		bet3 = source+acronym3;
+		bet3 = src+acronym3;
 		if(acronym3 != null) {
 		if(json.get(bet3) == null ) {
 			throw new CurrencyNotFoundException("This currency: "+acronym3+" doesn't exist");
@@ -75,7 +78,7 @@ public class BetServiceImpl implements BetService {
 		if(control3) {
 		basedBet += "\nBet based on: "+bet3+" with current ExchangeRate: "+value3Today;
 		}
-		return basedBet;
+		return basedBet+"\nSee results at http://localhost:8080/betResult";
 	}
 	
 	/** 
