@@ -31,7 +31,7 @@ public class BetServiceImpl implements BetService {
 	private String dateToday = "2021-12-11";
 	private String dateTomorrow = "2021-12-12";
 	private JSONObject obj;
-	private boolean control2,control3;
+	private boolean control2,control3 = false;
 
 
 	/**
@@ -47,48 +47,41 @@ public class BetServiceImpl implements BetService {
 		value1Today = new Double(0);
 		value2Today = new Double(0);
 		value3Today = new Double(0);
-		control2 = false;
-		control3 = false;
 		this.acronym1 = acronym1;
 		this.acronym2 = acronym2;
 		this.acronym3 = acronym3;
-		JSONObject json = file.readFile("Live.txt","quotes");
 		obj = file.readFile(dateToday,"quotes");
 		currencyCouple1 = new CurrencyCouple(src,acronym1);
-		if(json.get(src+acronym1) == null ) {
+		if(obj.get(currencyCouple1.getCouple()) == null ) {
 			throw new CurrencyNotFoundException("This currency: "+acronym1+" doesn't exist");
 		}
-		value1Today = (Double) obj.get(currencyCouple1.toString());
+		value1Today = (Double) obj.get(currencyCouple1.getCouple());
 		currencyCoupleExchange1 = new CurrencyCoupleExchange(src,acronym1,value1Today);
-		basedBet = "Bet based on: "+currencyCouple1.toString()+" with current ExchangeRate: "+value1Today;
-		currencyCouple2 = new CurrencyCouple(src,acronym2);
+		basedBet = "Bet based on: "+currencyCouple1.getCouple()+" with current ExchangeRate: "+value1Today;
 		if(acronym2 != null) {
-		if(json.get(src+acronym2) == null ) {
+			currencyCouple2 = new CurrencyCouple(src,acronym2);
+		if(obj.get(currencyCouple2.getCouple()) == null ) {
 			throw new CurrencyNotFoundException("This currency: "+acronym2+" doesn't exist");
 		}
 		else {
+			value2Today = (Double) obj.get(currencyCouple2.getCouple());
+			currencyCoupleExchange2 = new CurrencyCoupleExchange(src,acronym2,value2Today);
+			basedBet += "\nBet based on: "+currencyCouple2.getCouple()+" with current ExchangeRate: "+value2Today;
 			control2 = true;
 		}
 		}
-		value2Today = (Double) obj.get(currencyCouple2.toString());
-		currencyCoupleExchange2 = new CurrencyCoupleExchange(src,acronym2,value2Today);
-		if(control2) {
-			basedBet += "\nBet based on: "+currencyCouple2.toString()+" with current ExchangeRate: "+value2Today;
-			}
-		currencyCouple3 = new CurrencyCouple(src,acronym3);
 		if(acronym3 != null) {
-		if(json.get(src+acronym3) == null ) {
+			currencyCouple3 = new CurrencyCouple(src,acronym3);
+		if(obj.get(currencyCouple3.getCouple()) == null ) {
 			throw new CurrencyNotFoundException("This currency: "+acronym3+" doesn't exist");
 		}
 		else {
+			value3Today = (Double) obj.get(currencyCouple3.getCouple());
+			currencyCoupleExchange3 = new CurrencyCoupleExchange(src,acronym3,value3Today);
+			basedBet += "\nBet based on: "+currencyCouple3.getCouple()+" with current ExchangeRate: "+value3Today;
 			control3 = true;
 		}
 	    }
-		value3Today = (Double) obj.get(currencyCouple3.toString());
-		currencyCoupleExchange3 = new CurrencyCoupleExchange(src,acronym3,value3Today);
-		if(control3) {
-			basedBet += "\nBet based on: "+currencyCouple3.toString()+" with current ExchangeRate: "+value3Today;
-			}
 		return basedBet+"\nSee results at http://localhost:8080/betResult";
 	}
 	
@@ -100,59 +93,52 @@ public class BetServiceImpl implements BetService {
 	 */
 	public JSONObject betResult() {
 		Double value1Tom = new Double(0); 
-		currencyCoupleExchange1 = new CurrencyCoupleExchange(src,acronym1,value1Tom);
 		Double value2Tom = new Double(0);
-		currencyCoupleExchange2 = new CurrencyCoupleExchange(src,acronym2,value2Tom);
 		Double value3Tom = new Double(0);
-		currencyCoupleExchange3 = new CurrencyCoupleExchange(src,acronym3,value3Tom);
 		JSONObject betJSon = new JSONObject();
 		JSONObject json =new JSONObject();
 		JSONObject jjson = new JSONObject();
 		JSONObject jjjson = new JSONObject();
 		String result1 = "You lost";
-		String result2 = "You lost";
-		String result3 = "You lost";
-		boolean resultBoolean = false;
+		String result2 = result1;
+		String result3 = result1;
 		obj = file.readFile(dateTomorrow,"quotes");
-		value1Tom= (Double) obj.get(currencyCouple1.toString());
+		value1Tom= (Double) obj.get(currencyCouple1.getCouple());
+		currencyCoupleExchange1 = new CurrencyCoupleExchange(src,acronym1,value1Tom);
+		bet1 = new Bet(src,currencyCouple1.getAcronym(),false);
 		if(value1Tom>value1Today) {
 			result1 = "You won";
-			resultBoolean = true;
+			bet1.setIsWinning(true);
 		}
-		bet1 = new Bet(src,currencyCouple1.getAcronym(),resultBoolean);
-		resultBoolean = false;
-		if(control2) {
-			value2Tom = (Double) obj.get(currencyCouple2.toString());
-			if(value2Tom>value2Today) {
-				result2 = "You won";
-				resultBoolean = true;
-			}
-		}
-		bet2 = new Bet(src,currencyCouple2.getAcronym(),resultBoolean);
-		resultBoolean = false;
-		if(control3) {
-			value3Tom = (Double) obj.get(currencyCouple3.toString());	
-			if(value3Tom>value3Today) {
-				result3 = "You won";
-				resultBoolean = true;
-			}
-		}
-		bet3 = new Bet(src,currencyCouple3.getAcronym(),resultBoolean);
 		betJSon.put("first bet",json);
-		json.put("bet on", currencyCouple1.toString());
+		json.put("bet on", currencyCouple1.getCouple());
 		json.put("yesterday rate", value1Today);
 		json.put("today rate", value1Tom);
 		json.put("result", result1);
 		if(control2) {
+			value2Tom = (Double) obj.get(currencyCouple2.getCouple());
+			currencyCoupleExchange2 = new CurrencyCoupleExchange(src,acronym2,value2Tom);
+			bet2 = new Bet(src,currencyCouple2.getAcronym(),false);
+			if(value2Tom>value2Today) {
+				result2 = "You won";
+				bet2.setIsWinning(true);
+			}
 			betJSon.put("second bet", jjson);
-			jjson.put("based on", currencyCouple2.toString());
+			jjson.put("based on", currencyCouple2.getCouple());
 			jjson.put("yesterday rate", value2Today);
 			jjson.put("today rate", value2Tom);
 			jjson.put("result", result2);
 		}
 		if(control3) {
+			value3Tom = (Double) obj.get(currencyCouple3.getCouple());	
+			currencyCoupleExchange3 = new CurrencyCoupleExchange(src,acronym3,value3Tom);
+			bet3 = new Bet(src,currencyCouple3.getAcronym(),false);
+			if(value3Tom>value3Today) {
+				result3 = "You won";
+				bet3.setIsWinning(true);
+			}
 			betJSon.put("third bet", jjjson);
-			jjjson.put("based on",currencyCouple3.toString());
+			jjjson.put("based on",currencyCouple3.getCouple());
 			jjjson.put("yesterday rate", value3Today);
 			jjjson.put("today rate", value3Tom);
 			jjjson.put("result", result3);

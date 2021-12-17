@@ -1,22 +1,17 @@
 package com.currencylayer.project.model;
 
-import org.springframework.stereotype.Service;
-
-import com.currencylayer.project.exceptions.InvalidFormatDateException;
-
 /** Classe che modella il tipo di data necessario ai nostri scopi con
  * relativi metodi che ci permettono di verificare che le date siano inserite
  * nel giusto formato richiesto (YYYY-MM-DD).
  * @author Marco Di Vita
  * @author Sara Bruschi
  * */
-@Service
 public class OurDate {
 
 	private String date;
-	private String anno;
-	private String mese;
-	private String giorno;
+	private String year;
+	private String month;
+	private String day;
 	private int j;
 	private int i;
 	
@@ -32,22 +27,26 @@ public class OurDate {
 		this.date = date;
 		i = 0;
 		j = 0;
-		anno = getSub();
-		mese = getMonth(getSub());
-		giorno = getDay(date.substring(j,date.length()));
-		this.date = anno+"-"+mese+"-"+giorno; 
+		year = getSub();
+		month = getMonth(getSub());
+		day = getDay(date.substring(j,date.length()));
+		this.date = year+"-"+month+"-"+day; 
 	}
 	
-	//TODO commento
+	/** Metodo che permette di suddividere la data in anno e mese sotto forma
+	 * di subString utilizzando degli indici che successivamente serviranno
+	 * per ottenere la subString day
+	 * @return subString contenente mese o anno
+	 * */
 	public String getSub() {
-		boolean controllo = true;
-		char carattere;
+		boolean control = true;
+		char character;
 		String subString = "";
-		while(j<date.length() && controllo) {
-			carattere = date.charAt(j);
-		if(carattere == '-') {
+		while(j<date.length() && control) {
+			character = date.charAt(j);
+		if(character == '-') {
 			subString = date.substring(i,j);
-			controllo = false;
+			control = false;
 			i = j+1;
 		}
 		j++;
@@ -61,21 +60,24 @@ public class OurDate {
 	 * */
 	public boolean isRight() {
 		boolean control = true;
-		int MM = Integer.parseInt(mese);
-		int DD = Integer.parseInt(giorno);
+		int MM = Integer.parseInt(month);
+		int DD = Integer.parseInt(day);
 		if(MM>12 || MM<=0 || DD>31 || DD<=0) {
 			control = false;
 		}
-		if(anno.contains("-") || mese.contains("-") || giorno.contains("-")) {
+		if(year.contains("-") || month.contains("-") || day.contains("-")) {
 			control = false;
 			}
-		if(anno.length()>4 || mese.length()>3 || giorno.length()>3) {
+		if(year.length()>4 || month.length()>3 || day.length()>3) {
 			control = false;
 		}
 		return control;
 	}
 	
-	//TODO commentare
+	/** Metodo che restituisce il mese nel formato di scrittura corretto
+	 * @param month da controllare
+	 * @return month nel formato corretto
+	 * */
 	public String getMonth(String month) {
 		try {
 			int MM = Integer.parseInt(month);
@@ -91,7 +93,10 @@ public class OurDate {
 		return month;
 	}
 	
-	//TODO commentare
+	/** Metodo che restituisce il giorno nel formato di scrittura corretto
+	 * @param day da controllare
+	 * @return day nel formato corretto
+	 * */
 	public String getDay(String day) {
 		try {
 			int DD = Integer.parseInt(day);

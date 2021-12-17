@@ -1,7 +1,6 @@
 package com.currencylayer.project.model;
 
-/** Classe che modella la coppia di valute descrivendone le caratteristiche
- *  principali, quali la coppia di acronimi e il tasso di cambio relativo.
+/** Classe che modella la coppia di valute.
  *  @author Sara Bruschi 
  *  @author Marco Di Vita
  */
@@ -21,7 +20,6 @@ public class CurrencyCouple {
 	/** Costruttore CurrencyCouple
 	 * @param source sempre "USD"
 	 * @param acronym da prendere in input per formare la coppia
-	 * @param exchangeRate tasso di cambio della coppia
 	 */
 	public CurrencyCouple(String source, String acronym) {
 		this.source = source;
@@ -57,21 +55,26 @@ public class CurrencyCouple {
 		this.acronym = acronym;
 	}
 	
-	/** Metodo override di toString
-	 * @return "Base currency: "+source+".\nQuote currency: "+acronym
-	 */
-	
+	/** Getter di
+	 * @return couple source+acronimo
+	 * */
 	public String getCouple() {
 		return couple;
 	}
 	
+	/** Setter di
+	 * @param couple source+acronimo
+	 * */
 	public void setCouple(String couple) {
 		this.couple = couple;
 	}
 	
+	/** Metodo override di toString
+	 * @return "Base currency: "+source+".\nQuote currency: "+acronym
+	 */
 	@Override
 	public String toString() {
-		return source+acronym;
+		return "Base currency: "+source+".\nQuote currency: "+acronym;
 	}
 
 }

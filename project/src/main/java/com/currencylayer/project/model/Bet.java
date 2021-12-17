@@ -1,15 +1,15 @@
 package com.currencylayer.project.model;
 
 /** Classe che modella la scommessa estendendo la classe CurrencyCouple e 
- * descrivendone le caratteristiche principali, quali la coppia di valute coinvolta,
- *  il loro tasso di cambio e il risultato.
+ * descrivendone le caratteristiche principali, 
+ * quali la coppia di valute coinvolta e il risultato.
  *  @author Sara Bruschi 
  *  @author Marco Di Vita
  */
 
 public class Bet extends CurrencyCouple {
 
-	private boolean isWinning;
+	private boolean isWinning ;
 	
 	/** Costruttore Bet di default
 	 */
@@ -20,7 +20,6 @@ public class Bet extends CurrencyCouple {
 	/** Costruttore Bet
 	 * @param source che è sempre "USD"
 	 * @param acronym da inserire in input
-	 * @param exchangeRate tasso di cambio della coppia
 	 * @param isWinning che definisce se la scommessa è vincente o meno
 	 */
     public Bet(String source, String acronym,boolean isWinning) {
