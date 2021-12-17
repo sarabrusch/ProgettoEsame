@@ -18,9 +18,10 @@ public class FileAnalysis {
 	
 	/** Metodo necessario per leggere un file e restituirne il contenuto in 
 	 * formato JSON.
-	 * @param fileName è il nome del file che si vuole leggere
-	 * @param word ci è necessario ad estrarre un particolare JSONObject
-	 * @return JSONObject letto da file.
+	 * @param fileName e' il nome del file che si vuole leggere
+	 * @param word ci e' necessario ad estrarre un particolare JSONObject (che sara'
+	 * "currencies" o "quotes"
+	 * @return JSONObject letto da file
 	 * */
 	public JSONObject readFile(String fileName, String word) {
 		JSONObject fileRead = new JSONObject();

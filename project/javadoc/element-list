@@ -1,0 +1,8 @@
+com.currencylayer.project
+com.currencylayer.project.controller
+com.currencylayer.project.exceptions
+com.currencylayer.project.filters
+com.currencylayer.project.model
+com.currencylayer.project.service
+com.currencylayer.project.statistics
+com.currencylayer.project.utilis

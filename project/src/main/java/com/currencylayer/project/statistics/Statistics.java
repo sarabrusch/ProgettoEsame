@@ -15,8 +15,8 @@ import com.currencylayer.project.utilis.FileAnalysis;
 
 /** Classe per il calcolo delle statistiche (media, varianza, massimo e minimo) relative 
  * al tasso di cambio di coppie di variabili che possono essere chieste in
- * ingresso dall'utent (filtro) o stampate tutte insieme.
- * Per il calcolo delle statistiche si è fatto riferimento al primo di ogni mese del 2021
+ * ingresso dall'utente.
+ * Per il calcolo delle statistiche si e' fatto riferimento al primo di ogni mese del 2021
  * @author Sara Bruschi
  * @author Marco Di Vita
  * */
@@ -36,7 +36,7 @@ public class Statistics implements StatisticsService {
 	Vector<Double> rates = new Vector<Double>();
 	
 	/** Metodo per il calcolo della media del tasso di cambio di una coppia
-	 * di valute, di cui una è sempre USD e l'altra è definita in ingresso
+	 * di valute, di cui una e' sempre USD e l'altra e' definita in ingresso
 	 * dall'utente.
 	 * @param String acronym della seconda valuta
 	 * @return la media della coppia di valute calcolata nel periodo 
@@ -61,7 +61,7 @@ public class Statistics implements StatisticsService {
 	}
 	
 	/** Metodo per il calcolo della varianza del tasso di cambio di una coppia
-	 * di valute, di cui una è sempre USD e l'altra è definita in ingresso
+	 * di valute, di cui una e' sempre USD e l'altra è definita in ingresso
 	 * dall'utente nel calcolo della media.
 	 * @return la varianza della coppia di valute calcolata nel periodo 
 	 * di riferimento.
@@ -75,7 +75,7 @@ public class Statistics implements StatisticsService {
 	}
 
 	/** Metodo per la restituzione del massimo valore del tasso di cambio di 
-	 * una coppia di valute, di cui una è sempre USD e l'altra è definita in ingresso
+	 * una coppia di valute, di cui una e' sempre USD e l'altra e' definita in ingresso
 	 * dall'utente nel periodo predefinito.
 	 * @return il valore massimo nel periodo da 01-01-2021 a 01-12-2021.
 	 * */
@@ -89,7 +89,7 @@ public class Statistics implements StatisticsService {
 	}
     
 	/** Metodo per la restituzione del minimo valore del tasso di cambio di 
-	 * una coppia di valute, di cui una è sempre USD e l'altra è definita in ingresso
+	 * una coppia di valute, di cui una e' sempre USD e l'altra e' definita in ingresso
 	 * dall'utente nel periodo predefinito.
 	 * @return il valore minimo nel periodo considerato.
 	 * */
@@ -103,8 +103,8 @@ public class Statistics implements StatisticsService {
 	}
 	
     /** Metodo per la stampa delle statistiche, ovvero media e varianza e max e min
-	 *  del tasso di cambio di una coppia di valute, di cui una è sempre USD 
-	 *  e l'altra è definita in ingresso dall'utente.
+	 *  del tasso di cambio di una coppia di valute, di cui una e' sempre USD 
+	 *  e l'altra e' definita in ingresso dall'utente.
 	 * @param String acronym della seconda valuta
 	 * @return JSONObject contenente tutte le statistiche
      * @throws CurrencyNotFoundException 

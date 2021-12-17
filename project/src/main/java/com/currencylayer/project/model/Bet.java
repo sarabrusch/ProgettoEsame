@@ -18,9 +18,9 @@ public class Bet extends CurrencyCouple {
 	}
 	
 	/** Costruttore Bet
-	 * @param source che è sempre "USD"
+	 * @param source che e' sempre "USD"
 	 * @param acronym da inserire in input
-	 * @param isWinning che definisce se la scommessa è vincente o meno
+	 * @param isWinning che definisce se la scommessa e' vincente o meno
 	 */
     public Bet(String source, String acronym,boolean isWinning) {
 		super(source, acronym);
@@ -28,7 +28,7 @@ public class Bet extends CurrencyCouple {
 	}
 	
 	/** Getter parametro che descrive la situazione della scommessa
-	 * @return isWinning è true se la scommessa è stata vinta, è false altrimenti.
+	 * @return isWinning e' true se la scommessa e' stata vinta, e' false altrimenti.
 	 */
     public boolean getIsWinning() {
 		return isWinning;

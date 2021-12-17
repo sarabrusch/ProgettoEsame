@@ -56,7 +56,7 @@ public class OurDate {
 	
 	/** Metodo per controllare che la data inserita sia effettivamente
 	 * una data scritta nel modo corretto e che sia esistente
-	 * @return control che è true se la data è corretta e false altrimenti
+	 * @return control che e' true se la data e' corretta e false altrimenti
 	 * */
 	public boolean isRight() {
 		boolean control = true;

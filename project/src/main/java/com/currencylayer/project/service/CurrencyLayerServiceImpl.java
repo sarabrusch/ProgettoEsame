@@ -40,10 +40,10 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	private CurrencyCouple currencyCouple;
 	private CurrencyCoupleExchange currencyCoupleExchange;
 
-	/**Metodo per la chiamata all'API, a seconda della word inserita è possibile
+	/** Metodo per la chiamata all'API, a seconda della word inserita e' possibile
 	 * ottenere la lista di valute presenti nel programma o il live di tutti
 	 * gli exchange rate.
-	 * @param word che deve essere "live" o "list" a seconda delle necessità
+	 * @param word che deve essere "live" o "list" a seconda delle necessita'
 	 * @return data JSONObject che rappresenta il live o la list.
 	 * */
 	@Override
@@ -85,8 +85,8 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		return (JSONObject) data;
 	}
 	
-    /**Metodo per la chiamata all'API che restituisce la lista di exchange rates
-	 * relativa a coppie di valute, di cui la source è sempre "USD", di una
+    /** Metodo per la chiamata all'API che restituisce la lista di exchange rates
+	 * relativa a coppie di valute, di cui la source e' sempre "USD", di una
 	 * precisa data che deve essere specificata.
 	 * @param date di cui si vuole conoscere l'exchange rate in formato YYYY-MM-DD
 	 * @return historicalExchangeRate JSONObject  

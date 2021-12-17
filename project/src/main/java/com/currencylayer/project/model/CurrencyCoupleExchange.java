@@ -1,7 +1,7 @@
 package com.currencylayer.project.model;
 
 /**
- * sottoclasse di CurrencyCouple che aggiunge l'exchangeRate 
+ * Sottoclasse di CurrencyCouple che aggiunge l'exchangeRate 
  * alla coppia di valute
  * @author Marco Di Vita
  * @author Sara Bruschi

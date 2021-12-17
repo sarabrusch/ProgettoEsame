@@ -39,7 +39,7 @@ public class BetServiceImpl implements BetService {
 	 * piazzata insieme ai valori di riferimento della stessa
 	 * @param acronym1,acronym2,acronym3 acronimi delle valute sulle quali si vuole
 	 * scommettere (ricordando che source = "USD" sempre).
-	 * @return basedBet è una stringa che dichiara le caratteristiche della/e
+	 * @return basedBet e' una stringa che dichiara le caratteristiche della/e
 	 * scommessa/e appena piazzata/e
 	 */
 	public String doBet (String acronym1, String acronym2,String acronym3) throws CurrencyNotFoundException {
