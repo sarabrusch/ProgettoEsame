@@ -11,7 +11,7 @@ import com.currencylayer.project.exceptions.InvalidFormatDateException;
  */
 public interface FiltersService {
 	
-	public JSONObject currencyFilter(String acronym) throws CurrencyNotFoundException;
+	public JSONObject currencyFilter(String acronym1,String acronym2) throws CurrencyNotFoundException;
 	public JSONObject historicalFilter(String date, String acronym1, String acronym2) throws CurrencyNotFoundException, InvalidFormatDateException;
 
 }

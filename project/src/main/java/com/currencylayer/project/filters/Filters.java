@@ -22,14 +22,12 @@ import com.currencylayer.project.utilis.FileAnalysis;
 public class Filters implements FiltersService {
 	
 	private Source source = new Source();
-	private OurDate d;
-	private Currency currency;
 	private String src = source.getAcronym();
-	private CurrencyCouple currencyCouple1, currencyCouple2;
+	private OurDate d;
+	private Currency currency1, currency2;
 	private CurrencyLayerServiceImpl currencyService = new CurrencyLayerServiceImpl();
 	private FileAnalysis file = new FileAnalysis();
-	private String nameQuote;
-	private Double value;
+	private Double quote1, quote2;
 	
 	/** Metodo che filtra la lista contentente i nomi delle currency restituendo 
 	 * tutte le informazioni relative alla currency richiesta in ingresso.
@@ -41,20 +39,43 @@ public class Filters implements FiltersService {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public JSONObject currencyFilter(String acronym) throws CurrencyNotFoundException {
+	public JSONObject currencyFilter(String acronym1, String acronym2) throws CurrencyNotFoundException {
 		JSONObject obj = new JSONObject();
 		JSONObject filter = new JSONObject();
+		boolean control = false;
+		String nameQuote;
+		CurrencyCouple currencyCouple2 = new CurrencyCouple();
+		quote1 = new Double(0);
+		quote2 = new Double(0);
 		JSONObject list = file.readFile("List.txt", "currencies");
-		nameQuote = (String) list.get(acronym);
-		currency = new Currency(nameQuote,acronym);
+		JSONObject live = file.readFile("Live.txt", "quotes");
+		nameQuote = (String) list.get(acronym1);
 		if(nameQuote == null ) {
-			throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
+			throw new CurrencyNotFoundException("This currency: "+acronym1+" doesn't exist");
 		}
-		value = currencyService.getCouple(acronym);
+		CurrencyCouple currencyCouple1 = new CurrencyCouple(src,acronym1);
+		currency1 = new Currency(nameQuote,acronym1);
+		quote1 = (Double) live.get(src+acronym1);
+		if(acronym2 != null) {
+			nameQuote = (String) list.get(acronym2);
+			currencyCouple2 = new CurrencyCouple(src,acronym2);
+			quote2 = (Double) live.get(src+acronym2);
+		if(nameQuote == null ) {
+			throw new CurrencyNotFoundException("This currency: "+acronym2+" doesn't exist");
+		}
+		else {
+			control = true;
+		}
+		}
 		filter.put("filter",obj);
 		obj.put(src, source.getName());
-		obj.put(acronym, currency.getName());
-		obj.put(src+acronym, value);
+		obj.put(acronym1, currency1.getName());
+		obj.put(currencyCouple1.getCouple(), quote1);
+		if(control) {
+			currency2 = new Currency(nameQuote,acronym2);
+			obj.put(acronym2, currency2.getName());
+			obj.put(currencyCouple2.getCouple(), quote2);
+		}
 		return filter;
 	}
 	
@@ -70,9 +91,11 @@ public class Filters implements FiltersService {
 	 */
 	@Override
 	public JSONObject historicalFilter(String date, String acronym1, String acronym2) throws CurrencyNotFoundException, InvalidFormatDateException {
-		boolean control = true;
-		Double quote2 = new Double(0);
-		currencyCouple1 = new CurrencyCouple()
+		quote1 = new Double(0);
+		quote2 = new Double(0);
+		CurrencyCouple currencyCouple1 = new CurrencyCouple();
+		CurrencyCouple currencyCouple2 = new CurrencyCouple();
+		currencyCouple1 = new CurrencyCouple(src,acronym1);
 		JSONObject obj = new JSONObject();
 		JSONObject filter = new JSONObject();
 		d = new OurDate(date);
@@ -82,20 +105,23 @@ public class Filters implements FiltersService {
 		}
 		JSONObject list = currencyService.getHistoricalQuotation(date);
 		list = (JSONObject) list.get("quotes");
-	    Double quote1 = (Double) list.get(src+acronym1);
+	    quote1 = (Double) list.get(currencyCouple1.getCouple());
 	    if(quote1 == null ) {
 	    	throw new CurrencyNotFoundException("This currency: "+acronym1+" doesn't exist");
 	    }
 	    if(acronym2 != null) { 
-	    	quote2 = (Double) list.get(src+acronym2); 
+	    	currencyCouple2 = new CurrencyCouple(src,acronym2);
+	    	quote2 = (Double) list.get(currencyCouple2.getCouple());
 	    	if(quote2 == null) {
 	    		throw new CurrencyNotFoundException("This currency: "+acronym2+" doesn't exist");
 	    	}
-	    	obj.put(src+acronym2, quote2);
+	    	else {
+	    		obj.put(currencyCouple2.getCouple(), quote2);
+	    	}
 	    }
 	    filter.put("historical",obj);
 	    obj.put("date", date);
-	    obj.put(src+acronym1, quote1);
+	    obj.put(currencyCouple1.getCouple(), quote1);
 	    return filter;
 	}
 

@@ -69,10 +69,9 @@ public class CurrencyLayerController {
 		return new ResponseEntity<>(betService.betResult(),HttpStatus.OK);
 	} 
 	
-	@RequestMapping(value = "/currencyFilter/{acronym}")
-	public ResponseEntity<Object> currencyFilter(Map<String,Object> model,@PathVariable String acronym) throws ParseException, CurrencyNotFoundException {
-		model.put("acronym", acronym);
-		return new ResponseEntity<>(filters.currencyFilter(acronym),HttpStatus.OK);
+	@GetMapping(value = "/currencyFilter")
+	public ResponseEntity<Object> currencyFilter(@RequestParam(name="acronym1") String acronym1, @RequestParam(name="acronym2",required=false) String acronym2) throws ParseException, CurrencyNotFoundException {
+		return new ResponseEntity<>(filters.currencyFilter(acronym1,acronym2),HttpStatus.OK);
 	} 
 	
 	@GetMapping(value="/historicalFilter")

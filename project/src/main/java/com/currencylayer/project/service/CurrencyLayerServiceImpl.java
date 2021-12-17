@@ -167,18 +167,18 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
      * @throws CurrencyNotFoundException
      * */
 	public Double getCouple(String acronym) throws CurrencyNotFoundException {
-		Double value = null;
-		String couple = src+acronym;
+		Double value = new Double(0);
 		try {
-			JSONObject json = getData("live");
-			JSONObject currenciesQuotes = (JSONObject) json.get("quotes");
-			value = (Double) currenciesQuotes.get(couple);
+			JSONObject json = (JSONObject) getData("live").get("quotes");
+			//JSONObject currenciesQuotes = (JSONObject) json.get("quotes");
+			value = (Double) json.get(src+acronym);
 			if(value == null) {
 				throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
 			}
 		}
 		catch(Exception e) {
 			System.out.println("Errore...");
+			System.out.println(e);
 		}
 		currencyCouple = new CurrencyCouple();
 		return value;

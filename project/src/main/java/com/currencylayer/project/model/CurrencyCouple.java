@@ -10,6 +10,7 @@ public class CurrencyCouple {
 	
 	private String source;
 	private String acronym;
+	private String couple;
 	
 	/** Costruttore di default 
 	 * */
@@ -25,6 +26,7 @@ public class CurrencyCouple {
 	public CurrencyCouple(String source, String acronym) {
 		this.source = source;
 		this.acronym = acronym;
+		couple = source+acronym;
 	}
 
 	/** Getter di
@@ -58,6 +60,15 @@ public class CurrencyCouple {
 	/** Metodo override di toString
 	 * @return "Base currency: "+source+".\nQuote currency: "+acronym
 	 */
+	
+	public String getCouple() {
+		return couple;
+	}
+	
+	public void setCouple(String couple) {
+		this.couple = couple;
+	}
+	
 	@Override
 	public String toString() {
 		return source+acronym;
