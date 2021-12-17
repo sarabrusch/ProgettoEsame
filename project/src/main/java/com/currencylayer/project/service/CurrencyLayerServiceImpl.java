@@ -32,7 +32,7 @@ import org.json.simple.*;
 public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 
 	private String url = "http://api.currencylayer.com/";
-	private String key = "74a39b5b1ae2f4bac3f38eaa28bec030";
+	private String key = "65af5bc6c7290d6e3cca43151a5d5a50";
 	private Source source = new Source();
 	private String src = source.getAcronym();
 	private OurDate date = new OurDate();

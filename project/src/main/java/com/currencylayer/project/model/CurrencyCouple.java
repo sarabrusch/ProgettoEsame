@@ -10,7 +10,6 @@ public class CurrencyCouple {
 	
 	private String source;
 	private String acronym;
-	private double exchangeRate;
 	
 	/** Costruttore di default 
 	 * */
@@ -23,10 +22,9 @@ public class CurrencyCouple {
 	 * @param acronym da prendere in input per formare la coppia
 	 * @param exchangeRate tasso di cambio della coppia
 	 */
-	public CurrencyCouple(String source, String acronym, double exchangeRate) {
+	public CurrencyCouple(String source, String acronym) {
 		this.source = source;
 		this.acronym = acronym;
-		this.exchangeRate = exchangeRate;
 	}
 
 	/** Getter di
@@ -56,27 +54,13 @@ public class CurrencyCouple {
 	public void setAcronym(String acronym) {
 		this.acronym = acronym;
 	}
-
-	/** Getter di
-	 * @return exchangeRate tasso di cambio della coppia di valute
-	 * */
-	public double getExchangeRate() {
-		return exchangeRate;
-	}
-
-	/** Setter di
-	 * @param exchangeRate tasso di cambio della coppia di valute
-	 * */
-	public void setExchangeRate(double exchangeRate) {
-		this.exchangeRate = exchangeRate;
-	}
 	
 	/** Metodo override di toString
 	 * @return "Base currency: "+source+".\nQuote currency: "+acronym
 	 */
 	@Override
 	public String toString() {
-		return "Base currency: "+source+".\nQuote currency: "+acronym;
+		return source+acronym;
 	}
 
 }

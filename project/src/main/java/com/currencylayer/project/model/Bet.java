@@ -23,8 +23,8 @@ public class Bet extends CurrencyCouple {
 	 * @param exchangeRate tasso di cambio della coppia
 	 * @param isWinning che definisce se la scommessa è vincente o meno
 	 */
-    public Bet(String source, String acronym, double exchangeRate, boolean isWinning) {
-		super(source, acronym, exchangeRate);
+    public Bet(String source, String acronym,boolean isWinning) {
+		super(source, acronym);
 		this.isWinning = isWinning;
 	}
 	
@@ -47,7 +47,7 @@ public class Bet extends CurrencyCouple {
 	 */
 	@Override
 	public String toString() {
-		return "Betting on: "+getSource()+" and: "+getAcronym();
+		return "Betting on: "+getSource()+" and: "+getAcronym()+" with bet result: "+getIsWinning();
 	}
 
 }

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.currencylayer.project.exceptions.CurrencyNotFoundException;
 import com.currencylayer.project.exceptions.InvalidFormatDateException;
+import com.currencylayer.project.model.Currency;
+import com.currencylayer.project.model.CurrencyCouple;
 import com.currencylayer.project.model.OurDate;
 import com.currencylayer.project.model.Source;
 import com.currencylayer.project.service.CurrencyLayerServiceImpl;
@@ -21,12 +23,13 @@ public class Filters implements FiltersService {
 	
 	private Source source = new Source();
 	private OurDate d;
-	private final String src = source.getAcronym();
+	private Currency currency;
+	private String src = source.getAcronym();
+	private CurrencyCouple currencyCouple1, currencyCouple2;
 	private CurrencyLayerServiceImpl currencyService = new CurrencyLayerServiceImpl();
 	private FileAnalysis file = new FileAnalysis();
-	private String nameSource = "";
-	private String nameQuote = "";
-	private Double value = null;
+	private String nameQuote;
+	private Double value;
 	
 	/** Metodo che filtra la lista contentente i nomi delle currency restituendo 
 	 * tutte le informazioni relative alla currency richiesta in ingresso.
@@ -42,15 +45,15 @@ public class Filters implements FiltersService {
 		JSONObject obj = new JSONObject();
 		JSONObject filter = new JSONObject();
 		JSONObject list = file.readFile("List.txt", "currencies");
-		nameSource = source.getName();
 		nameQuote = (String) list.get(acronym);
+		currency = new Currency(nameQuote,acronym);
 		if(nameQuote == null ) {
 			throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
 		}
 		value = currencyService.getCouple(acronym);
 		filter.put("filter",obj);
-		obj.put(src, nameSource);
-		obj.put(acronym, nameQuote);
+		obj.put(src, source.getName());
+		obj.put(acronym, currency.getName());
 		obj.put(src+acronym, value);
 		return filter;
 	}
@@ -69,6 +72,7 @@ public class Filters implements FiltersService {
 	public JSONObject historicalFilter(String date, String acronym1, String acronym2) throws CurrencyNotFoundException, InvalidFormatDateException {
 		boolean control = true;
 		Double quote2 = new Double(0);
+		currencyCouple1 = new CurrencyCouple()
 		JSONObject obj = new JSONObject();
 		JSONObject filter = new JSONObject();
 		d = new OurDate(date);
