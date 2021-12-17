@@ -248,5 +248,6 @@ Un'ulteriore particolare di cui è bene tenere conto è che noi sviluppatori ci 
 Qualora qualcuno fosse interessato a svilupparne una versione più complessa acquistando l'API in questione sarebbe comunque in grado di utilizzare il nostro codice apportando semplicemente qualche modifica.
 
 ## Autori
+Per quanto riguarda la suddivisione dei compiti abbiamo sempre lavorato insieme attraverso piattaforme di live streaming, dividendo in modo equo il lavoro, così da lavorare in singolo o in gruppo, quando necessario. Abbiamo comunque sempre mantenuto aperta la comunicazione e la collaborazione tra noi, usando le nozioni acquisite alle lezioni di programmazione ad oggetti o in autonomia tramite ricerche online, affiché il progetto risultasse il più consono possibile per entrambi i collaboratori.
 * [Sara Bruschi](https://github.com/sarabrusch)
 * [Marco Di Vita](https://github.com/marcopapero)
