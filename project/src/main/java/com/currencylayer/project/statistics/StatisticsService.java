@@ -16,7 +16,7 @@ public interface StatisticsService {
 	public Double getVariance();
 	public Double getMax();
 	public Double getMin();
-	public JSONObject getStatistics(String acronym1,String acronym2) throws CurrencyNotFoundException;
+	public JSONObject getStatistics(String acronym) throws CurrencyNotFoundException;
 	
 }
 
