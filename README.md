@@ -14,6 +14,7 @@
 	* [Formato restituito](#formato-restituito)
 	* [Esempi di stampa](#esempi-di-stampa)
 * [Struttura programma](#struttura-programma)
+* [Test](#test)
 * [Come usarlo](#come-usarlo)
 * [Avvertenze](#avvertenze)
 * [Autori](#autori)
@@ -225,6 +226,8 @@ Questo package contiene le classi necessarie al calcolo delle statistiche, in pa
 
 ### **com.currencylayer.project.utilis**
 All'interno di quest'ultimo package abbiamo raccolto metodi utili alla risoluzione delle problematiche che ci si sono presentate; in particolare è presente una classe ```FileAnalysis``` contenente il metodo ```readFile(String fileName, String word)``` che ci permette di leggere il file con nome=fileName e restituisce il JSONObject letto e relativo alla key "currencies" o "quotes" a seconda del tipo di file che si va a leggere.
+
+## Test
 
 ## Come usarlo
 Per poter accedere al programma è necessario clonare la repository in locale utilizzando [Github Desktop](https://desktop.github.com/) oppure da terminale con il comando 
