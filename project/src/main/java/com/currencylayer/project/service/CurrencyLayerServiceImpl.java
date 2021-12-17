@@ -14,6 +14,7 @@ import com.currencylayer.project.exceptions.CurrencyNotFoundException;
 import com.currencylayer.project.exceptions.InvalidFormatDateException;
 import com.currencylayer.project.model.Currency;
 import com.currencylayer.project.model.CurrencyCouple;
+import com.currencylayer.project.model.CurrencyCoupleExchange;
 import com.currencylayer.project.model.OurDate;
 import com.currencylayer.project.model.Source;
 import com.currencylayer.project.utilis.FileAnalysis;
@@ -23,7 +24,6 @@ import org.json.simple.*;
 /** Classe implementazione di CurrencyLayerService che va ad implementare i metodi
  * responsabili delle chiamate all'API e della lettura dei JSONObject restituiti
  * da quest'ultima per la rielaborazione dei dati.
- * 
  * @author Marco Di Vita
  * @author Sara Bruschi 
  * */
@@ -35,9 +35,10 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 	private String key = "65af5bc6c7290d6e3cca43151a5d5a50";
 	private Source source = new Source();
 	private String src = source.getAcronym();
-	private OurDate date = new OurDate();
+	private OurDate date;
 	private Currency currency;
 	private CurrencyCouple currencyCouple;
+	private CurrencyCoupleExchange currencyCoupleExchange;
 
 	/**Metodo per la chiamata all'API, a seconda della word inserita è possibile
 	 * ottenere la lista di valute presenti nel programma o il live di tutti
@@ -168,10 +169,10 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
      * */
 	public Double getCouple(String acronym) throws CurrencyNotFoundException {
 		Double value = new Double(0);
+		currencyCouple = new CurrencyCouple(src,acronym);
 		try {
 			JSONObject json = (JSONObject) getData("live").get("quotes");
-			//JSONObject currenciesQuotes = (JSONObject) json.get("quotes");
-			value = (Double) json.get(src+acronym);
+			value = (Double) json.get(currencyCouple.getCouple());
 			if(value == null) {
 				throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
 			}
@@ -180,8 +181,8 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 			System.out.println("Errore...");
 			System.out.println(e);
 		}
-		currencyCouple = new CurrencyCouple();
-		return value;
+		currencyCoupleExchange = new CurrencyCoupleExchange(src,acronym,value);
+		return currencyCoupleExchange.getExchangeRate();
 	}
 }
 
