@@ -9,7 +9,6 @@
 ## Indice
 * [Introduzione](#introduzione)
 * [Rotte](#rotte)	
-	* [Rotte](#rotte)
 	* [Parametri](#parametri)
 	* [Formato restituito](#formato-restituito)
 	* [Esempi di stampa](#esempi-di-stampa)
