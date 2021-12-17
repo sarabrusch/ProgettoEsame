@@ -211,6 +211,8 @@ All'interno dello stesso package viene poi anche implementata l'interfaccia ```B
 * ```doBet (String acronym1, String acronym2,String acronym3)``` che si occupa di gestire la memorizzazione della scommessa basandosi sugli acronimi inseriti dall'utente (il return di questo metodo viene stampato in risposta alla rotta ```/doBet```.
 * ```betResult()``` va a confrontare il tasso di cambio che si aveva al momento della scommessa con quello del giorno successivo per decretare se la scommessa effettuata è vincente (se il tasso di cambio aumenta) o perdente (se il tasso di cambio diminuisce).
 
+> Attenzione: per simulare e verificare il funzionamento delle scommesse abbiamo utilizzato dei dati scritti su file relativi a giorni passati, qualora si volesse simulare con il live basterebbe semplicemente modificare leggermente i metodi poco sopra elencati.
+
 ### **com.currencylayer.project.statistics**
 Questo package contiene le classi necessarie al calcolo delle statistiche, in particolare troviamo un'interfaccia ```StatisticsService``` che definisce i metodi necessari ai nostri scopi, i quali vengono implementati dalla classe ```Statistics```.
 > Attenzione: per il calcolo delle statistiche ci siamo basati su una raccolta di dati attraverso scrittura su file delle chiamate API andando ad effettuare i calcoli soltanto per il primo di ogni mese dell'anno 2021. Qualora si volesse estendere la valutazione sarebbe semplicemente necessario applicare qualche modifica all'interno dei metodi elencati di seguito.
