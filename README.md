@@ -233,6 +233,14 @@ Questo package contiene le classi necessarie al calcolo delle statistiche, in pa
 All'interno di quest'ultimo package abbiamo raccolto metodi utili alla risoluzione delle problematiche che ci si sono presentate; in particolare è presente una classe ```FileAnalysis``` contenente il metodo ```readFile(String fileName, String word)``` che ci permette di leggere il file con nome=fileName e restituisce il JSONObject letto e relativo alla key "currencies" o "quotes" a seconda del tipo di file che si va a leggere.
 
 ## Test
+Per effettuare i test sul corretto funzionamento del codice abbiamo utilizzato *JUNIT*, un framework open source per effettuare testing in modo organizzato; *JUNIT* è nato per la scrittura di test unitari, ovvero test che vanno a verificare la correttezza direttamente sul codice, in ogni piccola parte.
+
+Abbiamo implementato quattro test, in particolare:
+
+* **Test1:* verifica della correttezza del filtro per valute attraverso il loro acronimo;
+* **Test2:* verifica della correttezza della chiamata a API che permette di ottenere dati storici;
+* **Test3:* verifica della correttezza del lancio dell'eccezione CurrencyNotFoundException;
+* **Test4:* verifica della correttezza del lancio dell'eccezione InvalidFormatDateException.
 
 ## Come usarlo
 Per poter accedere al programma è necessario clonare la repository in locale utilizzando [Github Desktop](https://desktop.github.com/) oppure da terminale con il comando 
