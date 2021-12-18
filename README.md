@@ -25,8 +25,8 @@ Da quest'ultima è possibile ottenere diverse informazioni riguardanti l'andamen
 
 La particolarità di Currency Layer App è l'implementazione di un "servizio di scommesse" che permette di scommettere sull'andamento di una valuta rispetto ad un'altra e, se la valuta sulla quale si scommette aumenta il proprio valore rispetto alla valuta di riferimento il giorno seguente la scommessa, allora l'utente avrà vinto, altrimenti avrà perso.
 
-L'utente può richiedere, inoltre, le statistiche relative all'exchange rate di una coppia di valute (la cui source è sempre *USD*) tra cui la media e la varianza, da utilizzare come riferimento per la sua scommessa.
-Infine sono implementati anche dei filtri che permettono all'utente di ricevere informazioni su una determinata coppia di valute.
+L'utente può richiedere, inoltre, le statistiche relative all'exchange rate di una coppia di valute (la cui source è sempre *USD*) tra cui la media, la varianza, il suo massimo e il suo minimo, da utilizzare come riferimento per la scommessa.
+Infine sono implementati anche dei filtri che permettono all'utente di ricevere informazioni su una determinata coppia di valute al momento attuale o in una data passata.
 
 > Di seguito le indicazioni riguardanti la realizzazione del progetto: 
 > "sviluppare un'applicazione Java che implementi un servizio di scommesse che consente ai propri utenti di scommettere sull'andamento di un insieme di valute definite in input, vincendo o perdendo se una determinata valuta andrà ad aumentare il proprio valore oppure no, nel giorno successivo. Si utilizzino dati storici per simularne il comportamento. Effettuare statistiche sull'andamento del valore di una valuta calcolando media e varianza delle stesse. Implementare filtri per valute e periodi di valutazione dell'investimento monetario.
@@ -38,17 +38,18 @@ Nel nostro programma sono state implementate diverse rotte con le quali è possi
 
 Come prime rotte abbiamo deciso di lasciare la possibilità all'utente di ottenere le stesse informazioni che abbiamo ottenuto noi dall'API di riferimento, ovvero:
 
-* Con la rotta ```/list``` e dunque la chiamata all'URL http://localhost:8080/list, è possibile ottenere la lista di tutte le valute disponibili descritte da coppie di acronimo-nome, sulle quali poi l'utente potrà andare a richiedere altre informazioni e/o a scommettere.
-* Con la rotta ```/live``` è possibile ottenere la lista del valore del tasso di cambio attuale delle valute viste con la rotta precedente in riferimento alla valuta "USD" che costituisce sempre la source di riferimento in questo programma.
-* Con la rotta ```/historical/{date}``` è possibile ottenere la lista dei tassi di cambio relativi ad un giorno specifico che dovrà essere indicato in ingresso dall'utente nel seguente formato: http://localhost:8080/historical/YYYY-MM-DD.
+* ```/list```;
+* ```/live```;
+* ```/historical/{date}```.
 
 Passiamo ora alle rotte che sono state aggiunte dopo un'analisi adeguata dei dati ricevuti dall'API:
 
-* Con la rotta ```/statistics/{acronym}``` si otterrà la lista di statistiche relative alla coppia USD+acronym richiesta dall'utente. In particolare tali statistiche comprendono il calcolo di media e varianza del tasso di cambio e restituisce anche il valore massimo e il valore minimo raggiunti nel periodo preso da noi in esame per il calcolo delle statistiche.
-* Con la rotta ```/bet``` è possibile piazzare una scommessa su un massimo di tre coppie di valute (dove ricordiamo che source=USD **sempre**). La richiesta in questo caso sarà ad esempio, se volessimo scommettere sulle coppie USDGBP, USDEUR, USDBTC: http://localhost:8080/bet?acronym1=GBP&acronym2=EUR&acronym3=MXN.
-* Con la rotta ```/betResult``` è possibile ottenere il risultato delle scommesse precedentemente piazzate.
-* Con la rotta ```/currencyFilter/{acronym}``` avviene un filtraggio per valuta attraverso il suo acronimo.
-* Con la rotta ```/historicalFilter``` avviene un filtraggio per valuta attraverso la scelta dell'acronimo e della data di cui si vogliono avere le informazioni.
+* ```/statistics/{acronym}```;
+* ```/bet```;
+* ```/betResult```;
+* ```/currencyFilter/{acronym}```;
+* ```/historicalFilter```.
+
 
 |**N°**|**Tipo**|**Rotta**|**Indirizzo**|**Descrizione**|
 |------|--------|---------|-------------|---------------|
@@ -58,7 +59,7 @@ Passiamo ora alle rotte che sono state aggiunte dopo un'analisi adeguata dei dat
 |**4**|```GET``` |```/statistics/{acronym}```|http://localhost:8080/statistics/acronym| Restituisce le statistiche relative alla valuta specificata (media,varianza,max,min)|
 |**5**|```GET``` |```/bet```|http://localhost:8080/bet?acronym1=GBP&acronym2=EUR&acronym3=MXN| Permette di piazzare una scommessa sulle valute specificate fino ad un massimo di tre|
 |**6**|```GET``` |```/betResult```|http://localhost:8080/betResult |Restituisce il risultato delle scommesse precedentemente piazzate|
-|**7**|```GET``` |```/currencyFilter/{acronym}```| http://localhost:8080/currencyFilter/acronym| Filtra la valuta chiesta in ingresso stampando le informazioni ad essa relative|
+|**7**|```GET``` |```/currencyFilter/{acronym}```| http://localhost:8080/currencyFilter?acronym1=EUR&acronym2=GBP| Filtra la valuta chiesta in ingresso stampando le informazioni ad essa relative|
 |**8**|```GET``` |```/historicalFilter```|http://localhost:8080/historicalFilter?date=2021-12-14&acronym1=GBP&acronym2=EUR| Restituisce le informazioni relative alla valuta in ingresso nella data specificata|
 
 ### Parametri
@@ -68,7 +69,7 @@ Passiamo ora alle rotte che sono state aggiunte dopo un'analisi adeguata dei dat
 |**3**| ```date``` | *String* | *Sì* |
 |**4**| ```acronym```|*String*|*Sì*|
 |**5**|```acronym1,arcronym2,acronym3 ```|*String, String, String*|*Sì,No,No*|
-|**7**|```acronym```|*String*|*Sì*|
+|**7**|```acronym1,acronym2```|*String, String*|*Sì,No*|
 |**8**|```date,acronym1,acronym2```|*String, String, String*|*Sì,Sì,No*|
 
 ### Formato restituito 
@@ -77,12 +78,14 @@ Passiamo ora alle rotte che sono state aggiunte dopo un'analisi adeguata dei dat
 
 ``` json
 {
-    "Min": 0.818495,
-    "Max": 0.883455,
-    "Couple": "USDEUR",
-    "Average": 0.8432186666666664,
-    "Period": "2021",
-    "Variance": 3.315002208888887E-4
+    "Statistics": {
+        "Min": 0.818495,
+        "Max": 95.909247,
+        "Couple": "USDAFN",
+        "Average": 82.6359225,
+        "Period": "2021",
+        "Variance": 3366.692962893265
+    }
 }
 ```
 
@@ -100,22 +103,22 @@ See results at http://localhost:8080/betResult
 ```json
 {
     "first bet": {
-        "result": "You lost",
+        "result": "You won",
         "bet on": "USDEUR",
         "yesterday rate": 0.883645,
-        "today rate": 0.883645
+        "today rate": 0.88406
     },
     "third bet": {
         "result": "You lost",
-        "yesterday rate": 20.885204,
-        "based on": "USDMXN",
-        "today rate": 20.885204
+        "yesterday rate": 103.163942,
+        "based on": "USDAFN",
+        "today rate": 103.163942
     },
     "second bet": {
         "result": "You lost",
-        "yesterday rate": 0.753438,
-        "based on": "USDGBP",
-        "today rate": 0.753438
+        "yesterday rate": 2.0241161E-5,
+        "based on": "USDBTC",
+        "today rate": 1.9953228E-5
     }
 }
 ```
@@ -125,9 +128,11 @@ See results at http://localhost:8080/betResult
 ``` json
 {
     "filter": {
-        "USDEUR": 0.884498,
-        "EUR": "Euro",
-        "USD": "United States Dollar"
+        "USDSCR": 12.785038,
+        "SCR": "Seychellois Rupee",
+        "USD": "United States Dollar",
+        "USDINR": 75.717504,
+        "INR": "Indian Rupee"
     }
 }
 ```
@@ -158,16 +163,16 @@ La rotta ```/betResult``` restituisce un JSONObject contenente il resoconto dell
 
 La rotta ```/currencyFilter``` che in ingresso chiede l'acronimo della valuta che si vuole filtrare restituisce un JSONObject contenente le informazioni relative tale valuta richiesta, tra cui il suo nome, il nome della source e il tasso di cambio della coppia.
 
-![image](https://user-images.githubusercontent.com/91832750/146399295-0c274d4b-bbe8-42e3-aab5-831b19803573.png)
+![image](https://user-images.githubusercontent.com/91832750/146575480-f6221cf8-27a6-4dd3-9231-19edf66ed5c6.png)
 
 La rotta ```/statistics/{acronym}``` chiede in ingresso l'acronimo della valuta della quale si vogliono conoscere le statistiche: media, varianza, massimo e minimo nel periodo di riferimento.
 
-![image](https://user-images.githubusercontent.com/91832750/146436537-38608985-8f23-488e-9116-976b5d66dd30.png)
+![image](https://user-images.githubusercontent.com/91832750/146575755-b7a2c2a7-c101-40c7-af83-c94c683638d6.png)
 
 
 ## Struttura programma
 Per rendere più comprensibile ed organizzato il programma e tutto ciò che lo riguarda abbiamo deciso di organizzare le nostre classi in più package, così che ogni package di riferimento vada ad identificare la funzione di ogni classe presente al suo interno.
-Di seguito la lista dei package:
+Di seguito una rapida spiegazione delle classi e dei metodi che abbiamo deciso di implementarem, ricordiamo comunque che è consultabile la documentazione (javadoc), che si trova all'interno della repository, nel caso in cui qualcuno fosse interessato ad analizzare più nei dettagli il nostro programma.
 
 ### **com.currencylayer.project**
 Il primo package da cui parte tutta la nostra implementazione contiene soltando la classe ```ProjectApplication``` che è la classe responsabile dell'avvio di tutta l'applicazione Spring Boot.
@@ -189,11 +194,11 @@ Contiene le eccezioni personalizzate che abbiamo deciso di introdurre per il nos
 Contiene l'interfaccia ```FiltersService``` necessaria a modellare i metodi che ci permettono poi di sviluppare i nostri filtri all'interno della classe ```Filters``` che implementa proprio l'interfaccia poco prima citata.
 
 La classe ```Filters``` contiene i metodi:
-* ```currencyFilter(String acronym)``` che implementa un filtraggio delle valute presenti nel sistema avendo in ingresso l'acronimo della valuta di cui si stanno cercando le informazioni. Tale metodo è quello che utilizziamo per la rotta ```/currencyFilter/{acronym}```.
+* ```currencyFilter(String acronym1, String acronym2)``` che implementa un filtraggio delle valute presenti nel sistema avendo in ingresso l'acronimo delle valute di cui si stanno cercando le informazioni. Tale metodo è quello che utilizziamo per la rotta ```/currencyFilter```.
 * ```historicalFilter(String date, String acronym1, String acronym2)``` implementa un filtraggio "storico", ovvero prende in ingresso una data (nel formato YYYY-MM-DD) e massimo due acronimi per stampare in uscita le informazioni storiche relative alle valute richieste nel giorno richiesto. Questo metodo viene utilizzato per la rotta ```/historicalFilter``` che usa ha come parametri la data e uno (o due) acronimi, come è possibile vedere alla tabella [parametri](#parametri).
 
 ### **com.currencylayer.project.model**
-Questo package contiene le classi che vanno a modellare il problema richiesto, in particolare troviamo le classi: ```Bet```,```Currency```,```CurrencyCouple```,```OurDate```,```Source```, all'interno delle quali sono presenti sia il classico costruttore necessario per definire oggetti delle relative classi, sia getters e setters delle variabili che le descrivono, ma anche un overriding del metodo ```toString()```.
+Questo package contiene le classi che vanno a modellare il problema richiesto, in particolare troviamo le classi: ```Bet```,```Currency```,```CurrencyCouple```,```CurrencyCoupleExchange```,```OurDate```,```Source```, all'interno delle quali sono presenti sia il classico costruttore necessario per definire oggetti delle relative classi, sia getters e setters delle variabili che le descrivono, ma anche un overriding del metodo ```toString()```.
 
 All'interno di queste classi abbiamo cercato di usare il più possibile i concetti di ereditarietà acquisiti durante il corso di Programmazione a oggetti, fondamentali per un linguaggio di programmazione come Java.
 
@@ -215,9 +220,10 @@ All'interno dello stesso package viene poi anche implementata l'interfaccia ```B
 
 ### **com.currencylayer.project.statistics**
 Questo package contiene le classi necessarie al calcolo delle statistiche, in particolare troviamo un'interfaccia ```StatisticsService``` che definisce i metodi necessari ai nostri scopi, i quali vengono implementati dalla classe ```Statistics```.
+
 > Attenzione: per il calcolo delle statistiche ci siamo basati su una raccolta di dati attraverso scrittura su file delle chiamate API andando ad effettuare i calcoli soltanto per il primo di ogni mese dell'anno 2021. Qualora si volesse estendere la valutazione sarebbe semplicemente necessario applicare qualche modifica all'interno dei metodi elencati di seguito.
 
-* ```getAverage(String acronym)``` va a calcolare la media della coppia source+acronym (con acronym dichiarato in input) nel periodo preso come riferimento.
+* ```getAverage()``` va a calcolare la media della coppia source+acronym (con acronym dichiarato in input) nel periodo preso come riferimento.
 * ```getVariance()``` calcola la varianza della stessa coppia di valute basandosi sul calcolo della loro media.
 * ```getMax()``` restituisce il picco più alto raggiunto dal tasso di cambio della coppia in esame nel periodo di riferimento.
 * ```getMin()``` restituisce il picco più basso raggiunto dal tasso di cambio della coppia in esame nel periodo di riferimento.
@@ -238,9 +244,10 @@ Successivamente sarà possibile mandare in esecuzione il programma con un IDE (n
 
 ## Avvertenze
 Ci è necessario sottolineare il fatto che questo programma è stato realzzato per un progetto universitario e dunque non sarà più soggetto ad aggiornamenti o miglioramenti da parte dei proprietari.
-Un'ulteriore particolare di cui è bene tenere conto è che noi sviluppatori di questa applicazione ci siamo basati sulla versione gratuita dell'API linkata in [introduzione](#introduzione), avendo così accesso ad azioni limitate che ci hanno portato a dover scegliere di lavorare su file invece che direttamente da chiamata ad API, soprattutto per il calcolo di statistiche e per l'implementazione dei filtri.
+Un'ulteriore particolare di cui è bene tenere conto è che noi sviluppatori ci siamo basati sulla versione gratuita dell'API linkata in [introduzione](#introduzione), avendo avuto così accesso ad azioni limitate che ci hanno portato a dover scegliere di lavorare su file invece che direttamente da chiamata ad API, soprattutto per il calcolo di statistiche e per l'implementazione dei filtri; inoltre tali limitazioni ci hanno costretto ad utilizzare come unica source per gli exchange rate la moneta americana "USD".
 Qualora qualcuno fosse interessato a svilupparne una versione più complessa acquistando l'API in questione sarebbe comunque in grado di utilizzare il nostro codice apportando semplicemente qualche modifica.
 
 ## Autori
+Per quanto riguarda la suddivisione dei compiti abbiamo sempre lavorato insieme attraverso piattaforme di live streaming, dividendo in modo equo il lavoro, così da lavorare in singolo o in gruppo, quando necessario. Abbiamo comunque sempre mantenuto aperta la comunicazione e la collaborazione tra noi, usando le nozioni acquisite alle lezioni di programmazione ad oggetti o in autonomia tramite ricerche online, affiché il progetto risultasse il più consono possibile per entrambi i collaboratori.
 * [Sara Bruschi](https://github.com/sarabrusch)
 * [Marco Di Vita](https://github.com/marcopapero)
