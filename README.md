@@ -237,10 +237,10 @@ Per effettuare i test sul corretto funzionamento del codice abbiamo utilizzato *
 
 Abbiamo implementato quattro test, in particolare:
 
-* **Test1:* verifica della correttezza del filtro per valute attraverso il loro acronimo;
-* **Test2:* verifica della correttezza della chiamata a API che permette di ottenere dati storici;
-* **Test3:* verifica della correttezza del lancio dell'eccezione CurrencyNotFoundException;
-* **Test4:* verifica della correttezza del lancio dell'eccezione InvalidFormatDateException.
+* **Test1:** verifica della correttezza del filtro per valute attraverso il loro acronimo;
+* **Test2:** verifica della correttezza della chiamata a API che permette di ottenere dati storici;
+* **Test3:** verifica della correttezza del lancio dell'eccezione CurrencyNotFoundException;
+* **Test4:** verifica della correttezza del lancio dell'eccezione InvalidFormatDateException.
 
 ## Come usarlo
 Per poter accedere al programma è necessario clonare la repository in locale utilizzando [Github Desktop](https://desktop.github.com/) oppure da terminale con il comando 
