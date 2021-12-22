@@ -11,13 +11,13 @@ import com.currencylayer.project.exceptions.CurrencyNotFoundException;
  */
 
 public interface StatisticsService {
-	
+
 	public Double getAverage();
 	public Double getVariance();
 	public Double getMax();
 	public Double getMin();
 	public JSONObject getStatistics(String acronym) throws CurrencyNotFoundException;
-	
+
 }
 
 

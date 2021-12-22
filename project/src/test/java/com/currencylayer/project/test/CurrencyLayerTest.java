@@ -22,7 +22,7 @@ import junit.framework.TestCase;
  * */
 
 class CurrencyLayerTest extends TestCase {
-	
+
 	private static CurrencyLayerServiceImpl currencyService;
 	private static BetServiceImpl betService;
 	private static Filters filter;
@@ -42,7 +42,7 @@ class CurrencyLayerTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/** Metodo che si occupa di terminare i test una volta finiti
 	 * @throws Exception
 	 * */
@@ -58,7 +58,7 @@ class CurrencyLayerTest extends TestCase {
 	void testFilter() throws CurrencyNotFoundException {
 		assertEquals(currencyService.getCurrency("EUR"),"Euro");
 	}
-	
+
 	/** Metodo per controllare il corretto funzionamento del metodo che restituisce
 	 * gli storici dei tassi di cambio.
 	 * @throws InvalidFormatDateException
@@ -69,7 +69,7 @@ class CurrencyLayerTest extends TestCase {
 		JSONObject historical = (JSONObject) file.readFile("2021-12-12","quotes");
 		assertEquals(historical.get("USDEUR"),0.88406);
 	}
-	
+
 	/** Metodo per controllare il corretto funzionamento dell'eccezione
 	 * personalizzata che viene lanciata quando l'acronimo inserito non 
 	 * e' corretto.
@@ -84,7 +84,7 @@ class CurrencyLayerTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/** Metodo per controllare il corretto funzionamento dell'eccezione
 	 * personalizzata che viene lanciata quando la data inserita non 
 	 * e' corretta.
@@ -99,6 +99,6 @@ class CurrencyLayerTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
-	
+
 
 }

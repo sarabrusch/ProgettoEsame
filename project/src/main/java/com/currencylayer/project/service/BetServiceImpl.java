@@ -19,7 +19,7 @@ import com.currencylayer.project.utilis.FileAnalysis;
 
 @Service
 public class BetServiceImpl implements BetService {
-	
+
 	private Bet bet1,bet2,bet3;
 	private CurrencyCouple currencyCouple1,currencyCouple2,currencyCouple3;
 	private CurrencyCoupleExchange currencyCoupleExchange1,currencyCoupleExchange2,currencyCoupleExchange3;
@@ -27,7 +27,7 @@ public class BetServiceImpl implements BetService {
 	private String src = source.getAcronym();
 	private FileAnalysis file = new FileAnalysis();
 	private Double value1Today, value2Today, value3Today;
-    private String acronym1,acronym2,acronym3;
+	private String acronym1,acronym2,acronym3;
 	private String dateToday = "2021-12-11";
 	private String dateTomorrow = "2021-12-12";
 	private JSONObject obj;
@@ -42,7 +42,7 @@ public class BetServiceImpl implements BetService {
 	 * @return basedBet e' una stringa che dichiara le caratteristiche della/e
 	 * scommessa/e appena piazzata/e
 	 */
-	public String doBet (String acronym1, String acronym2,String acronym3) throws CurrencyNotFoundException {
+	public String doBet(String acronym1, String acronym2, String acronym3) throws CurrencyNotFoundException {
 		String basedBet;
 		value1Today = new Double(0);
 		value2Today = new Double(0);
@@ -60,37 +60,38 @@ public class BetServiceImpl implements BetService {
 		basedBet = "Bet based on: "+currencyCouple1.getCouple()+" with current ExchangeRate: "+value1Today;
 		if(acronym2 != null) {
 			currencyCouple2 = new CurrencyCouple(src,acronym2);
-		if(obj.get(currencyCouple2.getCouple()) == null ) {
-			throw new CurrencyNotFoundException("This currency: "+acronym2+" doesn't exist");
-		}
-		else {
-			value2Today = (Double) obj.get(currencyCouple2.getCouple());
-			currencyCoupleExchange2 = new CurrencyCoupleExchange(src,acronym2,value2Today);
-			basedBet += "\nBet based on: "+currencyCouple2.getCouple()+" with current ExchangeRate: "+value2Today;
-			control2 = true;
-		}
+			if(obj.get(currencyCouple2.getCouple()) == null ) {
+				throw new CurrencyNotFoundException("This currency: "+acronym2+" doesn't exist");
+			}
+			else {
+				value2Today = (Double) obj.get(currencyCouple2.getCouple());
+				currencyCoupleExchange2 = new CurrencyCoupleExchange(src,acronym2,value2Today);
+				basedBet += "\nBet based on: "+currencyCouple2.getCouple()+" with current ExchangeRate: "+value2Today;
+				control2 = true;
+			}
 		}
 		if(acronym3 != null) {
 			currencyCouple3 = new CurrencyCouple(src,acronym3);
-		if(obj.get(currencyCouple3.getCouple()) == null ) {
-			throw new CurrencyNotFoundException("This currency: "+acronym3+" doesn't exist");
+			if(obj.get(currencyCouple3.getCouple()) == null ) {
+				throw new CurrencyNotFoundException("This currency: "+acronym3+" doesn't exist");
+			}
+			else {
+				value3Today = (Double) obj.get(currencyCouple3.getCouple());
+				currencyCoupleExchange3 = new CurrencyCoupleExchange(src,acronym3,value3Today);
+				basedBet += "\nBet based on: "+currencyCouple3.getCouple()+" with current ExchangeRate: "+value3Today;
+				control3 = true;
+			}
 		}
-		else {
-			value3Today = (Double) obj.get(currencyCouple3.getCouple());
-			currencyCoupleExchange3 = new CurrencyCoupleExchange(src,acronym3,value3Today);
-			basedBet += "\nBet based on: "+currencyCouple3.getCouple()+" with current ExchangeRate: "+value3Today;
-			control3 = true;
-		}
-	    }
 		return basedBet+"\nSee results at http://localhost:8080/betResult";
 	}
-	
+
 	/** 
 	 * Metodo che verifica e stampa il risultato della scommesa precedentemente
 	 * piazzata.
 	 * @return result JSONObject contenente tutte le informazioni riguardanti le
 	 * scommesse, tra cui anche il risultato.
 	 */
+	@SuppressWarnings("unchecked")
 	public JSONObject betResult() {
 		Double value1Tom = new Double(0); 
 		Double value2Tom = new Double(0);

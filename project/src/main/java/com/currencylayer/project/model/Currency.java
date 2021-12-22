@@ -12,7 +12,7 @@ public class Currency {
 	private String acronym;
 
 	/** Costruttore di default
-	  * */
+	 * */
 	public Currency() {
 
 	}

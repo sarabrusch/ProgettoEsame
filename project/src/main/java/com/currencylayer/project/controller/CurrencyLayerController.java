@@ -68,15 +68,15 @@ public class CurrencyLayerController {
 	public ResponseEntity<Object> betResult() {
 		return new ResponseEntity<>(betService.betResult(),HttpStatus.OK);
 	} 
-	
+
 	@GetMapping(value = "/currencyFilter")
 	public ResponseEntity<Object> currencyFilter(@RequestParam(name="acronym1") String acronym1, @RequestParam(name="acronym2",required=false) String acronym2) throws ParseException, CurrencyNotFoundException {
 		return new ResponseEntity<>(filters.currencyFilter(acronym1,acronym2),HttpStatus.OK);
 	} 
-	
+
 	@GetMapping(value="/historicalFilter")
 	public ResponseEntity<Object> historicalFilter(@RequestParam(name="date") String date, @RequestParam(name="acronym1") String acronym1,@RequestParam(name="acronym2",required=false) String acronym2) throws ParseException, CurrencyNotFoundException, InvalidFormatDateException {
 		return new ResponseEntity<>(filters.historicalFilter(date,acronym1,acronym2),HttpStatus.OK);
 	}  
-	}
+}
 

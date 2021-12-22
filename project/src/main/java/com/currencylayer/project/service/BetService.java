@@ -12,8 +12,8 @@ import com.currencylayer.project.exceptions.CurrencyNotFoundException;
  */
 
 public interface BetService { 
-	
+
 	public String doBet(String acronym1, String acronym2, String acronym3) throws CurrencyNotFoundException;
 	public JSONObject betResult();
-	
+
 }

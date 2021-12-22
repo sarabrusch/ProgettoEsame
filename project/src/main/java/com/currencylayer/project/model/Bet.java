@@ -10,27 +10,27 @@ package com.currencylayer.project.model;
 public class Bet extends CurrencyCouple {
 
 	private boolean isWinning ;
-	
+
 	/** Costruttore Bet di default
 	 */
-    public Bet() {
+	public Bet() {
 		super();
 	}
-	
+
 	/** Costruttore Bet
 	 * @param source che e' sempre "USD"
 	 * @param acronym da inserire in input
 	 * @param isWinning che definisce se la scommessa e' vincente o meno
 	 */
-    public Bet(String source, String acronym,boolean isWinning) {
+	public Bet(String source, String acronym, boolean isWinning) {
 		super(source, acronym);
 		this.isWinning = isWinning;
 	}
-	
+
 	/** Getter parametro che descrive la situazione della scommessa
 	 * @return isWinning e' true se la scommessa e' stata vinta, e' false altrimenti.
 	 */
-    public boolean getIsWinning() {
+	public boolean getIsWinning() {
 		return isWinning;
 	}
 

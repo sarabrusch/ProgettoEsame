@@ -9,7 +9,7 @@ public class InvalidFormatDateException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public InvalidFormatDateException (String message) {
+	public InvalidFormatDateException(String message) {
 		super(message);
 	}
 }

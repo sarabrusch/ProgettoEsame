@@ -15,7 +15,7 @@ import org.json.simple.parser.ParseException;
  * @author Marco Di Vita
  * */
 public class FileAnalysis {
-	
+
 	/** Metodo necessario per leggere un file e restituirne il contenuto in 
 	 * formato JSON.
 	 * @param fileName e' il nome del file che si vuole leggere

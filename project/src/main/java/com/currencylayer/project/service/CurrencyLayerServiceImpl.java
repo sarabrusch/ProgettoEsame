@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.*;
 
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,6 @@ import com.currencylayer.project.model.CurrencyCouple;
 import com.currencylayer.project.model.CurrencyCoupleExchange;
 import com.currencylayer.project.model.OurDate;
 import com.currencylayer.project.model.Source;
-import com.currencylayer.project.utilis.FileAnalysis;
 
 import org.json.simple.*;
 
@@ -84,15 +82,15 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		}
 		return (JSONObject) data;
 	}
-	
-    /** Metodo per la chiamata all'API che restituisce la lista di exchange rates
+
+	/** Metodo per la chiamata all'API che restituisce la lista di exchange rates
 	 * relativa a coppie di valute, di cui la source e' sempre "USD", di una
 	 * precisa data che deve essere specificata.
 	 * @param date di cui si vuole conoscere l'exchange rate in formato YYYY-MM-DD
 	 * @return historicalExchangeRate JSONObject  
 	 * @throws InvalidFormatDateException 
 	 * */
-    @Override
+	@Override
 	public JSONObject getHistoricalQuotation(String date) throws InvalidFormatDateException {
 		JSONObject historicalExchangeRate = new JSONObject();
 		try {
@@ -135,23 +133,23 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 		}
 		return historicalExchangeRate;
 	}
-	
-    /** Metodo che permette di ottenere il nome completo di una valuta inserendone
-     * il suo acronimo in ingresso.
-     * @param acronym acronimo della valuta della quale si vuole ottenere il
-     * nome completo
-     * @return String name, nome completo della valuta
-     * @throws CurrencyNotFoundException
-     * */
+
+	/** Metodo che permette di ottenere il nome completo di una valuta inserendone
+	 * il suo acronimo in ingresso.
+	 * @param acronym acronimo della valuta della quale si vuole ottenere il
+	 * nome completo
+	 * @return String name, nome completo della valuta
+	 * @throws CurrencyNotFoundException
+	 * */
 	public String getCurrency(String acronym) throws CurrencyNotFoundException {
 		String name = "";
 		try {
-		JSONObject json = getData("list");
-	    JSONObject currenciesList = (JSONObject) json.get("currencies");
-	    name = (String) currenciesList.get(acronym);
-		if(name == null) {
-	    	throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
-	    }
+			JSONObject json = getData("list");
+			JSONObject currenciesList = (JSONObject) json.get("currencies");
+			name = (String) currenciesList.get(acronym);
+			if(name == null) {
+				throw new CurrencyNotFoundException("This currency: "+acronym+" doesn't exist");
+			}
 		}
 		catch(Exception e) {
 			System.out.println("Errore...");
@@ -162,11 +160,11 @@ public class CurrencyLayerServiceImpl implements CurrencyLayerService {
 
 	/** Metodo che permette di ottenere il tasso di cambio di una valuta relativo a USD
 	 * inserendone l'acronimo in ingresso.
-     * @param acronym acronimo della valuta della quale si vuole ottenere il
-     * tasso di cambio rispetto alla source.
-     * @return Double value, tasso di cambio della coppia
-     * @throws CurrencyNotFoundException
-     * */
+	 * @param acronym acronimo della valuta della quale si vuole ottenere il
+	 * tasso di cambio rispetto alla source.
+	 * @return Double value, tasso di cambio della coppia
+	 * @throws CurrencyNotFoundException
+	 * */
 	public Double getCouple(String acronym) throws CurrencyNotFoundException {
 		Double value = new Double(0);
 		currencyCouple = new CurrencyCouple(src,acronym);

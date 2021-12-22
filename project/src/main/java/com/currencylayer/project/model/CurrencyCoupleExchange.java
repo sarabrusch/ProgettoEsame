@@ -7,15 +7,15 @@ package com.currencylayer.project.model;
  * @author Sara Bruschi
  */
 public class CurrencyCoupleExchange extends CurrencyCouple{
-	
+
 	private Double exchangeRate;
-	
+
 	/** Costruttore di CurrencyCoupleExchange
 	 * @param source
 	 * @param acronym
 	 * @param exchangeRate
 	 * */
-	public CurrencyCoupleExchange(String source, String acronym,Double exchangeRate) {
+	public CurrencyCoupleExchange(String source, String acronym, Double exchangeRate) {
 		super(source,acronym);
 		this.exchangeRate = exchangeRate;
 	}

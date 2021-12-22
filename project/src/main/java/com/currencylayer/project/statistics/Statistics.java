@@ -6,11 +6,9 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.currencylayer.project.exceptions.CurrencyNotFoundException;
-import com.currencylayer.project.model.Currency;
 import com.currencylayer.project.model.CurrencyCouple;
 import com.currencylayer.project.model.OurDate;
 import com.currencylayer.project.model.Source;
-import com.currencylayer.project.service.CurrencyLayerServiceImpl;
 import com.currencylayer.project.utilis.FileAnalysis;
 
 /** Classe per il calcolo delle statistiche (media, varianza, massimo e minimo) relative 
@@ -31,10 +29,9 @@ public class Statistics implements StatisticsService {
 	private CurrencyCouple currencyCouple;
 	private Double average;
 	private Double variance;
-	private String acronym;
 	private Double sumVariance = new Double(0);
 	Vector<Double> rates = new Vector<Double>();
-	
+
 	/** Metodo per il calcolo della media del tasso di cambio di una coppia
 	 * di valute, di cui una e' sempre USD e l'altra e' definita in ingresso
 	 * dall'utente.
@@ -59,7 +56,7 @@ public class Statistics implements StatisticsService {
 		average = sum/cont;
 		return average;
 	}
-	
+
 	/** Metodo per il calcolo della varianza del tasso di cambio di una coppia
 	 * di valute, di cui una e' sempre USD e l'altra è definita in ingresso
 	 * dall'utente nel calcolo della media.
@@ -67,10 +64,10 @@ public class Statistics implements StatisticsService {
 	 * di riferimento.
 	 * */
 	public Double getVariance() {
-			for(int j=0;j<rates.size();j++) {
-				sumVariance += Math.pow(rates.get(j)-average, 2);
-				}
-			variance = sumVariance/rates.size();
+		for(int j=0;j<rates.size();j++) {
+			sumVariance += Math.pow(rates.get(j)-average, 2);
+		}
+		variance = sumVariance/rates.size();
 		return variance;
 	}
 
@@ -80,37 +77,37 @@ public class Statistics implements StatisticsService {
 	 * @return il valore massimo nel periodo da 01-01-2021 a 01-12-2021.
 	 * */
 	public Double getMax() {
-	      Double max = rates.get(0);
-		  for(int i = 0; i<rates.size();i++) {
-			  if(max<=rates.get(i))
-				  max=rates.get(i);
-		  }
-		  return max;
+		Double max = rates.get(0);
+		for(int i = 0; i<rates.size();i++) {
+			if(max<=rates.get(i))
+				max=rates.get(i);
+		}
+		return max;
 	}
-    
+
 	/** Metodo per la restituzione del minimo valore del tasso di cambio di 
 	 * una coppia di valute, di cui una e' sempre USD e l'altra e' definita in ingresso
 	 * dall'utente nel periodo predefinito.
 	 * @return il valore minimo nel periodo considerato.
 	 * */
-    public Double getMin() {
-    	Double min = rates.get(0);
-		  for(int i = 0; i<rates.size();i++) {
-			  if(min>=rates.get(i))
-				  min=rates.get(i);
-		  }
-		  return min;
+	public Double getMin() {
+		Double min = rates.get(0);
+		for(int i = 0; i<rates.size();i++) {
+			if(min>=rates.get(i))
+				min=rates.get(i);
+		}
+		return min;
 	}
-	
-    /** Metodo per la stampa delle statistiche, ovvero media e varianza e max e min
+
+	/** Metodo per la stampa delle statistiche, ovvero media e varianza e max e min
 	 *  del tasso di cambio di una coppia di valute, di cui una e' sempre USD 
 	 *  e l'altra e' definita in ingresso dall'utente.
 	 * @param String acronym della seconda valuta
 	 * @return JSONObject contenente tutte le statistiche
-     * @throws CurrencyNotFoundException 
+	 * @throws CurrencyNotFoundException 
 	 * */
+	@SuppressWarnings("unchecked")
 	public JSONObject getStatistics(String acronym) throws CurrencyNotFoundException {
-		this.acronym = acronym;
 		JSONObject obj = new JSONObject();
 		JSONObject jsonStatistics = new JSONObject();
 		JSONObject curr = new JSONObject();

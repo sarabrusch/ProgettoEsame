@@ -9,10 +9,10 @@ package com.currencylayer.project.model;
  * */
 
 public class Source extends Currency {
-	
+
 	private static final String name = "United States Dollar";
 	private static final String acronym = "USD";
-	
+
 	/** Generico costruttore che richiama il costruttore della superclasse
 	 * inizializzandolo con nome e acronimo della source.
 	 * */

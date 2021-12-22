@@ -6,17 +6,17 @@ package com.currencylayer.project.model;
  */
 
 public class CurrencyCouple {
-	
+
 	private String source;
 	private String acronym;
 	private String couple;
-	
+
 	/** Costruttore di default 
 	 * */
 	public CurrencyCouple() {
-		
+
 	}
-	
+
 	/** Costruttore CurrencyCouple
 	 * @param source sempre "USD"
 	 * @param acronym da prendere in input per formare la coppia
@@ -54,21 +54,21 @@ public class CurrencyCouple {
 	public void setAcronym(String acronym) {
 		this.acronym = acronym;
 	}
-	
+
 	/** Getter di
 	 * @return couple source+acronimo
 	 * */
 	public String getCouple() {
 		return couple;
 	}
-	
+
 	/** Setter di
 	 * @param couple source+acronimo
 	 * */
 	public void setCouple(String couple) {
 		this.couple = couple;
 	}
-	
+
 	/** Metodo override di toString
 	 * @return "Base currency: "+source+".\nQuote currency: "+acronym
 	 */
